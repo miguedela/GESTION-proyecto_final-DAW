@@ -6,4 +6,4 @@ Tecnologias a utilizar:
 
 Ideas del proyecto:
     - Gestion de cursos
-    - Gestion de restaurante
+    - Gestion de restaurantes
