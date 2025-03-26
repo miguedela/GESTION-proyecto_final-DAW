@@ -1,0 +1,7 @@
+Tecnologias a utilizar:
+    - Laravel
+    - MySQL / PostgreSQL
+    - Angular
+    - Tailwind
+
+Ideas del proyecto:
