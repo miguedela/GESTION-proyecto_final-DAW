@@ -5,3 +5,5 @@ Tecnologias a utilizar:
     - Tailwind
 
 Ideas del proyecto:
+    - Gestion de cursos
+    - Gestion de restaurante
