@@ -1,6 +1,6 @@
 Tecnologias a utilizar:
-    - Laravel
-    - MySQL / PostgreSQL
+    - Spring Boot
+    - MySQL
     - Angular
     - Tailwind
 
