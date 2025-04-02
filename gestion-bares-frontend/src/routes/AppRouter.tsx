@@ -27,6 +27,8 @@ export const AppRouter = () => {
             children: [{
                 element: <AppRouter />,
                 children: [
+                    
+                    // {path: '/account', element: <Account />}
                 ]
             }]
         },
@@ -36,7 +38,7 @@ export const AppRouter = () => {
                 element: <AppRouter />,
                 children: [
                     // {path: '/admin/users', element: <UsersManagement />},
-                    // {path: '/admin/restaurants', element: <RestaurantsManagement />},
+                    // {path: '/admin/restaurants', element: <RestaurantsManagement />}
                 ]
             }]
         },
@@ -45,6 +47,11 @@ export const AppRouter = () => {
             children: [{
                 element: <AppRouter />,
                 children: [
+                    // {path: '/menu/management', element: <MenuManagement />},
+                    // {path: '/reservation/management', element: <ReservationManagement />},
+                    // {path: '/tables/management', element: <TableManagement />},
+                    // {path: '/notification/management', element: <NotificationManagement />},
+                    // {path: '/details/management', element: <DetailsManagement />}
                 ]
             }]
         },
@@ -53,6 +60,9 @@ export const AppRouter = () => {
             children: [{
                 element: <AppRouter />,
                 children: [
+                    // {path: '/my/reservervations', element: <MyReservations />},
+                    // {path: '/menus', element: <Menus />},
+                    // {path: '/contact', element: <Contact />}
                 ]
             }]
         }
