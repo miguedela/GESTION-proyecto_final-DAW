@@ -5,7 +5,7 @@ export interface IUser {
     surnames: string;
     email: string;
     telephone: string;
-    role: "ADMIN" | "CUSTOMER" | "STAFF";
+    role: Roles;
     emailVerified: boolean;
     emailNotifications: boolean;
     creationDate: Date;
@@ -17,8 +17,7 @@ export interface IRegisterUser {
     email: string;
     telephone: string;
     password: string;
-    emailNotifications: boolean;
-    role: "ADMIN" | "CUSTOMER" | "STAFF";
+    role: Roles;
 }
 
 export interface ILoginUser {
@@ -30,8 +29,6 @@ export interface ILoginResponse {
     user: IUser;
     token: string;
 }
-
-// Futuro enum
-// enum Roles {
-//     "ADMIN", "CUSTOMER", "STAFF"
-// }
+export enum Roles {
+    "ADMIN", "CUSTOMER", "STAFF"
+}

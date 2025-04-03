@@ -1,6 +1,6 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import { LogIn } from "../components/LogIn";
-import { SignUp } from "../components/SignUp";
+import { Login } from "../features/auth/Login";
+import { SignUp } from "../features/auth/SignUp";
 import { Home } from "../features/home/Home";
 import { NotFound } from "../features/NotFound";
 import { ProtectedRoute } from "./ProtectedRoute";
@@ -18,16 +18,16 @@ export const AppRouter = () => {
 
     const router = createBrowserRouter([
         ...renderMultiRoutes({ paths: ['/home', '/'], element: <Home /> }),
-        { path: '/login', element: <LogIn /> },
+        { path: '/login', element: <Login /> },
         { path: '/sign-up', element: <SignUp /> },
         { path: '*', element: <NotFound /> },
-        
+
         {
             element: <ProtectedRoute allowedRoles={['ADMIN', 'STAFF', 'CUSTOMER']} />,
             children: [{
                 element: <AppRouter />,
                 children: [
-                    
+
                     // {path: '/account', element: <Account />}
                 ]
             }]

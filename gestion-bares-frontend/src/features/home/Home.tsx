@@ -7,7 +7,7 @@ export const Home = () => {
         <section className="min-w-screen min-h-screen flex flex-col items-center justify-center bg-gradient-to-br
         from-neutral-800 to-amber-600">
             <h1 className="text-6xl mb-7">TapaTech</h1>
-            <MainLinkButton url='/logn' className="text-xl bg-amber-400 text-yellow-900 hover:scale-120" title='Acceder' />
+            <MainLinkButton url='/login' className="text-xl bg-amber-400 text-yellow-900 hover:scale-120" title='Acceder' />
         </section>
 
         {/* CONTENEDOR PRINCIPAL */}
@@ -19,7 +19,7 @@ export const Home = () => {
                     <h1 className="text-3xl">TapaTech</h1>
                     <div className="flex gap-3">
                         <MainLinkButton url='/login' className="text-xl bg-amber-400 text-yellow-900 hover:bg-amber-600 hover:text-yellow-200 text-md" title='Acceder' />
-                        <MainLinkButton url='/register' className="text-xl bg-amber-400 text-yellow-900 hover:bg-amber-600 hover:text-yellow-200 text-md" title='Registrarse' />
+                        <MainLinkButton url='/sign-up' className="text-xl bg-amber-400 text-yellow-900 hover:bg-amber-600 hover:text-yellow-200 text-md" title='Registrarse' />
                     </div>
                 </div>
             </header>

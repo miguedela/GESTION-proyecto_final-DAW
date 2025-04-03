@@ -5,23 +5,35 @@ import { IoEyeOffOutline, IoEyeOutline } from "react-icons/io5";
 import { Link, useNavigate } from "react-router-dom";
 import { z } from "zod";
 import useUser from "../../hooks/useUser";
-import { ILoginUser } from "../../types/User";
+import { IRegisterUser, Roles } from "../../types/User";
 
-export const Login = () => {
+export const SignUp = () => {
   const navigate = useNavigate();
-  const { login, loading, error } = useUser();
-  const [user, setUser] = useState<ILoginUser>({
+  const { register, loading, error } = useUser();
+  const [user, setUser] = useState<IRegisterUser>({
+    name: "",
+    surnames: "",
     email: "",
+    telephone: "",
     password: "",
+    role: Roles.CUSTOMER,
   });
 
   const [showPassword, setShowPassword] = useState(false);
+  const [passworRepeat, setPassworRepeat] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
   const [fieldErrors, setFieldErrors] = useState<Record<string, string>>({});
 
   const registrationSchema = z.object({
-    email: z.string().email({ message: "Correo electronico no válido" }),
-    password: z.string().min(4, { message: "Contraseña incorrecta" }),
+    name: z.string().min(1, { message: "El nombre es obligatorio" }),
+    surnames: z.string().min(1, { message: "Los apellidos son obligatorios" }),
+    email: z.string().email({ message: "El email no es válido" }),
+    telephone: z.string().min(9, { message: "El teléfono no es válido" }).max(9, { message: "El teléfono no es válido" }),
+    password: z.string().min(4, { message: "La contraseña es obligatoria" }),
+    repeatPassword: z.string().min(4, { message: "La contraseña es obligatoria" })
+  }).refine((data) => data.password === data.repeatPassword, {
+    message: "Las contraseñas no coinciden",
+    path: ["repeatPassword"]
   });
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -36,6 +48,7 @@ export const Login = () => {
     try {
       registrationSchema.parse({
         ...user,
+        repeatPassword: passworRepeat,
       });
     } catch (err) {
       if (err instanceof z.ZodError) {
@@ -47,12 +60,12 @@ export const Login = () => {
         return;
       }
     }
-    const response = await login(user);
+    const response = await register(user);
 
     if (response !== undefined) {
       navigate("/account");
     } else {
-      setErrorMessage("Error al iniciar sesión");
+      setErrorMessage("Error al registrarse");
     }
   };
 
@@ -65,8 +78,38 @@ export const Login = () => {
       {/* Título del formulario */}
       <h1
         className="text-center text-2xl font-bold"
-      >Inicio de sesión
+      >Registro
       </h1>
+
+      {/* Campo del nombre */}
+      <label
+        className="flex flex-col ml-3"
+        htmlFor="name"
+      >Nombre
+      </label>
+      <input
+        className="border rounded p-1"
+        id="name"
+        type="text"
+        onChange={handleInputChange}
+        value={user.name} />
+      {fieldErrors.name && <span className="text-red-500">{fieldErrors.name}</span>}
+
+      {/* Campo de los apellidos */}
+      <label
+        className="flex flex-col ml-3"
+        htmlFor="surnames"
+      >Apellidos
+      </label>
+      <input
+        className="border rounded p-1"
+        id="surnames"
+        type="text"
+        onChange={handleInputChange}
+        value={user.surnames} />
+      {fieldErrors.surnames && <span className="text-red-500">
+        {fieldErrors.surnames}
+      </span>}
 
       {/* Campo del correo electronico */}
       <label
@@ -84,13 +127,30 @@ export const Login = () => {
         {fieldErrors.email}
       </span>}
 
+      {/* Campo del telefono */}
+      <label
+        className="flex flex-col ml-3"
+        htmlFor="telephone"
+      >Teléfono
+      </label>
+      <input
+        className="border rounded p-1"
+        id="telephone"
+        type="text"
+        onChange={handleInputChange}
+        value={user.telephone} />
+      {fieldErrors.telephone && <span className="text-red-500">
+        {fieldErrors.telephone}
+      </span>}
+
       {/* Campo de la contraseña */}
       <label className="flex flex-col ml-3" htmlFor="password">Contraseña</label>
-      <div className="flex items-center gap-1">
+      <div
+        className="flex items-center gap-1">
         <input
           className="border rounded p-1 flex-1"
-          type={showPassword ? 'text' : 'password'}
           id="password"
+          type={showPassword ? 'text' : 'password'}
           onChange={handleInputChange}
           value={user.password} />
         <button
@@ -100,19 +160,35 @@ export const Login = () => {
       </div>
       {fieldErrors.password && <span className="text-red-500">{fieldErrors.password}</span>}
 
+      {/* Campo de la contraseña repetida */}
+      <label
+        className="flex flex-col ml-3"
+        htmlFor="repeatPassword"
+      >Repetir contraseña
+      </label>
+      <input
+        className="border rounded p-1"
+        id="repeatPassword"
+        type={showPassword ? 'text' : 'password'}
+        onChange={(e) => setPassworRepeat(e.target.value)}
+        value={passworRepeat} />
+      {fieldErrors.repeatPassword && <span className="text-red-500">{fieldErrors.repeatPassword}</span>}
+
       {/* Boton de envio */}
       <button
         className="cursor-pointer p-2 transition bg-amber-300 hover:bg-amber-500 w-[30%] rounded mt-2"
         value="Registrarse"
         onClick={handleSubmit}>
-        Iniciar sesión
+        Registrarse
       </button>
 
       {/* Enlace al login */}
       <p
-        className="text-center text-sm mt-3">Si aún no tienes cuenta
-        <Link to={"/sign-up"} className="underline transition text-amber-700 hover:text-amber-900">
-          registrate
+        className="text-center text-sm mt-3">Si ya tiene cuenta
+        <Link
+          to={"/login"}
+          className="underline transition text-amber-700 hover:text-amber-900">
+          iniciar sesión
         </Link>
       </p>
 
