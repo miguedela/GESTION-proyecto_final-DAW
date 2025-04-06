@@ -25,14 +25,7 @@ export const UsersManagement = () => {
 
         const sortParam = `${field}, ${newOrder}`;
 
-        handleLoadUsers({
-            page: 0,
-            size: users.pagination.size,
-            filters: {
-                ...users.pagination.filters,
-                sort: sortParam
-            }
-        });
+        handleLoadUsers({ page: 0, size: users.pagination.size, filters: { ...users.pagination.filters, sort: sortParam } });
     };
 
     useEffect(() => {
