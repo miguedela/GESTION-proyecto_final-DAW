@@ -1,12 +1,12 @@
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import { Login } from "../features/auth/Login";
-import { SignUp } from "../features/auth/SignUp";
-import { Home } from "../features/home/Home";
-import { NotFound } from "../features/NotFound";
-import { ProtectedRoute } from "./ProtectedRoute";
-import { Users } from "../features/admin/Users";
-
-
+import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import { App } from '../features/app/App';
+import { MyAccount } from '../features/app/my-account/MyAccount';
+import { LogIn } from '../features/auth/LogIn';
+import { SignUp } from '../features/auth/SignUp';
+import { Home } from '../features/home/Home';
+import { NotFound } from '../features/not-found/NotFound';
+import { ProtectedRoute } from './ProtectedRoute';
+import { UsersManagement } from '../features/app/admin/users/UsersManagement';
 
 export const AppRouter = () => {
 
@@ -19,57 +19,57 @@ export const AppRouter = () => {
 
     const router = createBrowserRouter([
         ...renderMultiRoutes({ paths: ['/home', '/'], element: <Home /> }),
-        { path: '/login', element: <Login /> },
-        { path: '/sign-up', element: <SignUp /> },
-        { path: '/admin/users', element: <Users /> },
+        { path: '/login', element: <LogIn /> },
+        { path: '/signup', element: <SignUp /> },
         { path: '*', element: <NotFound /> },
 
         {
-            element: <ProtectedRoute allowedRoles={['ADMIN', 'STAFF', 'CUSTOMER']} />,
-            children: [{
-                element: <AppRouter />,
-                children: [
-
-                    // {path: '/account', element: <Account />}
-                ]
-            }]
+            element: <ProtectedRoute allowedRoles={["ADMIN", "STAFF", "CUSTOMER"]} />,
+            children: [
+                {
+                    element: <App />,
+                    children: [
+                        { path: "/account", element: <MyAccount /> },
+                        // Rutas para todos los usuarios
+                    ]
+                }
+            ]
         },
         {
-            element: <ProtectedRoute allowedRoles={['ADMIN']} />,
-            children: [{
-                element: <AppRouter />,
-                children: [
-                    // {path: '/admin/users', element: <UsersManagement />},
-                    // {path: '/admin/restaurants', element: <RestaurantsManagement />}
-                ]
-            }]
+            element: <ProtectedRoute allowedRoles={["ADMIN"]} />,
+            children: [
+                {
+                    element: <App />,
+                    children: [
+                        { path: "/admin/users", element: <UsersManagement /> },
+                        // Rutas para administradores
+                    ]
+                }
+            ]
         },
         {
-            element: <ProtectedRoute allowedRoles={['STAFF']} />,
-            children: [{
-                element: <AppRouter />,
-                children: [
-                    // {path: '/menu/management', element: <MenuManagement />},
-                    // {path: '/reservation/management', element: <ReservationManagement />},
-                    // {path: '/tables/management', element: <TableManagement />},
-                    // {path: '/notification/management', element: <NotificationManagement />},
-                    // {path: '/details/management', element: <DetailsManagement />}
-                ]
-            }]
+            element: <ProtectedRoute allowedRoles={["STAFF"]} />,
+            children: [
+                {
+                    element: <App />,
+                    children: [
+                        // Rutas para staffs
+                    ]
+                }
+            ]
         },
         {
-            element: <ProtectedRoute allowedRoles={['CUSTOMER']} />,
-            children: [{
-                element: <AppRouter />,
-                children: [
-                    // {path: '/my/reservervations', element: <MyReservations />},
-                    // {path: '/menus', element: <Menus />},
-                    // {path: '/contact', element: <Contact />}
-                ]
-            }]
-        }
+            element: <ProtectedRoute allowedRoles={["CUSTOMER"]} />,
+            children: [
+                {
+                    element: <App />,
+                    children: [
+                        // Rutas para customers
+                    ]
+                }
+            ]
+        },
     ]);
 
     return <RouterProvider router={router} />;
-
-}
+};

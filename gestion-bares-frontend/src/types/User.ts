@@ -1,36 +1,36 @@
-// Interfaces equivalentes a los DTOs de la API
+export enum Roles {
+  "ADMIN",
+  "STAFF",
+  "CUSTOMER",
+}
 
 export interface IUser {
-    name: string;
-    surnames: string;
-    email: string;
-    telephone: string;
-    role: Roles;
-    emailVerified: boolean;
-    emailNotifications: boolean;
-    creationDate: Date;
+  id: string;
+  name: string;
+  surnames: string;
+  email: string;
+  telephone: string;
+  role: Roles;
+  emailVerified: boolean;
+  emailNotifications: boolean;
+  creationDate: Date;
 }
 
 export interface IRegisterUser {
-    name: string;
-    surnames: string;
-    email: string;
-    telephone: string;
-    password: string;
-    role: Roles;
+  name: string;
+  surnames: string;
+  email: string;
+  telephone: string;
+  password: string;
+  role: Roles;
 }
 
 export interface ILoginUser {
-    email: string;
-    password: string;
+  email: string;
+  password: string;
 }
 
 export interface ILoginResponse {
-    user: IUser;
-    token: string;
-}
-export enum Roles {
-    "ADMIN",
-    "CUSTOMER",
-    "STAFF"
+  user: IUser;
+  token: string;
 }
