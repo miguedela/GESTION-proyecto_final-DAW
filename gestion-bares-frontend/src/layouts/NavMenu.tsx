@@ -58,7 +58,7 @@ export const NavMenu = ({ isOpen, setIsSidebarOpen }: { isOpen: boolean; setIsSi
             <IoCloseOutline className="size-6" aria-hidden="true" />
         </button>
 
-        <div className="h-full py-14 px-3 overflow-y-auto flex flex-col bg-neutral-800">
+        <div className="h-full py-14 px-3 overflow-y-auto flex flex-col dark:bg-neutral-800 bg-white">
             <div className="border-b pb-5 flex items-end">
                 <div className="ml-3 w-5 h-full bg-amber-600"></div>
                 <h1 className="text-2xl font-semibold border-b-3 border-amber-600 pl-2">TapaTech</h1>
@@ -75,7 +75,7 @@ export const NavMenu = ({ isOpen, setIsSidebarOpen }: { isOpen: boolean; setIsSi
                                     className={({ isActive }) =>
                                         `flex items-center gap-3 px-5 py-2 rounded-md my-3
                                         transition-all duration-200 
-                                        ${isActive ? "bg-neutral-600 outline outline-neutral-400 text-neutral-100" : "hover:bg-neutral-700"}`
+                                        ${isActive ? "dark:bg-neutral-600 bg-neutral-300 outline outline-neutral-400 dark:text-neutral-100 text-black" : "hover:bg-neutral-700"}`
                                     }
                                 >
                                     <span className="text-2xl">{section.icon}</span> {section.name}
