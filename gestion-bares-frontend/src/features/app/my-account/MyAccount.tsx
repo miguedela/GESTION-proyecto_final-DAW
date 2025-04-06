@@ -44,15 +44,6 @@ export const MyAccount = () => {
     };
 
     useEffect(() => {
-        const selectedTheme = localStorage.getItem("selectedTheme") || "system";
-        setTheme(selectedTheme);
-
-        if (selectedTheme === "dark" || (selectedTheme === "system" && window.matchMedia("(prefers-color-scheme: dark)").matches)) {
-            document.documentElement.classList.add("dark");
-        } else {
-            document.documentElement.classList.remove("dark");
-        }
-
         const handleClickOutside = (event: MouseEvent) => {
             if (dropdownThemeRef.current && !dropdownThemeRef.current.contains(event.target as Node)) {
                 setThemeDropdownOpen(false);
@@ -99,19 +90,19 @@ export const MyAccount = () => {
                                     : <IoTvOutline className="size-5 md:size-7" />}
                         </button>
 
-                        <div className={`z-10 ${themeDropdownOpen ? "block" : "hidden"} bg-neutral-100 dark:bg-neutral-900 divide-y divide-gray-100 rounded-b-lg shadow-xl w-full absolute right-0 mt-3`}>
-                            <ul className="text-sm font-medium text-gray-800 dark:text-gray-200">
-                                <li className="border-t border-dark block hover:bg-clear-gray text-black dark:text-white">
+                        <div className={`z-10 ${themeDropdownOpen ? "block" : "hidden"} divide-y divide-gray-100 rounded-b-lg shadow-xl w-full absolute right-0 mt-3`}>
+                            <ul className="text-sm font-medium">
+                                <li className="border-t border-dark block">
                                     <button title="Modo claro" className="cursor-pointer flex w-full h-full items-center justify-center gap-2 md:px-4 py-3" onClick={() => handleThemeSelection("light")}>
                                         <IoSunnyOutline className="size-4 md:size-6" />
                                     </button>
                                 </li>
-                                <li className="border-t border-dark block hover:bg-clear-gray text-black dark:text-white">
+                                <li className="border-t border-dark block">
                                     <button title="Modo oscuro" className="cursor-pointer flex w-full h-full items-center justify-center gap-2 md:px-4 py-3" onClick={() => handleThemeSelection("dark")}>
                                         <IoMoonOutline className="size-4 md:size-6" />
                                     </button>
                                 </li>
-                                <li className="border-t border-dark block hover:bg-clear-gray text-black dark:text-white">
+                                <li className="border-t border-dark block">
                                     <button title="Sistema" className="cursor-pointer flex w-full h-full items-center justify-center gap-2 md:px-4 py-3" onClick={() => handleThemeSelection("system")}>
                                         <IoTvOutline className="size-4 md:size-6" />
                                     </button>
