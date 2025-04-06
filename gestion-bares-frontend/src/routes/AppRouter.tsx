@@ -7,6 +7,8 @@ import { Home } from '../features/home/Home';
 import { NotFound } from '../features/not-found/NotFound';
 import { ProtectedRoute } from './ProtectedRoute';
 import { UsersManagement } from '../features/app/admin/users/UsersManagement';
+import { UserDetails } from '../features/app/admin/users/UserDetails';
+import { EditUser } from '../features/app/admin/users/EditUser';
 
 export const AppRouter = () => {
 
@@ -42,6 +44,8 @@ export const AppRouter = () => {
                     element: <App />,
                     children: [
                         { path: "/admin/users", element: <UsersManagement /> },
+                        { path: "/admin/users/:id", element: <UserDetails /> },
+                        { path: "/admin/users/edit/:id", element: <EditUser /> },
                         // Rutas para administradores
                     ]
                 }

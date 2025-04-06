@@ -1,11 +1,14 @@
 import { useCallback } from "react";
 import { IPaginationInfo, PaginationInfo } from "../types/Pagination";
-import { loadUsers } from "../api/users.api";
+import { deleteUser, loadUsers } from "../api/users.api";
 import { useAtom } from "jotai";
 import { usersAtom } from "../atoms/users.atom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 const useUser = () => {
     const [users, setUsers] = useAtom(usersAtom);
+    const navigate = useNavigate();
+    const location = useLocation();
 
     const handleLoadUsers = useCallback(
         async (pagination: IPaginationInfo) => {
@@ -70,7 +73,18 @@ const useUser = () => {
         });
     };
 
-    return { users, handleLoadUsers, handleStateFilter, handlePageChange, handleSearch }
+
+    const handleDeleteUser = async (id: string) => {
+        try {
+            await deleteUser(id);
+            navigate("/admin/users")
+            if (location.pathname === "/admin/users") handleLoadUsers({ page: 0, size: users.pagination.size });
+        } catch (error) {
+            console.error("Error deleting user: ", error);
+        }
+    }
+
+    return { users, handleLoadUsers, handleStateFilter, handlePageChange, handleSearch, handleDeleteUser }
 };
 
 export default useUser;

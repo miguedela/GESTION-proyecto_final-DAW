@@ -9,9 +9,13 @@ import { Paginator } from "../../../../components/Paginator";
 import useUser from "../../../../hooks/useUser";
 import { formatDateShort } from "../../../../utils/dateUtils";
 import { UsersFilters } from "./UsersFilters";
+import ConfirmModal from "../../../../components/ConfirmModal";
+import { userAtom } from "../../../../atoms/user.atom";
 
 export const UsersManagement = () => {
     const [, setBreadcrumbs] = useAtom(breadcrumbsAtom);
+    const [myUser] = useAtom(userAtom);
+    const [userToDelete, setUserToDelete] = useState<string | null>(null);
 
     useEffect(() => {
         setBreadcrumbs([
@@ -22,7 +26,7 @@ export const UsersManagement = () => {
     const [sortBy, setSortBy] = useState<string>("creationDate");
     const [sortOrder, setSortOrder] = useState<"asc" | "desc">("desc");
 
-    const { users, handleLoadUsers, handlePageChange } = useUser();
+    const { users, handleLoadUsers, handlePageChange, handleDeleteUser } = useUser();
 
     const handleSort = (field: string) => {
         const newOrder = sortBy === field ? (sortOrder === "asc" ? "desc" : "asc") : "asc";
@@ -76,8 +80,12 @@ export const UsersManagement = () => {
                             </td>
                             <td className="flex items-center gap-3">
                                 <Link to={`/admin/users/${user.id}`} className="text-xl text-blue-600 hover:text-blue-900 dark:text-blue-400 dark:hover:text-blue-100"><IoEyeOutline /></Link>
-                                <Link to={`/admin/users/${user.id}`} className="text-xl text-blue-600 hover:text-blue-900 dark:text-blue-400 dark:hover:text-blue-100"><IoPencilOutline /></Link>
-                                <Link to={`/admin/users/${user.id}`} className="text-xl text-blue-600 hover:text-blue-900 dark:text-blue-400 dark:hover:text-blue-100"><IoTrashOutline /></Link>
+                                {myUser.id !== user.id &&
+                                    <>
+                                        <Link to={`/admin/users/edit/${user.id}`} className="text-xl text-blue-600 hover:text-blue-900 dark:text-blue-400 dark:hover:text-blue-100"><IoPencilOutline /></Link>
+                                        <button onClick={() => setUserToDelete(user.id)} className="bg-red-600 px-4 py-2 rounded-sm cursor-pointer"><IoTrashOutline /></button>
+                                    </>
+                                }
                             </td>
                         </tr>
                     ))}
@@ -87,6 +95,17 @@ export const UsersManagement = () => {
             <div className="mt-6">
                 <Paginator totalElements={users.pagination.totalElements || 0} pageCount={users.pagination.totalPages || 1} page={users.pagination.page} defaultSize={users.pagination.size} availableSizes={[5, 10, 15]} onPageChange={handlePageChange} />
             </div>
+
+            <ConfirmModal
+                isOpen={!!userToDelete}
+                text={"Estás seguro de que quieres eliminar el usuario?"}
+                type="negative"
+                onConfirm={() => {
+                    if (userToDelete) handleDeleteUser(userToDelete)
+                    setUserToDelete(null);
+                }}
+                onCancel={() => setUserToDelete(null)}
+            />
         </Loader>
     </div>
 }

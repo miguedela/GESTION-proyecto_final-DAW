@@ -1,5 +1,5 @@
 import queryString from "query-string";
-import { ILoginResponse, ILoginUser, IRegisterUser } from "../types/User";
+import { ILoginResponse, ILoginUser, IRegisterUser, IUser } from "../types/User";
 import httpClient from "../utils/httpClient";
 
 const urlBase = "/users";
@@ -59,5 +59,14 @@ export const deleteUser = async (userId: string) => {
   return await httpClient({
     url: `${urlBase}/admin/${userId}`,
     method: "DELETE",
+  });
+};
+
+// Editar un usuario
+export const updateUser = async (user: IUser) => {
+  return await httpClient({
+    url: `${urlBase}/admin/update/${user.id}`,
+    method: "PUT",
+    data: user,
   });
 };

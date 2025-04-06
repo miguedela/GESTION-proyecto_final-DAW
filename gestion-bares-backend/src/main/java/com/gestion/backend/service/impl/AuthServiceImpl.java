@@ -55,6 +55,7 @@ public class AuthServiceImpl implements AuthService {
         userRepository.save(user);
         
         UserDTO userDTO = new UserDTO();
+        userDTO.setId(user.getId());
         userDTO.setName(user.getName());
         userDTO.setSurnames(user.getSurnames());
         userDTO.setTelephone(user.getTelephone());
@@ -82,6 +83,7 @@ public class AuthServiceImpl implements AuthService {
                     .orElseThrow(() -> new UserNotFoundException("Usuario no encontrado"));
             
             UserDTO userDTO = new UserDTO();
+            userDTO.setId(user.getId());
             userDTO.setName(user.getName());
             userDTO.setSurnames(user.getSurnames());
             userDTO.setTelephone(user.getTelephone());
