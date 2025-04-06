@@ -8,13 +8,16 @@ import org.springframework.stereotype.Service;
 
 import com.gestion.backend.repository.UserRepository;
 
-@Service 
+@Service
 public class OurUserDetailsService implements UserDetailsService {
-	@Autowired
-	private UserRepository userRepo;
 
-	@Override
-	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		return userRepo.findByEmail(username).orElseThrow();
-	}
+    @Autowired
+    private UserRepository usersRepo;
+    
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        return usersRepo.findByEmail(username)
+                .orElseThrow(() -> new UsernameNotFoundException("Usuario no encontrado con el email: " + username));
+    }
 }
+

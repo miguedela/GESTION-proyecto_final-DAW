@@ -30,5 +30,7 @@ export interface ILoginResponse {
     token: string;
 }
 export enum Roles {
-    "ADMIN", "CUSTOMER", "STAFF"
+    "ADMIN",
+    "CUSTOMER",
+    "STAFF"
 }

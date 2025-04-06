@@ -5,16 +5,20 @@ import java.util.Collection;
 import java.util.List;
 
 import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.gestion.backend.enums.Roles;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EntityListeners;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -30,74 +34,73 @@ import lombok.NoArgsConstructor;
 @EntityListeners(AuditingEntityListener.class)
 @Table(name = "users")
 public class OurUser implements UserDetails {
-
-	private static final long serialVersionUID = -7378905965865916888L;
+	
+	private static final long serialVersionUID = -8227540033184858778L;
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-	@Column(name = "name", nullable = false)
-	private String name;
+    @Column(name = "name", nullable = false)
+    private String name;
 
-	@Column(name = "surnames", nullable = false)
-	private String surnames;
+    @Column(name = "surnames", nullable = false)
+    private String surnames;
 
-	@Column(name = "email", nullable = false, unique = true)
-	private String email;
+    @Column(name = "email", nullable = false, unique = true)
+    private String email;
+    
+    @Column(name = "telephone", nullable = false, unique = true)
+    private String telephone;
 
-	@Column(name = "telephone", nullable = false, unique = true)
-	private String telephone;
+    @Column(name = "password", nullable = false)
+    private String password;
+    
+    @Column(name = "role", nullable = false, columnDefinition = "varchar(20) default 'USER'")
+    @Enumerated(EnumType.STRING)
+    private Roles role;
+    
+    @CreatedDate
+    @Column(name = "creation_date")
+    private LocalDateTime creationDate;
+    
+    @LastModifiedDate
+    @Column(name = "last_modified_date")
+    private LocalDateTime lastModifiedDate;
+    
+    @Override
+    @JsonIgnore
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return List.of(new SimpleGrantedAuthority(role.name()));
+    }
 
-	@Column(name = "password", nullable = false)
-	private String password;
+    @Override
+    @JsonIgnore
+    public String getUsername() {
+        return email;
+    }
 
-	@Column(name = "role", nullable = false, columnDefinition = "varchar(20) default 'USER'")
-	private String role;
+    @Override
+    @JsonIgnore
+    public boolean isAccountNonExpired() {
+        return true;
+    }
 
-	@Column(name = "email_verified", nullable = false, columnDefinition = "boolean default false")
-	private boolean emailVerified;
+    @Override
+    @JsonIgnore
+    public boolean isAccountNonLocked() {
+        return true;
+    }
 
-	@Column(name = "email_notifications", nullable = false, columnDefinition = "boolean default false")
-	private boolean emailNotifications;
+    @Override
+    @JsonIgnore
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
 
-	@CreatedDate
-	@Column(name = "creation_date")
-	private LocalDateTime creationDate;
-
-	@Override
-	@JsonIgnore
-	public Collection<? extends GrantedAuthority> getAuthorities() {
-		return List.of(new SimpleGrantedAuthority(role));
-	}
-
-	@Override
-	@JsonIgnore
-	public String getUsername() {
-		return email;
-	}
-
-	@Override
-	@JsonIgnore
-	public boolean isAccountNonExpired() {
-		return true;
-	}
-
-	@Override
-	@JsonIgnore
-	public boolean isAccountNonLocked() {
-		return true;
-	}
-
-	@Override
-	@JsonIgnore
-	public boolean isCredentialsNonExpired() {
-		return true;
-	}
-
-	@Override
-	@JsonIgnore
-	public boolean isEnabled() {
-		return true;
-	}
+    @Override
+    @JsonIgnore
+    public boolean isEnabled() {
+        return true;
+    }
 }

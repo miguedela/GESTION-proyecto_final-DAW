@@ -25,7 +25,7 @@ const useUser = () => {
         try {
             const response = await registerUser(userData);
             saveUserToStorage(response.data.user, response.data.token);
-            return;
+            return response;
         } catch (error: unknown) {
             setMessageError(error, setError);
         } finally {
@@ -40,7 +40,7 @@ const useUser = () => {
         try {
             const response = await loginUser(userData);
             saveUserToStorage(response.data.user, response.data.token);
-            return;
+            return response;
         } catch (error: unknown) {
             setMessageError(error, setError);
         } finally {

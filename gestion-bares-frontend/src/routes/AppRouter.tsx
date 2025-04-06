@@ -4,6 +4,7 @@ import { SignUp } from "../features/auth/SignUp";
 import { Home } from "../features/home/Home";
 import { NotFound } from "../features/NotFound";
 import { ProtectedRoute } from "./ProtectedRoute";
+import { Users } from "../features/admin/Users";
 
 
 
@@ -20,6 +21,7 @@ export const AppRouter = () => {
         ...renderMultiRoutes({ paths: ['/home', '/'], element: <Home /> }),
         { path: '/login', element: <Login /> },
         { path: '/sign-up', element: <SignUp /> },
+        { path: '/admin/users', element: <Users /> },
         { path: '*', element: <NotFound /> },
 
         {

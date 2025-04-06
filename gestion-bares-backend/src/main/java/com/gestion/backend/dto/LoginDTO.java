@@ -1,14 +1,17 @@
 package com.gestion.backend.dto;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
-@NoArgsConstructor
 @AllArgsConstructor
+@NoArgsConstructor
+@Builder
 public class LoginDTO {
-	private String email;
-	private String telephone; // En un futuro implementar login con teléfono
-	private String password;
+	
+    private String email;
+    private String password;
+    
 }

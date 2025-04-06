@@ -1,17 +1,23 @@
 package com.gestion.backend.dto;
 
+import com.gestion.backend.enums.Roles;
+
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
-@NoArgsConstructor
 @AllArgsConstructor
+@NoArgsConstructor
+@Builder
 public class RegisterDTO {
-	private String name;
-	private String surnames;
-	private String email;
-	private String telephone;
-	private String password;
-	private String emailNotifications;
+	
+    private String name;
+    private String surnames;
+    private String telephone;
+    private String email;
+    private String password;
+    private Roles role;
+    
 }
