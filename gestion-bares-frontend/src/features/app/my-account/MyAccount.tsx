@@ -3,6 +3,7 @@ import { useEffect, useRef, useState } from 'react';
 import { breadcrumbsAtom } from '../../../atoms/breadcrumbs.atom';
 import useAuth from '../../../hooks/useAuth';
 import { IoMoonOutline, IoSunnyOutline, IoTvOutline } from 'react-icons/io5';
+import { Link } from 'react-router-dom';
 
 export const MyAccount = () => {
     const { user } = useAuth();
@@ -109,8 +110,10 @@ export const MyAccount = () => {
                                 </li>
                             </ul>
                         </div>
+
                     </div>
                 </div>
+                <Link to="/account/edit" className='px-4 py-2 bg-yellow-600'>Editar</Link>
             </div>
         </div>
 

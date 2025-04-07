@@ -13,7 +13,10 @@ const httpClient = axios.create({
 httpClient.interceptors.request.use((config) => {
   const token = localStorage.getItem("token");
 
-  if (token && config.url?.includes("/admin")) {
+  const isPublicEndpoint =
+    config.url?.includes("/auth") || config.url?.includes("/public");
+
+  if (token && !isPublicEndpoint) {
     config.headers.Authorization = `Bearer ${token}`;
   }
 

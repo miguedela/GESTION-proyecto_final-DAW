@@ -70,3 +70,13 @@ export const updateUser = async (user: IUser) => {
     data: user,
   });
 };
+
+// Editar cuenta de usuario (actual)
+export const updateMyProfile = async (userDTO: IUser, currentPassword: string) => {
+  return await httpClient<ILoginResponse>({
+    url: `${urlBase}/profile/update`,
+    method: "POST",
+    data: userDTO,
+    params: { currentPassword },
+  });
+};

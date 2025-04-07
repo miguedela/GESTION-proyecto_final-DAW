@@ -12,7 +12,7 @@ export class PaginationInfo implements IPaginationInfo {
     size: number;
     totalPages?: number;
     totalElements?: number;
-    filters?: any;
+    filters?: Record<string, string | number | boolean>;
     sort?: OrderBy; // Ahora sort es de tipo OrderBy
 
     constructor(
@@ -20,7 +20,7 @@ export class PaginationInfo implements IPaginationInfo {
         size: number = 10,
         totalPages?: number,
         totalElements?: number,
-        filters?: any,
+        filters?: Record<string, string | number | boolean>,
         sort?: OrderBy // Cambié el tipo de sort a OrderBy
     ) {
         this.page = page;

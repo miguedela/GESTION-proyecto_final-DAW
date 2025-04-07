@@ -82,8 +82,8 @@ public class UserController {
     }
 
     @PostMapping("/profile/update")
-    public ResponseEntity<AuthResponseDTO> updateMyData(@RequestBody UserDTO userDTO, @RequestParam(required = false) String newPassword) {
-        return ResponseEntity.ok(authService.updateMyData(userDTO, newPassword));
+    public ResponseEntity<AuthResponseDTO> updateMyData(@RequestBody UserDTO userDTO, @RequestParam(required = false) String currentPassword) {
+        return ResponseEntity.ok(authService.updateMyData(userDTO, currentPassword));
     }
 
     @PutMapping("/admin/update/{userId}")

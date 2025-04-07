@@ -136,5 +136,5 @@ export const EditUser = () => {
                 </form>
             }
         </Loader>
-    </div >
+    </div>
 }

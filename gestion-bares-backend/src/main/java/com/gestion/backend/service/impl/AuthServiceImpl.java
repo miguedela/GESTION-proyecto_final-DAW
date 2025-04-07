@@ -2,6 +2,7 @@ package com.gestion.backend.service.impl;
 
 import java.time.LocalDateTime;
 import java.util.HashMap;
+import java.util.Optional;
 
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -29,121 +30,124 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class AuthServiceImpl implements AuthService {
 
-    private final UserRepository userRepository;
-    private final JWTUtils jwtUtils;
-    private final AuthenticationManager authenticationManager;
-    private final PasswordEncoder passwordEncoder;
-    
-    @Override
-    public AuthResponseDTO register(RegisterDTO registrationRequest) {
+	private final UserRepository userRepository;
+	private final JWTUtils jwtUtils;
+	private final AuthenticationManager authenticationManager;
+	private final PasswordEncoder passwordEncoder;
 
-        if (userRepository.findByEmail(registrationRequest.getEmail()).isPresent())
-            throw new DuplicateResourceException("El email ya está registrado");
-        if (userRepository.findByTelephone(registrationRequest.getTelephone()).isPresent())
-            throw new DuplicateResourceException("El número de teléfono ya está registrado");
+	@Override
+	public AuthResponseDTO register(RegisterDTO registrationRequest) {
 
-        OurUser user = new OurUser();
-        user.setName(registrationRequest.getName());
-        user.setSurnames(registrationRequest.getSurnames());
-        user.setEmail(registrationRequest.getEmail());
-        user.setTelephone(registrationRequest.getTelephone());
-        user.setPassword(passwordEncoder.encode(registrationRequest.getPassword()));
-        user.setCreationDate(LocalDateTime.now());
-        user.setLastModifiedDate(LocalDateTime.now());
-        user.setRole(registrationRequest.getRole() != null ? registrationRequest.getRole() : Roles.CUSTOMER);
+		if (userRepository.findByEmail(registrationRequest.getEmail()).isPresent())
+			throw new DuplicateResourceException("El email ya está registrado");
+		if (userRepository.findByTelephone(registrationRequest.getTelephone()).isPresent())
+			throw new DuplicateResourceException("El número de teléfono ya está registrado");
 
-        userRepository.save(user);
-        
-        UserDTO userDTO = new UserDTO();
-        userDTO.setId(user.getId());
-        userDTO.setName(user.getName());
-        userDTO.setSurnames(user.getSurnames());
-        userDTO.setTelephone(user.getTelephone());
-        userDTO.setEmail(user.getEmail());
-        userDTO.setRole(user.getRole().name());
-        userDTO.setCreationDate(user.getCreationDate());
+		OurUser user = new OurUser();
+		user.setName(registrationRequest.getName());
+		user.setSurnames(registrationRequest.getSurnames());
+		user.setEmail(registrationRequest.getEmail());
+		user.setTelephone(registrationRequest.getTelephone());
+		user.setPassword(passwordEncoder.encode(registrationRequest.getPassword()));
+		user.setCreationDate(LocalDateTime.now());
+		user.setLastModifiedDate(LocalDateTime.now());
+		user.setRole(registrationRequest.getRole() != null ? registrationRequest.getRole() : Roles.CUSTOMER);
 
-        String token = jwtUtils.generateToken(user);
-        String refreshToken = jwtUtils.generateRefreshToken(new HashMap<>(),user);
+		userRepository.save(user);
 
-        return AuthResponseDTO.builder()
-                .statusCode(201)
-                .message("Usuario registrado exitosamente")
-                .token(token)
-                .refreshToken(refreshToken)
-                .user(userDTO)
-                .build();
-    }
+		UserDTO userDTO = new UserDTO();
+		userDTO.setId(user.getId());
+		userDTO.setName(user.getName());
+		userDTO.setSurnames(user.getSurnames());
+		userDTO.setTelephone(user.getTelephone());
+		userDTO.setEmail(user.getEmail());
+		userDTO.setRole(user.getRole().name());
+		userDTO.setCreationDate(user.getCreationDate());
 
-    @Override
-    public AuthResponseDTO login(String email, String password) {
-        try {
-            authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(email, password));
-            OurUser user = userRepository.findByEmail(email)
-                    .orElseThrow(() -> new UserNotFoundException("Usuario no encontrado"));
-            
-            UserDTO userDTO = new UserDTO();
-            userDTO.setId(user.getId());
-            userDTO.setName(user.getName());
-            userDTO.setSurnames(user.getSurnames());
-            userDTO.setTelephone(user.getTelephone());
-            userDTO.setEmail(user.getEmail());
-            userDTO.setRole(user.getRole().name());
-            userDTO.setCreationDate(user.getCreationDate());
+		String token = jwtUtils.generateToken(user);
+		String refreshToken = jwtUtils.generateRefreshToken(new HashMap<>(), user);
 
-            String jwt = jwtUtils.generateToken(user);
-            String refreshToken = jwtUtils.generateRefreshToken(new HashMap<>(), user);
+		return AuthResponseDTO.builder().statusCode(201).message("Usuario registrado exitosamente").token(token)
+				.refreshToken(refreshToken).user(userDTO).build();
+	}
 
-            return AuthResponseDTO.builder()
-                    .statusCode(200)
-                    .message("Inicio de sesión exitoso")
-                    .token(jwt)
-                    .refreshToken(refreshToken)
-                    .user(userDTO)
-                    .build();
-        } catch (BadCredentialsException e) {
-            throw new InvalidCredentialsException("Credenciales incorrectas");
-        }
-    }
-    
-    @Override
-    public AuthResponseDTO updateMyData(UserDTO userDTO, String newPassword) {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String loggedInUserEmail = authentication.getName();
-        
-        OurUser user = userRepository.findByEmail(loggedInUserEmail)
-                .orElseThrow(() -> new UserNotFoundException("Usuario no encontrado con email: " + loggedInUserEmail));
-        
-        if (userDTO.getName() != null) user.setName(userDTO.getName());
-        if (userDTO.getSurnames() != null) user.setSurnames(userDTO.getSurnames());
-        if (userDTO.getTelephone() != null) user.setTelephone(userDTO.getTelephone());
-        
-        if (newPassword != null && !newPassword.isEmpty()) {
-            user.setPassword(passwordEncoder.encode(newPassword));
-        }
+	@Override
+	public AuthResponseDTO login(String email, String password) {
+		try {
+			authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(email, password));
+			OurUser user = userRepository.findByEmail(email)
+					.orElseThrow(() -> new UserNotFoundException("Usuario no encontrado"));
 
-        user.setLastModifiedDate(LocalDateTime.now());
-        
-        OurUser updatedUser = userRepository.save(user);
-        
-        UserDTO updatedUserDTO = new UserDTO();
-        updatedUserDTO.setName(updatedUser.getName());
-        updatedUserDTO.setSurnames(updatedUser.getSurnames());
-        updatedUserDTO.setTelephone(updatedUser.getTelephone());
-        updatedUserDTO.setEmail(updatedUser.getEmail());  // No se permite cambiar el email
-        updatedUserDTO.setRole(updatedUser.getRole().name());
-        updatedUserDTO.setCreationDate(updatedUser.getCreationDate());
-        updatedUserDTO.setLastModifiedDate(updatedUser.getLastModifiedDate());
-        
-        String token = jwtUtils.generateToken(updatedUser);
-        String refreshToken = jwtUtils.generateRefreshToken(new HashMap<>(), updatedUser);
+			UserDTO userDTO = new UserDTO();
+			userDTO.setId(user.getId());
+			userDTO.setName(user.getName());
+			userDTO.setSurnames(user.getSurnames());
+			userDTO.setTelephone(user.getTelephone());
+			userDTO.setEmail(user.getEmail());
+			userDTO.setRole(user.getRole().name());
+			userDTO.setCreationDate(user.getCreationDate());
 
-        return AuthResponseDTO.builder()
-                .statusCode(200)
-                .message("Datos actualizados exitosamente")
-                .token(token)
-                .refreshToken(refreshToken)
-                .user(updatedUserDTO)
-                .build();
-    }
+			String jwt = jwtUtils.generateToken(user);
+			String refreshToken = jwtUtils.generateRefreshToken(new HashMap<>(), user);
+
+			return AuthResponseDTO.builder().statusCode(200).message("Inicio de sesión exitoso").token(jwt)
+					.refreshToken(refreshToken).user(userDTO).build();
+		} catch (BadCredentialsException e) {
+			throw new InvalidCredentialsException("Credenciales incorrectas");
+		}
+	}
+
+	@Override
+	public AuthResponseDTO updateMyData(UserDTO userDTO, String currentPassword) {
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		String loggedInUserEmail = authentication.getName();
+
+		Optional<OurUser> existingUserOpt = userRepository.findByEmail(userDTO.getEmail());
+		if (existingUserOpt.isPresent() && !existingUserOpt.get().getId().equals(userDTO.getId()))
+			throw new DuplicateResourceException("El email ya está registrado");
+
+		Optional<OurUser> existingUserByPhone = userRepository.findByTelephone(userDTO.getTelephone());
+		if (existingUserByPhone.isPresent() && !existingUserByPhone.get().getId().equals(userDTO.getId()))
+			throw new DuplicateResourceException("El número de teléfono ya está registrado");
+
+		OurUser user = userRepository.findByEmail(loggedInUserEmail)
+				.orElseThrow(() -> new UserNotFoundException("Usuario no encontrado con email: " + loggedInUserEmail));
+
+		if (!passwordEncoder.matches(currentPassword, user.getPassword())) {
+			throw new InvalidCredentialsException("La contraseña actual es incorrecta.");
+		}
+
+		if (userDTO.getName() != null)
+			user.setName(userDTO.getName());
+		if (userDTO.getSurnames() != null)
+			user.setSurnames(userDTO.getSurnames());
+		if (userDTO.getTelephone() != null)
+			user.setTelephone(userDTO.getTelephone());
+
+		if (userDTO.getEmail() != null && !userDTO.getEmail().equals(user.getEmail())) {
+			if (userRepository.existsByEmail(userDTO.getEmail())) {
+				throw new DuplicateResourceException("El nuevo email ya esta en uso.");
+			}
+			user.setEmail(userDTO.getEmail());
+		}
+
+		user.setLastModifiedDate(LocalDateTime.now());
+
+		OurUser updatedUser = userRepository.save(user);
+
+		UserDTO updatedUserDTO = new UserDTO();
+		updatedUserDTO.setName(updatedUser.getName());
+		updatedUserDTO.setSurnames(updatedUser.getSurnames());
+		updatedUserDTO.setTelephone(updatedUser.getTelephone());
+		updatedUserDTO.setEmail(updatedUser.getEmail());
+		updatedUserDTO.setRole(updatedUser.getRole().name());
+		updatedUserDTO.setCreationDate(updatedUser.getCreationDate());
+		updatedUserDTO.setLastModifiedDate(updatedUser.getLastModifiedDate());
+
+		String token = jwtUtils.generateToken(updatedUser);
+		String refreshToken = jwtUtils.generateRefreshToken(new HashMap<>(), updatedUser);
+
+		return AuthResponseDTO.builder().statusCode(200).message("Datos actualizados exitosamente").token(token)
+				.refreshToken(refreshToken).user(updatedUserDTO).build();
+	}
 }

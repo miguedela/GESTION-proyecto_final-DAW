@@ -15,4 +15,6 @@ public interface UserRepository extends JpaRepository<OurUser, Long>, JpaSpecifi
 	Optional<OurUser> findByTelephone(String telephone);
 
 	int countByRole(Roles admin);
+
+	boolean existsByEmail(String email);
 }

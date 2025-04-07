@@ -1,14 +1,15 @@
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import { EditUser } from '../features/app/admin/users/EditUser';
+import { UserDetails } from '../features/app/admin/users/UserDetails';
+import { UsersManagement } from '../features/app/admin/users/UsersManagement';
 import { App } from '../features/app/App';
+import { EditMyAccount } from '../features/app/my-account/EditMyAccount';
 import { MyAccount } from '../features/app/my-account/MyAccount';
 import { LogIn } from '../features/auth/LogIn';
 import { SignUp } from '../features/auth/SignUp';
 import { Home } from '../features/home/Home';
 import { NotFound } from '../features/not-found/NotFound';
 import { ProtectedRoute } from './ProtectedRoute';
-import { UsersManagement } from '../features/app/admin/users/UsersManagement';
-import { UserDetails } from '../features/app/admin/users/UserDetails';
-import { EditUser } from '../features/app/admin/users/EditUser';
 
 export const AppRouter = () => {
 
@@ -32,6 +33,8 @@ export const AppRouter = () => {
                     element: <App />,
                     children: [
                         { path: "/account", element: <MyAccount /> },
+                        { path: "/account/edit", element: <EditMyAccount /> },
+                        // { path: "/account/edit", element: <EditPassword /> },
                         // Rutas para todos los usuarios
                     ]
                 }

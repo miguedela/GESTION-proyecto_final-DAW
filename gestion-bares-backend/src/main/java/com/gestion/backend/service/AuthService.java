@@ -29,5 +29,5 @@ public interface AuthService {
      * @param userDTO Datos actualizados del usuario.
      * @return AuthResponseDTO Respuesta con el token y detalles del usuario actualizado.
      */
-    public AuthResponseDTO updateMyData(UserDTO userDTO, String newPassword);
+    public AuthResponseDTO updateMyData(UserDTO userDTO, String currentPassword);
 }
