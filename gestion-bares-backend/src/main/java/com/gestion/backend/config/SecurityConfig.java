@@ -24,12 +24,12 @@ import com.gestion.backend.service.impl.OurUserDetailsService;
 @EnableWebSecurity
 public class SecurityConfig {
 
-    @Autowired
-    private OurUserDetailsService ourUserDetailsService;
-    @Autowired
-    private JWTAuthFilter jwtAuthFilter;
+	@Autowired
+	private OurUserDetailsService ourUserDetailsService;
+	@Autowired
+	private JWTAuthFilter jwtAuthFilter;
 
-    @Bean
+	@Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception{
         httpSecurity.csrf(AbstractHttpConfigurer::disable)
                 .cors(Customizer.withDefaults())
@@ -37,6 +37,8 @@ public class SecurityConfig {
                 		.requestMatchers("/api/users/auth/**", "/public/**").permitAll()
                         .requestMatchers("/api/users/admin/**").hasAnyAuthority(Roles.ADMIN.name())
                         .requestMatchers("/api/users/**").hasAnyAuthority(Roles.ADMIN.name(), Roles.STAFF.name(), Roles.CUSTOMER.name())
+
+                        .requestMatchers("/api/restaurants**").hasAnyAuthority(Roles.ADMIN.name(), Roles.STAFF.name())
                         
                         .anyRequest().authenticated())
                 .sessionManagement(manager->manager.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
@@ -44,21 +46,23 @@ public class SecurityConfig {
 						jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
         return httpSecurity.build();
     }
-    @Bean
-    public AuthenticationProvider authenticationProvider(){
-        DaoAuthenticationProvider daoAuthenticationProvider = new DaoAuthenticationProvider();
-        daoAuthenticationProvider.setUserDetailsService(ourUserDetailsService);
-        daoAuthenticationProvider.setPasswordEncoder(passwordEncoder());
-        return daoAuthenticationProvider;
-    }
 
-    @Bean
-    public PasswordEncoder passwordEncoder(){
-        return new BCryptPasswordEncoder();
-    }
+	@Bean
+	public AuthenticationProvider authenticationProvider() {
+		DaoAuthenticationProvider daoAuthenticationProvider = new DaoAuthenticationProvider();
+		daoAuthenticationProvider.setUserDetailsService(ourUserDetailsService);
+		daoAuthenticationProvider.setPasswordEncoder(passwordEncoder());
+		return daoAuthenticationProvider;
+	}
 
-    @Bean
-    public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception{
-        return authenticationConfiguration.getAuthenticationManager();
-    }
+	@Bean
+	public PasswordEncoder passwordEncoder() {
+		return new BCryptPasswordEncoder();
+	}
+
+	@Bean
+	public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration)
+			throws Exception {
+		return authenticationConfiguration.getAuthenticationManager();
+	}
 }

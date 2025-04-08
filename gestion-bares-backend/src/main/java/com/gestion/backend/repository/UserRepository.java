@@ -9,12 +9,13 @@ import com.gestion.backend.entity.OurUser;
 import com.gestion.backend.enums.Roles;
 
 public interface UserRepository extends JpaRepository<OurUser, Long>, JpaSpecificationExecutor<OurUser> {
-	
+
 	Optional<OurUser> findByEmail(String email);
-	
+
 	Optional<OurUser> findByTelephone(String telephone);
 
 	int countByRole(Roles admin);
 
 	boolean existsByEmail(String email);
+
 }

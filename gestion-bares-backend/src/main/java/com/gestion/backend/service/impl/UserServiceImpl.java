@@ -2,6 +2,7 @@ package com.gestion.backend.service.impl;
 
 import java.time.LocalDateTime;
 import java.util.Map;
+import java.util.Optional;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Service;
 import com.gestion.backend.dto.UserDTO;
 import com.gestion.backend.entity.OurUser;
 import com.gestion.backend.enums.Roles;
+import com.gestion.backend.exception.DuplicateResourceException;
 import com.gestion.backend.exception.UserNotFoundException;
 import com.gestion.backend.repository.UserRepository;
 import com.gestion.backend.service.UserService;
@@ -26,24 +28,17 @@ public class UserServiceImpl implements UserService {
 	private final UserRepository userRepository;
 
 	public Page<UserDTO> getUsers(Pageable pageable, Map<String, String> filters) {
-        SpecificationBuilder<OurUser> builder = new SpecificationBuilder<OurUser>()
-            .with("role", key -> UserSpecifications.filterByRole(filters))
-            .with("general", key -> UserSpecifications.filterByGeneral(filters));
+		SpecificationBuilder<OurUser> builder = new SpecificationBuilder<OurUser>()
+				.with("role", key -> UserSpecifications.filterByRole(filters))
+				.with("general", key -> UserSpecifications.filterByGeneral(filters));
 
-        Specification<OurUser> spec = builder.build(filters);
+		Specification<OurUser> spec = builder.build(filters);
 
-        return userRepository.findAll(spec, pageable)
-            .map(user -> new UserDTO(
-            	user.getId(),
-                user.getName(),
-                user.getSurnames(),
-                user.getEmail(),
-                user.getTelephone(),
-                user.getRole().name(),
-                user.getCreationDate(),
-                user.getLastModifiedDate()
-            ));
-    }
+		return userRepository.findAll(spec, pageable)
+				.map(user -> new UserDTO(user.getId(), user.getName(), user.getSurnames(), user.getEmail(),
+						user.getTelephone(), user.getRole().name(), user.getCreationDate(),
+						user.getLastModifiedDate()));
+	}
 
 	public UserDTO getUserById(Long id) {
 		OurUser user = userRepository.findById(id)
@@ -51,48 +46,44 @@ public class UserServiceImpl implements UserService {
 		return new UserDTO(user.getId(), user.getName(), user.getSurnames(), user.getEmail(), user.getTelephone(),
 				user.getRole().name(), user.getCreationDate(), user.getLastModifiedDate());
 	}
-	
+
 	@Override
 	public UserDTO getUserByEmail(String email) {
-	    OurUser user = userRepository.findByEmail(email)
-	            .orElseThrow(() -> new UserNotFoundException("Usuario no encontrado con email: " + email));
+		OurUser user = userRepository.findByEmail(email)
+				.orElseThrow(() -> new UserNotFoundException("Usuario no encontrado con email: " + email));
 
-	    return UserDTO.builder()
-	            .name(user.getName())
-	            .surnames(user.getSurnames())
-	            .email(user.getEmail())
-	            .role(user.getRole().name())
-	            .creationDate(user.getCreationDate())
-	            .lastModifiedDate(user.getLastModifiedDate())
-	            .build();
+		return UserDTO.builder().name(user.getName()).surnames(user.getSurnames()).email(user.getEmail())
+				.role(user.getRole().name()).creationDate(user.getCreationDate())
+				.lastModifiedDate(user.getLastModifiedDate()).build();
 	}
 
 	@Override
 	public UserDTO updateUser(UserDTO userDTO) {
-	    OurUser user = userRepository.findById(userDTO.getId())
-	            .orElseThrow(() -> new UserNotFoundException("Usuario no encontrado con ID: " + userDTO.getId()));
+		OurUser user = userRepository.findById(userDTO.getId())
+				.orElseThrow(() -> new UserNotFoundException("Usuario no encontrado con ID: " + userDTO.getId()));
 
-	    user.setName(userDTO.getName());
-	    user.setSurnames(userDTO.getSurnames());
-	    user.setEmail(userDTO.getEmail());
-	    user.setTelephone(userDTO.getTelephone());
-	    user.setRole(Roles.valueOf(userDTO.getRole()));
-	    user.setLastModifiedDate(LocalDateTime.now());
+		Optional<OurUser> existingUserOpt = userRepository.findByEmail(userDTO.getEmail());
+		if (existingUserOpt.isPresent() && !existingUserOpt.get().getId().equals(userDTO.getId()))
+			throw new DuplicateResourceException("El email ya está registrado");
 
-	    OurUser updatedUser = userRepository.save(user);
+		Optional<OurUser> existingUserByPhone = userRepository.findByTelephone(userDTO.getTelephone());
+		if (existingUserByPhone.isPresent() && !existingUserByPhone.get().getId().equals(userDTO.getId()))
+			throw new DuplicateResourceException("El número de teléfono ya está registrado");
 
-	    return new UserDTO(
-	            updatedUser.getId(),
-	            updatedUser.getName(),
-	            updatedUser.getSurnames(),
-	            updatedUser.getEmail(),
-	            updatedUser.getTelephone(),
-	            updatedUser.getRole().name(),
-	            updatedUser.getCreationDate(),
-	            updatedUser.getLastModifiedDate()
-	    );
+		user.setName(userDTO.getName());
+		user.setSurnames(userDTO.getSurnames());
+		user.setEmail(userDTO.getEmail());
+		user.setTelephone(userDTO.getTelephone());
+		user.setRole(Roles.valueOf(userDTO.getRole()));
+		user.setLastModifiedDate(LocalDateTime.now());
+
+		OurUser updatedUser = userRepository.save(user);
+
+		return new UserDTO(updatedUser.getId(), updatedUser.getName(), updatedUser.getSurnames(),
+				updatedUser.getEmail(), updatedUser.getTelephone(), updatedUser.getRole().name(),
+				updatedUser.getCreationDate(), updatedUser.getLastModifiedDate());
 	}
-	
+
 	@Override
 	public void deleteUser(Long id) {
 		if (!userRepository.existsById(id)) {
@@ -101,5 +92,4 @@ public class UserServiceImpl implements UserService {
 		userRepository.deleteById(id);
 	}
 
-	
 }
