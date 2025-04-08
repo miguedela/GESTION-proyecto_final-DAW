@@ -34,7 +34,6 @@ export const AppRouter = () => {
                     children: [
                         { path: "/account", element: <MyAccount /> },
                         { path: "/account/edit", element: <EditMyAccount /> },
-                        // { path: "/account/edit", element: <EditPassword /> },
                         // Rutas para todos los usuarios
                     ]
                 }

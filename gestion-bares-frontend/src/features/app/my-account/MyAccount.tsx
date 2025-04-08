@@ -110,10 +110,9 @@ export const MyAccount = () => {
                                 </li>
                             </ul>
                         </div>
-
                     </div>
                 </div>
-                <Link to="/account/edit" className='px-4 py-2 bg-yellow-600'>Editar</Link>
+                <Link to="/account/edit" className='px-4 py-2 bg-yellow-600 rounded'>Editar</Link>
             </div>
         </div>
 
