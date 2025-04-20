@@ -84,7 +84,7 @@ const useUser = () => {
         }
     }
 
-    return { users, handleLoadUsers, handleStateFilter, handlePageChange, handleSearch, handleDeleteUser }
+    return { handleLoadUsers, handleStateFilter, handlePageChange, handleSearch, handleDeleteUser, users }
 };
 
 export default useUser;
