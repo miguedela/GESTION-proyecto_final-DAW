@@ -1,4 +1,4 @@
-import { IoCloseOutline, IoLogOutOutline, IoPeopleOutline, IoPersonOutline } from "react-icons/io5";
+import { IoCloseOutline, IoLogOutOutline, IoPeopleOutline, IoPersonOutline, IoRestaurantOutline } from "react-icons/io5";
 import { NavLink } from "react-router-dom";
 import useAuth from "../hooks/useAuth";
 
@@ -9,7 +9,8 @@ export const NavMenu = ({ isOpen, setIsSidebarOpen }: { isOpen: boolean; setIsSi
         {
             access: "ADMIN",
             sections: [
-                { name: "Usuarios", url: "/admin/users", icon: <IoPeopleOutline /> }
+                { name: "Usuarios", url: "/admin/users", icon: <IoPeopleOutline /> },
+                { name: "Restaurantes", url: "/admin/restaurants", icon: <IoRestaurantOutline /> }
                 // Secciones de administradores
             ],
         },
