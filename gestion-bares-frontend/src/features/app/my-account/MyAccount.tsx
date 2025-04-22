@@ -1,9 +1,9 @@
 import { useAtom } from 'jotai';
 import { useEffect, useRef, useState } from 'react';
-import { breadcrumbsAtom } from '../../../atoms/breadcrumbs.atom';
-import useAuth from '../../../hooks/useAuth';
 import { IoMoonOutline, IoSunnyOutline, IoTvOutline } from 'react-icons/io5';
 import { Link } from 'react-router-dom';
+import { breadcrumbsAtom } from '../../../atoms/breadcrumbs.atom';
+import useAuth from '../../../hooks/useAuth';
 
 export const MyAccount = () => {
     const { user } = useAuth();

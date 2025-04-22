@@ -1,13 +1,14 @@
-import { useAtom } from "jotai"
-import { breadcrumbsAtom } from "../../../../atoms/breadcrumbs.atom"
+import { useAtom } from "jotai";
 import { useCallback, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { IUser } from "../../../../types/User";
-import { loadUser, updateUser } from "../../../../api/users.api";
 import { z } from "zod";
-import { Loader } from "../../../../components/Loader";
-import { Input, Select } from "../../../../components/Forms";
+import { loadUser, updateUser } from "../../../../api/users.api";
+import { breadcrumbsAtom } from "../../../../atoms/breadcrumbs.atom";
 import { MainButton } from "../../../../components/Buttons";
+import { Input, Select } from "../../../../components/Forms";
+import { Loader } from "../../../../components/Loader";
+import { IUser } from "../../../../types/User";
+import { setMessageError } from "../../../../utils/utilsFunctions";
 
 export const EditUser = () => {
     const [, setBreadcrumbs] = useAtom(breadcrumbsAtom);
@@ -16,6 +17,7 @@ export const EditUser = () => {
     const [user, setUser] = useState<IUser | null>(null);
     const [fieldErrors, setFieldErrors] = useState<Record<string, string>>({});
 
+    const [error, setError] = useState<string | null>(null);
     const { id } = useParams();
 
     const handleLoadUser = useCallback(
@@ -51,11 +53,17 @@ export const EditUser = () => {
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         if (!user) return
-
         setFieldErrors({});
 
         try {
-            editScheme.parse({ ...user })
+            // Primero validamos con Zod
+            editScheme.parse({ ...user });
+            
+            // Si la validación es exitosa, procedemos con la actualización
+            const response = await updateUser(user);
+            if (response) {
+                navigate(`/admin/users`);
+            }
         } catch (err) {
             if (err instanceof z.ZodError) {
                 const errors: Record<string, string> = {};
@@ -63,13 +71,13 @@ export const EditUser = () => {
                     errors[error.path[0]] = error.message;
                 });
                 setFieldErrors(errors);
-                return;
+            } else {
+                setMessageError(err, setError);
             }
+        } finally {
+            setLoading(false);
         }
 
-        const response = await updateUser(user);
-        if (response)
-            navigate(`/admin/users/${id}`)
     };
 
     const editScheme = z.object({
@@ -135,6 +143,8 @@ export const EditUser = () => {
                     <MainButton text='Guardar cambios' type='submit' />
                 </form>
             }
+
+            {error && <p className="text-red-500">{error}</p>}
         </Loader>
     </div>
 }

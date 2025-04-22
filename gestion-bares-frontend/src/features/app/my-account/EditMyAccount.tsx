@@ -1,13 +1,13 @@
-import { useEffect, useState } from "react";
-import { breadcrumbsAtom } from "../../../atoms/breadcrumbs.atom";
 import { useAtom } from "jotai";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { userAtom } from "../../../atoms/user.atom";
-import useAuth from "../../../hooks/useAuth";
 import { z } from "zod";
-import { Loader } from "../../../components/Loader";
-import { Input } from "../../../components/Forms";
+import { breadcrumbsAtom } from "../../../atoms/breadcrumbs.atom";
+import { userAtom } from "../../../atoms/user.atom";
 import { MainButton } from "../../../components/Buttons";
+import { Input } from "../../../components/Forms";
+import { Loader } from "../../../components/Loader";
+import useAuth from "../../../hooks/useAuth";
 
 export const EditMyAccount = () => {
     const [, setBreadcrumbs] = useAtom(breadcrumbsAtom);
