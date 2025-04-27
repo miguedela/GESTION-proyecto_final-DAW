@@ -9,5 +9,5 @@ export const setMessageError = (err: unknown, setError: (errorMessage: string) =
       setError("Error desconocido");
     }
   } else if (err instanceof Error) setError(err.message);
-  else setError("An unknown error occurred");
+  else setError("Ha ocurrido un error desconocido.");
 };
