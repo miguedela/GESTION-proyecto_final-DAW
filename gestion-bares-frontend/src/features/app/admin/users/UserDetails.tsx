@@ -53,10 +53,10 @@ export const UserDetails = () => {
   }, [id, setBreadcrumbs])
 
 
-  return <div className="">
+  return <div className="w-1/2 dark:bg-neutral-900 bg-white dark:text-neutral-200 text-dark rounded-md p-20">
     <Loader loading={loading}>
       <div>
-        <h1 className="text-3xl mb-7">Detalles de usuario</h1>
+        <h1 className="mb-7">Detalles de usuario</h1>
 
         <div className="border-b border-neutral-400">
           <span className="text-xs text-neutral-400">Nombre</span>

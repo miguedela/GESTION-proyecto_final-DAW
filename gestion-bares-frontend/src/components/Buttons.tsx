@@ -3,11 +3,11 @@ import { IoCheckmarkOutline } from 'react-icons/io5'
 import { Link } from 'react-router-dom'
 
 export const MainLinkButton = ({ url, text, className }: { url: string, text: string, className?: string }) => {
-    return <Link to={url} className={clsx("cursor-pointer py-3 px-4 bg-blue-500 rounded-sm shadow hover:shadow-none hover:bg-blue-600 transition", className)}>{text}</Link>
+    return <Link to={url} className={clsx("text-neutral-800 cursor-pointer py-3 px-4 bg-amber-500 rounded-sm shadow hover:shadow-none hover:bg-amber-600 transition", className)}>{text}</Link>
 }
 
 export const MainButton = ({ text, className, onClick, type = "button" }: { text: string, className?: string, onClick?: React.MouseEventHandler<HTMLButtonElement>, type?: React.ButtonHTMLAttributes<HTMLButtonElement>['type'] }) => {
-    return <button type={type} onClick={onClick} className={clsx("cursor-pointer py-3 px-4 bg-blue-500 rounded-sm shadow hover:shadow-none hover:bg-blue-600 transition", className)}>{text}</button>
+    return <button type={type} onClick={onClick} className={clsx("text-neutral-800 cursor-pointer py-3 px-4 bg-amber-500 rounded-sm shadow hover:shadow-none hover:bg-amber-600 transition", className)}>{text}</button>
 }
 
 export const PillCheck = ({ text, className, active, onClick }: { text: string, className?: string, active: boolean, onClick?: () => void }) => {
@@ -26,7 +26,7 @@ export const Pill = ({ text, color = 'blue' }: { text: string, color?: string })
     const classes = colorClasses[color] || colorClasses['blue'];
 
     return (
-        <span className={clsx('px - 3 py-1 font-semibold rounded-full border', classes)}>
+        <span className={clsx('px-3 py-1 font-semibold rounded-full border', classes)}>
             {text}
         </span >
     );

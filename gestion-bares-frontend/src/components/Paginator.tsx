@@ -42,7 +42,7 @@ export const Paginator: React.FC<PaginatorProps> = ({
                     onClick={() => handlePageChange(0)}
                     disabled={page <= 0}
                 >
-                    <IoPlayBackOutline className='text-blue-700' />
+                    <IoPlayBackOutline className='text-amber-500' />
                 </button>
 
                 <button
@@ -50,17 +50,17 @@ export const Paginator: React.FC<PaginatorProps> = ({
                     onClick={() => handlePageChange(page - 1)}
                     disabled={page <= 0}
                 >
-                    <IoPlayOutline className="rotate-180 text-blue-700" />
+                    <IoPlayOutline className="rotate-180 text-amber-500" />
                 </button>
 
-                <span className='px-3 py-1 rounded bg-blue-700 text-white'>{page + 1}</span>
+                <span className='px-3 py-1 rounded bg-amber-500 text-neutral-800'>{page + 1}</span>
 
                 <button
                     className="cursor-pointer p-2 dark:hover:bg-gray-700 hover:bg-gray-300 rounded"
                     onClick={() => handlePageChange(page + 1)}
                     disabled={page >= pageCount - 1}
                 >
-                    <IoPlayOutline className='text-blue-700' />
+                    <IoPlayOutline className='text-amber-500' />
                 </button>
 
                 <button
@@ -68,7 +68,7 @@ export const Paginator: React.FC<PaginatorProps> = ({
                     onClick={() => handlePageChange(pageCount - 1)}
                     disabled={page >= pageCount - 1}
                 >
-                    <IoPlayForwardOutline className='text-blue-700' />
+                    <IoPlayForwardOutline className='text-amber-500' />
                 </button>
             </div>
 

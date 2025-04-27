@@ -43,7 +43,7 @@ export const UsersManagement = () => {
         handleLoadUsers({ page: 0, size: 5 });
     }, [handleLoadUsers]);
 
-    return <div className="w-full flex flex-col gap-3">
+    return <div className="w-full flex flex-col gap-3 dark:bg-neutral-900 bg-white dark:text-neutral-200 text-dark rounded-md p-20">
         <UsersFilters />
         <Loader loading={users.loading}>
             <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-neutral-400">
@@ -70,20 +70,20 @@ export const UsersManagement = () => {
                 <tbody>
                     {users.content.map((user, index) => (
                         <tr key={index} className="bg-white dark:bg-neutral-600 border-b border-neutral-800 hover:bg-gray-50 dark:hover:bg-neutral-700">
-                            <td className="px6 py-4">{user.email}</td>
-                            <td className="px6 py-4">{user.name}</td>
-                            <td className="px6 py-4">{user.surnames}</td>
-                            <td className="px6 py-4">{user.telephone}</td>
-                            <td className="px6 py-4">{formatDateShort(user.creationDate)}</td>
-                            <td className="px6 py-4">
+                            <td className="px-6 py-4">{user.email}</td>
+                            <td className="px-6 py-4">{user.name}</td>
+                            <td className="px-6 py-4">{user.surnames}</td>
+                            <td className="px-6 py-4">{user.telephone}</td>
+                            <td className="px-6 py-4">{formatDateShort(user.creationDate)}</td>
+                            <td className="px-6 py-4">
                                 <Pill text={user.role.toString()} color={user.role.toString() === "ADMIN" ? "yellow" : user.role.toString() === "STAFF" ? "purple" : "blue"} />
                             </td>
-                            <td className="flex items-center gap-3">
-                                <Link to={`/admin/users/${user.id}`} className="text-xl text-blue-600 hover:text-blue-900 dark:text-blue-400 dark:hover:text-blue-100"><IoEyeOutline /></Link>
+                            <td className="py-4 flex items-center gap-3">
+                                <Link to={`/admin/users/${user.id}`}><IoEyeOutline className="text-xl text-amber-500 hover:text-amber-600" /></Link>
                                 {myUser.id !== user.id &&
                                     <>
-                                        <Link to={`/admin/users/edit/${user.id}`} className="text-xl text-blue-600 hover:text-blue-900 dark:text-blue-400 dark:hover:text-blue-100"><IoPencilOutline /></Link>
-                                        <button onClick={() => setUserToDelete(user.id)} className="bg-red-600 px-4 py-2 rounded-sm cursor-pointer"><IoTrashOutline /></button>
+                                        <Link to={`/admin/users/edit/${user.id}`}><IoPencilOutline className="text-xl text-amber-500 hover:text-amber-600" /></Link>
+                                        <button onClick={() => setUserToDelete(user.id)} className="cursor-pointer"><IoTrashOutline className="text-xl text-red-500 hover:text-red-600" /></button>
                                     </>
                                 }
                             </td>

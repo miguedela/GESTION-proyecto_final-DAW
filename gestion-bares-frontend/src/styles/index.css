@@ -2,11 +2,30 @@
 
 @custom-variant dark (&:where(.dark, .dark *));
 
+body {
+  @apply bg-neutral-800 text-white;
+  font-family: "Inter Variable", sans-serif;
+}
+
 h1,
-h2 {
+h2,
+h3,
+h4 {
   font-family: "Poppins", sans-serif;
 }
 
-body {
-  font-family: "Inter Variable", sans-serif;
+h1 {
+  @apply text-3xl font-bold;
+}
+
+h2 {
+  @apply text-2xl font-bold;
+}
+
+h3 {
+  @apply text-xl font-semibold;
+}
+
+h4 {
+  @apply text-xl font-semibold;
 }

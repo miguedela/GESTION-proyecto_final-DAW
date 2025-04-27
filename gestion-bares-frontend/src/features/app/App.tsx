@@ -35,7 +35,7 @@ export const App = () => {
         <IoMenuOutline className="size-6" aria-hidden="true" />
       </button>
 
-      <div className="min-h-screen flex bg-neutral-100 text-neutral-800 dark:bg-neutral-900 dark:text-neutral-200">
+      <div className="min-h-screen flex bg-neutral-100 text-neutral-800 dark:bg-neutral-700 dark:text-neutral-200">
         <NavMenu isOpen={isSidebarOpen} setIsSidebarOpen={setIsSidebarOpen} />
         <div className="flex-1 md:p-4 lg:ml-64">
           <Breadcrumbs />

@@ -80,13 +80,13 @@ export const LogIn = () => {
                         <MainButton text='Iniciar sesión' type='submit' />
                         <div>
                             <p className="text-sm text-neutral-400">¿No tienes cuenta?</p>
-                            <Link to="/signup" className="text-blue-500 underline">Registrarme</Link>
+                            <Link to="/signup" className="text-amber-500 underline">Registrarme</Link>
                         </div>
                     </div>
                 </form>
             </div>
 
-            <Link to="/" className="text-blue-500 underline text-sm">Volver a inicio</Link>
+            <Link to="/" className="text-amber-500 underline text-sm">Volver a inicio</Link>
         </div>
     </div>
 }

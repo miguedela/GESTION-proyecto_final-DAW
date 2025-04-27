@@ -95,9 +95,9 @@ export const EditUser = () => {
             handleLoadUser()
     }, [id, navigate, handleLoadUser]);
 
-    return <div>
+    return <div className="w-1/2 dark:bg-neutral-900 bg-white dark:text-neutral-200 text-dark rounded-md p-20">
         <Loader loading={loading}>
-            <h1 className="text-3xl mb-7">Editar usuario</h1>
+            <h1 className="mb-7">Editar usuario</h1>
 
             {user &&
                 <form onSubmit={handleSubmit} className="flex flex-col">

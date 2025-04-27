@@ -122,13 +122,13 @@ export const SignUp = () => {
                         <MainButton text='Crear cuenta' type='submit' />
                         <div>
                             <p className="text-sm text-neutral-400">¿Ya tienes una cuenta?</p>
-                            <Link to="/login" className="text-blue-500 underline">Iniciar sesión</Link>
+                            <Link to="/login" className="text-amber-500 underline">Iniciar sesión</Link>
                         </div>
                     </div>
                 </form>
             </div>
 
-            <Link to="/" className="text-blue-500 underline text-sm">Volver a inicio</Link>
+            <Link to="/" className="text-amber-500 underline text-sm">Volver a inicio</Link>
         </div>
     </div>
 }

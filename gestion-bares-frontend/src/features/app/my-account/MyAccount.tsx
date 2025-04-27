@@ -58,7 +58,7 @@ export const MyAccount = () => {
     }, []);
 
     return <div className="w-1/2 dark:bg-neutral-900 bg-white dark:text-neutral-200 text-dark rounded-md p-20">
-        <h1 className="text-3xl mb-7">Mi Cuenta</h1>
+        <h1 className="mb-7">Mi Cuenta</h1>
 
         <div className='flex justify-center gap-14'>
             <div className="flex flex-col gap-5">
@@ -112,7 +112,7 @@ export const MyAccount = () => {
                         </div>
                     </div>
                 </div>
-                <Link to="/account/edit" className='px-4 py-2 bg-yellow-600 rounded'>Editar</Link>
+                <Link to="/account/edit" className='text-center text-neutral-800 px-4 py-2 bg-yellow-600 rounded'>Editar</Link>
             </div>
         </div>
 
