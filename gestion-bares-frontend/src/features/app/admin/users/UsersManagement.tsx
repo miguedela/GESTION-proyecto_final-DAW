@@ -14,14 +14,14 @@ import { userAtom } from "../../../../atoms/user.atom";
 
 export const UsersManagement = () => {
     const [, setBreadcrumbs] = useAtom(breadcrumbsAtom);
-    const [myUser] = useAtom(userAtom);
-    const [userToDelete, setUserToDelete] = useState<string | null>(null);
-
     useEffect(() => {
         setBreadcrumbs([
             { label: "Usuarios", path: "/admin/users" }
         ])
     }, [setBreadcrumbs]);
+
+    const [myUser] = useAtom(userAtom);
+    const [userToDelete, setUserToDelete] = useState<string | null>(null);
 
     const [sortBy, setSortBy] = useState<string>("creationDate");
     const [sortOrder, setSortOrder] = useState<"asc" | "desc">("desc");
@@ -76,7 +76,7 @@ export const UsersManagement = () => {
                             <td className="px-6 py-4">{user.telephone}</td>
                             <td className="px-6 py-4">{formatDateShort(user.creationDate)}</td>
                             <td className="px-6 py-4">
-                                <Pill text={user.role.toString()} color={user.role.toString() === "ADMIN" ? "yellow" : user.role.toString() === "STAFF" ? "purple" : "blue"} />
+                                <Pill text={user.role.toString()} color={user.role.toString() === "ADMIN" ? "yellow" : user.role.toString() === "STAFF" ? "purple" : "amber"} />
                             </td>
                             <td className="py-4 flex items-center gap-3">
                                 <Link to={`/admin/users/${user.id}`}><IoEyeOutline className="text-xl text-amber-500 hover:text-amber-600" /></Link>

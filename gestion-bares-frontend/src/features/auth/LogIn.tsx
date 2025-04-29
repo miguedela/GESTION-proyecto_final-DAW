@@ -51,7 +51,7 @@ export const LogIn = () => {
             navigate('/account');
     };
 
-    return <div className="min-h-screen flex items-center justify-center bg-linear-to-br from-neutral-900 to-blue-950 text-neutral-100">
+    return <div className="min-h-screen flex items-center justify-center bg-linear-to-br from-neutral-900  to-amber-950 text-neutral-100">
         <div className="px-20 py-10 bg-neutral-800 rounded-lg shadow-lg">
             <h1 className="text-4xl">Inicio de sesión</h1>
 
@@ -76,10 +76,10 @@ export const LogIn = () => {
                     {error && <p className="text-red-500">{error}</p>}
                     {loading && <Loading />}
 
-                    <div className='mt-10 flex gap-5 items-center'>
-                        <MainButton text='Iniciar sesión' type='submit' />
-                        <div>
-                            <p className="text-sm text-neutral-400">¿No tienes cuenta?</p>
+                    <div className='mt-10 flex gap-5 items-center justify-between'>
+                        <MainButton text='Entrar' type='submit' />
+                        <div className="flex flex-col items-end">
+                            <p className="text-sm text-neutral-400">¿Ya tienes una cuenta?</p>
                             <Link to="/signup" className="text-amber-500 underline">Registrarme</Link>
                         </div>
                     </div>

@@ -29,7 +29,7 @@ export const Input = ({ label, id, value, placeholder, type = 'text', onChange, 
                     value={value}
                     placeholder={placeholder}
                     onChange={onChange}
-                    className={`${isPassword ? 'flex-1' : ''} p-2 border border-neutral-400/70 rounded-sm outline-0 focus:border-blue-500 w-full`}
+                    className={`${isPassword ? 'flex-1' : ''} p-2 border border-neutral-400/70 rounded-sm outline-0 focus:border-amber-500 w-full`}
                 />
                 {isPassword && (
                     <button

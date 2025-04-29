@@ -4,8 +4,8 @@ export interface IRestaurant {
     email: string;
     phone: string;
     address: string;
-    creation_date: Date;
+    creationDate: Date;
     description: string;
-    last_modified_date: Date;
-    opening_hours: string;
+    lastModifiedDate: Date;
+    openingHours: string;
 }

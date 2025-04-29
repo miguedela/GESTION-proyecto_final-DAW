@@ -18,7 +18,7 @@ export const Breadcrumbs = () => {
               {isLast ? (
                 <span className="text-gray-300">{breadcrumb.label}</span>
               ) : (
-                <Link to={breadcrumb.path} className="text-blue-400 hover:text-blue-500">
+                <Link to={breadcrumb.path} className="text-amber-400 hover:text-amber-500">
                   {breadcrumb.label}
                 </Link>
               )}
