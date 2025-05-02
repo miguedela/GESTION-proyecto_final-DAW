@@ -1,6 +1,6 @@
 import { useAtom } from "jotai";
 import { useEffect, useState } from "react";
-import { IoArrowDownOutline, IoArrowUpOutline, IoEyeOutline, IoPencilOutline, IoTrashOutline } from "react-icons/io5";
+import { IoArrowDownOutline, IoArrowUpOutline, IoEyeOutline, IoTrashOutline } from "react-icons/io5";
 import { Link } from "react-router-dom";
 import { breadcrumbsAtom } from "../../../../atoms/breadcrumbs.atom";
 import ConfirmModal from "../../../../components/ConfirmModal";
@@ -23,7 +23,7 @@ export const RestaurantsManagement = () => {
   const [sortBy, setSortBy] = useState<string>("creationDate");
   const [sortOrder, setSortOrder] = useState<"asc" | "desc">("desc");
 
-  const { restaurants, getRestaurants, handlePageChange, handleDeleteUser } = useRestaurant();
+  const { restaurants, handleGetRestaurants, handlePageChange, handleDeleteRestaurant } = useRestaurant();
 
   const handleSort = (field: string) => {
     const newOrder = sortBy === field ? (sortOrder === "asc" ? "desc" : "asc") : "asc";
@@ -33,12 +33,12 @@ export const RestaurantsManagement = () => {
 
     const sortParam = `${field},${newOrder}`;
 
-    getRestaurants({ page: 0, size: restaurants.pagination.size, filters: { ...restaurants.pagination.filters, sort: sortParam } });
+    handleGetRestaurants({ page: 0, size: restaurants.pagination.size, filters: { ...restaurants.pagination.filters, sort: sortParam } });
   };
 
   useEffect(() => {
-    getRestaurants({ page: 0, size: 5 });
-  }, [getRestaurants]);
+    handleGetRestaurants({ page: 0, size: 5 });
+  }, [handleGetRestaurants]);
 
   return <div className="w-full flex flex-col gap-3 dark:bg-neutral-900 bg-white dark:text-neutral-200 text-dark rounded-md p-20">
     <RestaurantsFilters />
@@ -49,10 +49,9 @@ export const RestaurantsManagement = () => {
             {[
               { label: "Email", key: "email" },
               { label: "Nombre", key: "name" },
-              { label: "Apellidos", key: "surnames" },
+              { label: "Descripción", key: "surnames" },
               { label: "Teléfono", key: "telephone" },
               { label: "Fecha de creación", key: "creationDate" },
-              { label: "Role", key: "role" },
             ].map(({ label, key }) => (
               <th key={key} className="px-6 py-3 cursor-pointer select-none" onClick={() => handleSort(key)}>
                 <span className="flex items-center gap-1">{label}
@@ -74,7 +73,6 @@ export const RestaurantsManagement = () => {
               <td className="px-6 py-4">{formatDateShort(restaurant.creationDate)}</td>
               <td className="py-4 flex items-center gap-3">
                 <Link to={`/admin/restaurants/${restaurant.id}`}><IoEyeOutline className="text-xl text-amber-500 hover:text-amber-600" /></Link>
-                <Link to={`/admin/restaurants/edit/${restaurant.id}`}><IoPencilOutline className="text-xl text-amber-500 hover:text-amber-600" /></Link>
                 <button onClick={() => setRestaurantToDelete(restaurant.id)} className="cursor-pointer"><IoTrashOutline className="text-xl text-red-500 hover:text-red-600" /></button>
               </td>
             </tr>
@@ -91,14 +89,12 @@ export const RestaurantsManagement = () => {
         text={"Estás seguro de que quieres eliminar el usuario?"}
         type="negative"
         onConfirm={() => {
-          if (restaurantToDelete) handleDeleteUser(restaurantToDelete)
+          if (restaurantToDelete) handleDeleteRestaurant(restaurantToDelete)
           setRestaurantToDelete(null);
         }}
         onCancel={() => setRestaurantToDelete(null)}
       />
     </Loader>
-
-
 
     <Link to="/admin/restaurants/create" className="text-amber-500 underline text-sm">Crear un nuevo Restaurante</Link>
   </div>

@@ -36,3 +36,12 @@ export const deleteRestaurant = async (userId: string) => {
         method: "DELETE",
     });
 };
+
+// Editar un restaurante
+export const updateRestaurant = async (restaurant: IRestaurant) => {
+    return await httpClient({
+        url: `${urlBase}/admin/update/${restaurant.id}`,
+        method: "PUT",
+        data: restaurant,
+    });
+};

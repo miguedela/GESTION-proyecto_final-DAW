@@ -16,10 +16,10 @@ export const CreateRestaurant = () => {
     email: '',
     phone: '',
     address: '',
-    creation_date: new Date(),
+    creationDate: new Date(),
     description: '',
-    last_modified_date: new Date(),
-    opening_hours: ''
+    lastModifiedDate: new Date(),
+    openingHours: ''
   });
 
   const [, setBreadcrumbs] = useAtom(breadcrumbsAtom);

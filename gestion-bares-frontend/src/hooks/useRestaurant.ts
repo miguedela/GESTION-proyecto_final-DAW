@@ -1,7 +1,7 @@
 import { useAtom } from "jotai";
 import { useCallback, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { deleteRestaurant, loadRestaurants, registerRestaurant } from "../api/restaurants.api";
+import { loadRestaurants, registerRestaurant, updateRestaurant } from "../api/restaurants.api";
 import { restaurantAtom } from "../atoms/restaurants.atom";
 import { IPaginationInfo, PaginationInfo } from "../types/Pagination";
 import { IRestaurant } from "../types/Restaurants";
@@ -13,7 +13,7 @@ const useRestaurant = () => {
     const [error, setError] = useState<string | null>(null);
     const [restaurants, setRestaurants] = useAtom(restaurantAtom);
 
-    const getRestaurants = useCallback(
+    const handleGetRestaurants = useCallback(
         async (pagination: IPaginationInfo) => {
             setRestaurants((prev) => ({ ...prev, loading: true }));
 
@@ -39,7 +39,7 @@ const useRestaurant = () => {
         [setRestaurants]
     );
 
-    const createRestaurant = async (restaurant: IRestaurant) => {
+    const handleCreateRestaurant = async (restaurant: IRestaurant) => {
         setLoading(true);
         setError(null);
         try {
@@ -53,18 +53,28 @@ const useRestaurant = () => {
         }
     }
 
-    const handleStateFilter = async (state: string) => {
-        const currentFilters = { ...restaurants.pagination.filters };
+    const handleDeleteRestaurant = async (id: string) => {
+        try {
+            await handleDeleteRestaurant(id);
+            navigate("/admin/users")
+            if (location.pathname === "/admin/users") handleGetRestaurants({ page: 0, size: restaurants.pagination.size });
+        } catch (error) {
+            console.error("Error deleting user: ", error);
+        }
+    }
 
-        if (!state) delete currentFilters.role;
-        else currentFilters.role = state;
-
-        await getRestaurants({
-            page: 0,
-            size: restaurants.pagination.size,
-            filters: currentFilters
-        })
-    };
+    const handleUpdateRestaurant = async (restaurant: IRestaurant) => {
+        setLoading(true);
+        setError(null);
+        try {
+            const response = await updateRestaurant(restaurant);
+            return response;
+        } catch (error: unknown) {
+            setMessageError(error, setError)
+        } finally {
+            setLoading(false);
+        }
+    }
 
     const handlePageChange = async (newPage: number, size: number) => {
         const updatePagination: PaginationInfo = {
@@ -74,7 +84,7 @@ const useRestaurant = () => {
             sort: restaurants.pagination.sort
         }
 
-        getRestaurants(updatePagination);
+        handleGetRestaurants(updatePagination);
     }
 
     const handleSearch = async (search: string) => {
@@ -83,25 +93,14 @@ const useRestaurant = () => {
             general: search
         }
 
-        getRestaurants({
+        handleGetRestaurants({
             page: 0,
             size: restaurants.pagination.size,
             filters
         });
     };
 
-
-    const handleDeleteUser = async (id: string) => {
-        try {
-            await deleteRestaurant(id);
-            navigate("/admin/users")
-            if (location.pathname === "/admin/users") getRestaurants({ page: 0, size: restaurants.pagination.size });
-        } catch (error) {
-            console.error("Error deleting user: ", error);
-        }
-    }
-
-    return { getRestaurants, createRestaurant, loadRestaurants, handlePageChange, handleSearch, handleDeleteUser, handleStateFilter, restaurants, loading, error }
+    return { handleGetRestaurants, handleCreateRestaurant, handleDeleteRestaurant, handleUpdateRestaurant, loadRestaurants, handlePageChange, handleSearch, restaurants, loading, error }
 };
 
 export default useRestaurant;

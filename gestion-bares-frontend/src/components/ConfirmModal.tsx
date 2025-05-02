@@ -19,20 +19,20 @@ const ConfirmModal: React.FC<ConfirmModalProps> = ({ isOpen, text, type, onConfi
 
     return (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40">
-            <div className="bg-white rounded-md shadow-lg w-full max-w-md p-6 relative">
+            <div className="bg-neutral-900 rounded-md shadow-lg w-full max-w-md p-6 relative">
                 <button
                     onClick={onCancel}
-                    className="cursor-pointer absolute top-4 right-4 text-neutral-500 hover:text-neutral-800"
+                    className="cursor-pointer absolute top-4 right-4 text-amber-600 hover:text-amber-700"
                 >
                     <IoClose size={20} />
                 </button>
 
-                <h3 className="text-lg font-semibold mb-4 text-neutral-800">{text}</h3>
+                <h3 className="text-lg font-semibold mb-4 text-white">{text}</h3>
 
-                <div className="flex justify-end gap-4 mt-6">
+                <div className="flex justify-around gap-4 mt-6">
                     <button
                         onClick={onCancel}
-                        className="cursor-pointer px-4 py-2 text-sm rounded-md bg-neutral-200 hover:bg-neutral-300 text-neutral-700"
+                        className="cursor-pointer px-4 py-2 text-sm rounded-md bg-blue-500 hover:bg-blue-600  text-white"
                     >
                         Cancelar
                     </button>
