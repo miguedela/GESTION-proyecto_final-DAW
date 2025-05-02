@@ -7,10 +7,10 @@ import useAuth from '../../../hooks/useAuth';
 
 export const MyAccount = () => {
     const { user } = useAuth();
-    const [, setBreadcrumbs] = useAtom(breadcrumbsAtom);
     const [themeDropdownOpen, setThemeDropdownOpen] = useState(false);
     const dropdownThemeRef = useRef<HTMLDivElement | null>(null);
-
+    
+    const [, setBreadcrumbs] = useAtom(breadcrumbsAtom);
     useEffect(() => {
         setBreadcrumbs([
             { label: "Mi cuenta", path: "/account" }

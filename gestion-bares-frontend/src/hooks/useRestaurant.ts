@@ -1,7 +1,7 @@
 import { useAtom } from "jotai";
 import { useCallback, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { loadRestaurants, registerRestaurant, updateRestaurant } from "../api/restaurants.api";
+import { loadRestaurants, registerRestaurant, deleteRestaurant, updateRestaurant } from "../api/restaurants.api";
 import { restaurantAtom } from "../atoms/restaurants.atom";
 import { IPaginationInfo, PaginationInfo } from "../types/Pagination";
 import { IRestaurant } from "../types/Restaurants";
@@ -55,9 +55,9 @@ const useRestaurant = () => {
 
     const handleDeleteRestaurant = async (id: string) => {
         try {
-            await handleDeleteRestaurant(id);
-            navigate("/admin/users")
-            if (location.pathname === "/admin/users") handleGetRestaurants({ page: 0, size: restaurants.pagination.size });
+            await deleteRestaurant(id);
+            navigate("/admin/restaurants")
+            if (location.pathname === "/admin/restaurants") handleGetRestaurants({ page: 0, size: restaurants.pagination.size });
         } catch (error) {
             console.error("Error deleting user: ", error);
         }

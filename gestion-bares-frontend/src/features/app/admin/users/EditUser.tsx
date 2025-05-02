@@ -11,24 +11,23 @@ import { IUser } from "../../../../types/User";
 import { setMessageError } from "../../../../utils/utilsFunctions";
 
 export const EditUser = () => {
-    const [, setBreadcrumbs] = useAtom(breadcrumbsAtom);
     const navigate = useNavigate();
     const [loading, setLoading] = useState(false);
     const [user, setUser] = useState<IUser | null>(null);
     const [fieldErrors, setFieldErrors] = useState<Record<string, string>>({});
-
+    
     const [error, setError] = useState<string | null>(null);
     const { id } = useParams();
-
+    
     const handleLoadUser = useCallback(
         async () => {
             setLoading(true);
-
+            
             try {
                 const response = await loadUser(id!);
                 if (response.status !== 200)
                     navigate('/admin/users')
-
+                
                 setUser(response.data);
                 setLoading(false);
             } catch (error) {
@@ -37,7 +36,8 @@ export const EditUser = () => {
             }
         }, [setUser, id, navigate]
     );
-
+    
+    const [, setBreadcrumbs] = useAtom(breadcrumbsAtom);
     useEffect(() => {
         setBreadcrumbs([
             { label: "Usuarios", path: "/admin/users" },

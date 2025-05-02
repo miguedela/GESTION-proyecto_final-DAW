@@ -10,13 +10,19 @@ import { IUser } from "../../../../types/User";
 import { formatDate } from "../../../../utils/dateUtils";
 
 export const UserDetails = () => {
-  const [, setBreadcrumbs] = useAtom(breadcrumbsAtom);
-
   const { id } = useParams();
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [user, setUser] = useState<IUser | null>(null);
   const [modalOpen, setModalOpen] = useState(false);
+
+  const [, setBreadcrumbs] = useAtom(breadcrumbsAtom);
+  useEffect(() => {
+    setBreadcrumbs([
+      { label: 'Usuarios', path: "/admin/users" },
+      { label: 'Detalles de usuario', path: `/admin/users/${id}` },
+    ]);
+  }, [id, setBreadcrumbs])
 
   const { handleDeleteUser } = useUser();
 
@@ -44,14 +50,6 @@ export const UserDetails = () => {
     else
       handleLoadUser()
   }, [id, navigate, handleLoadUser]);
-
-  useEffect(() => {
-    setBreadcrumbs([
-      { label: 'Usuarios', path: "/admin/users" },
-      { label: 'Detalles de usuario', path: `/admin/users/${id}` },
-    ]);
-  }, [id, setBreadcrumbs])
-
 
   return <div className="w-1/2 dark:bg-neutral-900 bg-white dark:text-neutral-200 text-dark rounded-md p-20">
     <Loader loading={loading}>

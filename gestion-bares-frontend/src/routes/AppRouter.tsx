@@ -56,7 +56,7 @@ export const AppRouter = () => {
 
                         { path: "/admin/restaurants", element: <RestaurantsManagement /> },
                         { path: "/admin/restaurants/create", element: <CreateRestaurant /> },
-                        { path: "/admin/:id", element: <RestaurantDetail /> },
+                        { path: "/admin/restaurants/:id", element: <RestaurantDetail /> },
                         // Rutas para administradores
                     ]
                 }

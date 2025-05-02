@@ -26,13 +26,13 @@ export const CreateRestaurant = () => {
   useEffect(() => {
     setBreadcrumbs([
       { label: "Restaurantes", path: "/admin/restaurants" },
-      { label: 'Crear Restaurante', path: '' },
+      { label: 'Crear Restaurante', path: '/admin/restaurants/create' },
 
     ])
   }, [setBreadcrumbs]);
 
   const [fieldErrors, setFieldErrors] = useState<Record<string, string>>({});
-  const { createRestaurant, loading, error } = useRestaurant();
+  const { handleCreateRestaurant, loading, error } = useRestaurant();
   const navigate = useNavigate();
 
   const registrationSchema = z.object({
@@ -68,7 +68,7 @@ export const CreateRestaurant = () => {
       }
     }
 
-    const response = await createRestaurant(restaurant);
+    const response = await handleCreateRestaurant(restaurant);
     if (response)
       navigate('/account');
   }
