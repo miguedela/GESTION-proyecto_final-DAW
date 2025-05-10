@@ -1,7 +1,7 @@
 version: '3.9'
 services:
   app:
-    container_name: backcontainer
+    container_name: tapatech-backend
     build: .
     ports:
       - "8080:8080"
