@@ -45,8 +45,10 @@ public class RestaurantServiceImpl implements RestaurantService {
 
 		if (restaurantRepository.findByName(registrationRequest.getName()).isPresent())
 			throw new DuplicateResourceException("Hay un restaurante con el mismo nombre");
+		
 		if (restaurantRepository.findByEmail(registrationRequest.getEmail()).isPresent())
 			throw new DuplicateResourceException("Un restaurante ya usa este email");
+		
 		if (restaurantRepository.findByPhone(registrationRequest.getPhone()).isPresent())
 			throw new DuplicateResourceException("Un restaurante ya usa este número de teléfono");
 

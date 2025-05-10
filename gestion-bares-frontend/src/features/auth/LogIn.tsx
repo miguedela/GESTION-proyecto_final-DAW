@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { z } from 'zod'
 import { MainButton } from '../../components/Buttons'
@@ -50,6 +50,13 @@ export const LogIn = () => {
         if (response)
             navigate('/account');
     };
+
+    useEffect(() => {
+        const user = localStorage.getItem('user');
+        if (user) {
+            navigate('/account');
+        }
+    }, [navigate]);
 
     return <div className="min-h-screen flex items-center justify-center bg-linear-to-br from-neutral-900  to-amber-950 text-neutral-100">
         <div className="px-20 py-10 bg-neutral-800 rounded-lg shadow-lg">

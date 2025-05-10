@@ -15,7 +15,7 @@ public interface RestaurantService {
 
 	public RestaurantDTO createRestaurant(RestaurantDTO restaurantDTO);
 
-	public RestaurantDTO updateRestaurant(RestaurantDTO restaurant);
+	public RestaurantDTO updateRestaurant(RestaurantDTO restaurantDTO);
 
 	public void deleteRestaurant(Long id);
 
