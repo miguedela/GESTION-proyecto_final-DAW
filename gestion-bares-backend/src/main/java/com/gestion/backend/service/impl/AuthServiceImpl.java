@@ -19,7 +19,7 @@ import com.gestion.backend.entity.OurUser;
 import com.gestion.backend.enums.Roles;
 import com.gestion.backend.exception.DuplicateResourceException;
 import com.gestion.backend.exception.InvalidCredentialsException;
-import com.gestion.backend.exception.UserNotFoundException;
+import com.gestion.backend.exception.ResourceNotFoundException;
 import com.gestion.backend.repository.UserRepository;
 import com.gestion.backend.service.AuthService;
 import com.gestion.backend.utility.JWTUtils;
@@ -76,7 +76,7 @@ public class AuthServiceImpl implements AuthService {
 		try {
 			authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(email, password));
 			OurUser user = userRepository.findByEmail(email)
-					.orElseThrow(() -> new UserNotFoundException("Usuario no encontrado"));
+					.orElseThrow(() -> new ResourceNotFoundException("Usuario no encontrado"));
 
 			UserDTO userDTO = new UserDTO();
 			userDTO.setId(user.getId());
@@ -111,7 +111,7 @@ public class AuthServiceImpl implements AuthService {
 			throw new DuplicateResourceException("El número de teléfono ya está registrado");
 
 		OurUser user = userRepository.findByEmail(loggedInUserEmail)
-				.orElseThrow(() -> new UserNotFoundException("Usuario no encontrado con email: " + loggedInUserEmail));
+				.orElseThrow(() -> new ResourceNotFoundException("Usuario no encontrado con email: " + loggedInUserEmail));
 
 		if (!passwordEncoder.matches(currentPassword, user.getPassword())) {
 			throw new InvalidCredentialsException("La contraseña actual es incorrecta.");

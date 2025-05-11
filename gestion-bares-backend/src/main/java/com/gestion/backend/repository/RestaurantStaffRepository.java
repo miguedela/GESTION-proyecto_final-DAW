@@ -4,7 +4,11 @@ import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
+import org.springframework.data.util.Streamable;
 
+import com.gestion.backend.dto.UserDTO;
+import com.gestion.backend.entity.OurUser;
+import com.gestion.backend.entity.Restaurant;
 import com.gestion.backend.entity.relation.RestaurantStaff;
 
 public interface RestaurantStaffRepository
@@ -12,8 +16,12 @@ public interface RestaurantStaffRepository
 
 	Optional<RestaurantStaff> findById(Long id);
 
-	Optional<RestaurantStaff> findByRestaurantId(Long id);
+	RestaurantStaff findByRestaurantId(Long id);
 
-	Optional<RestaurantStaff> findByStaffId(Long id);
+	RestaurantStaff findByStaffId(Long id);
+
+	boolean existsByStaffAndRestaurant(OurUser user, Restaurant restaurant);
+
+	Streamable<RestaurantStaff> findAllByStaffId(Long id);
 
 }

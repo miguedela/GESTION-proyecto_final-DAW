@@ -13,8 +13,8 @@ import lombok.extern.log4j.Log4j2;
 @Log4j2
 public class GlobalExceptionHandler {
 
-    @ExceptionHandler(UserNotFoundException.class)
-    public ResponseEntity<ErrorResponseDTO> handleUserNotFound(UserNotFoundException ex) {
+    @ExceptionHandler(ResourceNotFoundException.class)
+    public ResponseEntity<ErrorResponseDTO> handleUserNotFound(ResourceNotFoundException ex) {
     	log.error("Error de usuario no encontrado: {}", ex.getMessage());
         return ResponseEntity.status(HttpStatus.NOT_FOUND)
                 .body(new ErrorResponseDTO(404, ex.getMessage()));

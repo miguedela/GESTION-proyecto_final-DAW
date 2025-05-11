@@ -12,7 +12,9 @@ import com.gestion.backend.dto.RestaurantDTO;
 import com.gestion.backend.entity.Restaurant;
 import com.gestion.backend.exception.DuplicateResourceException;
 import com.gestion.backend.repository.RestaurantRepository;
+import com.gestion.backend.repository.RestaurantStaffRepository;
 import com.gestion.backend.service.RestaurantService;
+import com.gestion.backend.service.RestaurantStaffService;
 import com.gestion.backend.specification.RestaurantSpecifications;
 import com.gestion.backend.utility.SpecificationBuilder;
 
@@ -23,6 +25,8 @@ import lombok.AllArgsConstructor;
 public class RestaurantServiceImpl implements RestaurantService {
 
 	private final RestaurantRepository restaurantRepository;
+	private final RestaurantStaffRepository restaurantStaffRepository;
+	private final RestaurantStaffService restaurantStaffService;
 
 	@Override
 	public Page<RestaurantDTO> getRestaurants(Pageable pageable, Map<String, String> filters) {
@@ -45,10 +49,10 @@ public class RestaurantServiceImpl implements RestaurantService {
 
 		if (restaurantRepository.findByName(registrationRequest.getName()).isPresent())
 			throw new DuplicateResourceException("Hay un restaurante con el mismo nombre");
-		
+
 		if (restaurantRepository.findByEmail(registrationRequest.getEmail()).isPresent())
 			throw new DuplicateResourceException("Un restaurante ya usa este email");
-		
+
 		if (restaurantRepository.findByPhone(registrationRequest.getPhone()).isPresent())
 			throw new DuplicateResourceException("Un restaurante ya usa este número de teléfono");
 
@@ -89,6 +93,11 @@ public class RestaurantServiceImpl implements RestaurantService {
 		if (!restaurantRepository.existsById(id)) {
 			throw new RuntimeException("Restaurant no encontrado con ID: " + id);
 		}
+
+		if (restaurantStaffRepository.findByRestaurantId(id) != null) {
+			restaurantStaffService.deleteRestaurantStaff(restaurantStaffRepository.findByRestaurantId(id).getId());
+		}
+
 		restaurantRepository.deleteById(id);
 	}
 

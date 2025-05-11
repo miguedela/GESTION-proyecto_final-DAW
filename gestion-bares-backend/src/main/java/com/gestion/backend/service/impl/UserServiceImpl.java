@@ -1,6 +1,7 @@
 package com.gestion.backend.service.impl;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -9,11 +10,14 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
+import com.gestion.backend.dto.RestaurantDTO;
 import com.gestion.backend.dto.UserDTO;
 import com.gestion.backend.entity.OurUser;
+import com.gestion.backend.entity.Restaurant;
 import com.gestion.backend.enums.Roles;
 import com.gestion.backend.exception.DuplicateResourceException;
-import com.gestion.backend.exception.UserNotFoundException;
+import com.gestion.backend.exception.ResourceNotFoundException;
+import com.gestion.backend.repository.RestaurantStaffRepository;
 import com.gestion.backend.repository.UserRepository;
 import com.gestion.backend.service.UserService;
 import com.gestion.backend.specification.UserSpecifications;
@@ -26,6 +30,7 @@ import lombok.AllArgsConstructor;
 public class UserServiceImpl implements UserService {
 
 	private final UserRepository userRepository;
+	private final RestaurantStaffRepository restaurantStaffRepository;
 
 	public Page<UserDTO> getUsers(Pageable pageable, Map<String, String> filters) {
 		SpecificationBuilder<OurUser> builder = new SpecificationBuilder<OurUser>()
@@ -35,22 +40,40 @@ public class UserServiceImpl implements UserService {
 		Specification<OurUser> spec = builder.build(filters);
 
 		return userRepository.findAll(spec, pageable)
-				.map(user -> new UserDTO(user.getId(), user.getName(), user.getSurnames(), user.getEmail(),
-						user.getTelephone(), user.getRole().name(), user.getCreationDate(),
-						user.getLastModifiedDate()));
+				.map(user -> UserDTO.builder().id(user.getId()).name(user.getName()).surnames(user.getSurnames())
+						.email(user.getEmail()).telephone(user.getTelephone()).role(user.getRole().name())
+						.creationDate(user.getCreationDate()).lastModifiedDate(user.getLastModifiedDate()).build());
 	}
 
 	public UserDTO getUserById(Long id) {
 		OurUser user = userRepository.findById(id)
-				.orElseThrow(() -> new UserNotFoundException("Usuario no encontrado con ID: " + id));
-		return new UserDTO(user.getId(), user.getName(), user.getSurnames(), user.getEmail(), user.getTelephone(),
-				user.getRole().name(), user.getCreationDate(), user.getLastModifiedDate());
+				.orElseThrow(() -> new ResourceNotFoundException("Usuario no encontrado con ID: " + id));
+
+		UserDTO.UserDTOBuilder userBuilder = UserDTO.builder().id(user.getId()).name(user.getName())
+				.surnames(user.getSurnames()).email(user.getEmail()).telephone(user.getTelephone())
+				.role(user.getRole().name()).creationDate(user.getCreationDate())
+				.lastModifiedDate(user.getLastModifiedDate());
+
+		if (user.getRole() == Roles.STAFF) {
+			List<RestaurantDTO> restaurants = restaurantStaffRepository.findAllByStaffId(id).stream().map(rs -> {
+				Restaurant restaurant = rs.getRestaurant();
+				return RestaurantDTO.builder().id(restaurant.getId()).name(restaurant.getName())
+						.description(restaurant.getDescription()).address(restaurant.getAddress())
+						.email(restaurant.getEmail()).phone(restaurant.getPhone())
+						.openingHours(restaurant.getOpeningHours()).creationDate(restaurant.getCreationDate())
+						.lastModifiedDate(restaurant.getLastModifiedDate()).build();
+			}).toList();
+
+			userBuilder.restaurants(restaurants);
+		}
+
+		return userBuilder.build();
 	}
 
 	@Override
 	public UserDTO getUserByEmail(String email) {
 		OurUser user = userRepository.findByEmail(email)
-				.orElseThrow(() -> new UserNotFoundException("Usuario no encontrado con email: " + email));
+				.orElseThrow(() -> new ResourceNotFoundException("Usuario no encontrado con email: " + email));
 
 		return UserDTO.builder().name(user.getName()).surnames(user.getSurnames()).email(user.getEmail())
 				.role(user.getRole().name()).creationDate(user.getCreationDate())
@@ -60,7 +83,7 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public UserDTO updateUser(UserDTO userDTO) {
 		OurUser user = userRepository.findById(userDTO.getId())
-				.orElseThrow(() -> new UserNotFoundException("Usuario no encontrado con ID: " + userDTO.getId()));
+				.orElseThrow(() -> new ResourceNotFoundException("Usuario no encontrado con ID: " + userDTO.getId()));
 
 		Optional<OurUser> existingUserOpt = userRepository.findByEmail(userDTO.getEmail());
 		if (existingUserOpt.isPresent() && !existingUserOpt.get().getId().equals(userDTO.getId()))
@@ -79,15 +102,16 @@ public class UserServiceImpl implements UserService {
 
 		OurUser updatedUser = userRepository.save(user);
 
-		return new UserDTO(updatedUser.getId(), updatedUser.getName(), updatedUser.getSurnames(),
-				updatedUser.getEmail(), updatedUser.getTelephone(), updatedUser.getRole().name(),
-				updatedUser.getCreationDate(), updatedUser.getLastModifiedDate());
+		return UserDTO.builder().id(updatedUser.getId()).name(updatedUser.getName()).surnames(updatedUser.getSurnames())
+				.email(updatedUser.getEmail()).telephone(updatedUser.getTelephone()).role(updatedUser.getRole().name())
+				.creationDate(updatedUser.getCreationDate()).lastModifiedDate(updatedUser.getLastModifiedDate())
+				.build();
 	}
 
 	@Override
 	public void deleteUser(Long id) {
 		if (!userRepository.existsById(id)) {
-			throw new UserNotFoundException("Usuario no encontrado con ID: " + id);
+			throw new ResourceNotFoundException("Usuario no encontrado con ID: " + id);
 		}
 		userRepository.deleteById(id);
 	}

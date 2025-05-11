@@ -74,50 +74,48 @@ export const CreateRestaurant = () => {
   }
 
   return <div className="w-full flex flex-col gap-3 dark:bg-neutral-900 bg-white dark:text-neutral-200 text-dark rounded-md p-20">
-    <div className="px-20 py-10 bg-neutral-800 rounded-lg shadow-lg">
-      <h1 className="text-4xl">Crear Restaurante</h1>
+    <h1 className="text-4xl">Crear Restaurante</h1>
 
-      <div className="my-20 flex flex-col gap-5">
-        <form onSubmit={handleSubmit}>
-          <Input label="Nombre"
-            id="name"
-            value={restaurant.name}
-            onChange={handleInputChange}
-            fieldErrors={fieldErrors.name}
-          />
-          <Input label="Descripción"
-            id="description"
-            value={restaurant.description}
-            type="text"
-            onChange={handleInputChange}
-          />
-          <Input label="Email"
-            id="email"
-            value={restaurant.email}
-            type="email"
-            onChange={handleInputChange}
-            fieldErrors={fieldErrors.email}
-          />
-          <Input label="Teléfono"
-            id="phone"
-            value={restaurant.phone}
-            type="tel"
-            onChange={handleInputChange}
-            fieldErrors={fieldErrors.phone}
-          />
-          <Input label="Dirección"
-            id="address"
-            value={restaurant.address}
-            type="text"
-            onChange={handleInputChange}
-          />
+    <div className="my-20 flex flex-col gap-5">
+      <form onSubmit={handleSubmit}>
+        <Input label="Nombre"
+          id="name"
+          value={restaurant.name}
+          onChange={handleInputChange}
+          fieldErrors={fieldErrors.name}
+        />
+        <Input label="Descripción"
+          id="description"
+          value={restaurant.description}
+          type="text"
+          onChange={handleInputChange}
+        />
+        <Input label="Email"
+          id="email"
+          value={restaurant.email}
+          type="email"
+          onChange={handleInputChange}
+          fieldErrors={fieldErrors.email}
+        />
+        <Input label="Teléfono"
+          id="phone"
+          value={restaurant.phone}
+          type="tel"
+          onChange={handleInputChange}
+          fieldErrors={fieldErrors.phone}
+        />
+        <Input label="Dirección"
+          id="address"
+          value={restaurant.address}
+          type="text"
+          onChange={handleInputChange}
+        />
 
-          {error && <p className="text-red-500">{error}</p>}
-          {loading && <Loading />}
+        {error && <p className="text-red-500">{error}</p>}
+        {loading && <Loading />}
 
-          <MainButton text='Crear' type='submit' className="mt-10" />
-        </form>
-      </div>
+        <MainButton text='Crear' type='submit' className="mt-10" />
+      </form>
     </div>
   </div>
 }

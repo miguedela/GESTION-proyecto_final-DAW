@@ -1,6 +1,6 @@
 import queryString from "query-string";
-import httpClient from "../utils/httpClient";
 import { IRestaurant } from "../types/Restaurants";
+import httpClient from "../utils/httpClient";
 
 const urlBase = "/restaurants";
 
@@ -47,9 +47,9 @@ export const updateRestaurant = async (restaurant: IRestaurant) => {
 };
 
 // Cargar un restaurante específico
-export const loadRestaurant = async (userId: string) => {
+export const loadRestaurant = async (restaurantId: string) => {
     return await httpClient({
-      url: `${urlBase}/${userId}`,
+      url: `${urlBase}/${restaurantId}`,
       method: "GET",
     });
   };

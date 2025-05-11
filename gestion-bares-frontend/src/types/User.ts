@@ -1,3 +1,5 @@
+import { IRestaurant } from "./Restaurants";
+
 export enum Roles {
   "ADMIN",
   "STAFF",
@@ -14,6 +16,7 @@ export interface IUser {
   emailVerified: boolean;
   emailNotifications: boolean;
   creationDate: Date;
+  restaurant?: IRestaurant[];
 }
 
 export interface IRegisterUser {

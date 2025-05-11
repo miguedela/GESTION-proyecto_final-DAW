@@ -43,8 +43,8 @@ public class RestaurantController {
 
 	@PostMapping
 	public ResponseEntity<RestaurantDTO> createRestaurant(@RequestBody RestaurantDTO restaurantDTO) {
-		RestaurantDTO updateResturant = restaurantService.createRestaurant(restaurantDTO);
-		return new ResponseEntity<>(updateResturant, HttpStatus.OK);
+		RestaurantDTO resturant = restaurantService.createRestaurant(restaurantDTO);
+		return new ResponseEntity<>(resturant, HttpStatus.OK);
 	}
 
 	@PutMapping("/{id}")

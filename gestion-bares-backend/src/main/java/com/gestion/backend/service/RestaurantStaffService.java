@@ -1,10 +1,10 @@
 package com.gestion.backend.service;
 
-import com.gestion.backend.dto.RestaurantStaffDTO;
+import com.gestion.backend.entity.relation.RestaurantStaff;
 
 public interface RestaurantStaffService {
 
-	public RestaurantStaffDTO createRestaurantStaff(RestaurantStaffDTO restaurantStaffDTO);
+	public RestaurantStaff addStaffToRestaurant(Long restaurantId, Long staffId);
 
 	public void deleteRestaurantStaff(Long id);
 
