@@ -6,13 +6,11 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.util.Streamable;
 
-import com.gestion.backend.dto.UserDTO;
 import com.gestion.backend.entity.OurUser;
 import com.gestion.backend.entity.Restaurant;
 import com.gestion.backend.entity.relation.RestaurantStaff;
 
-public interface RestaurantStaffRepository
-		extends JpaRepository<RestaurantStaff, Long>, JpaSpecificationExecutor<RestaurantStaff> {
+public interface RestaurantStaffRepository extends JpaRepository<RestaurantStaff, Long> {
 
 	Optional<RestaurantStaff> findById(Long id);
 

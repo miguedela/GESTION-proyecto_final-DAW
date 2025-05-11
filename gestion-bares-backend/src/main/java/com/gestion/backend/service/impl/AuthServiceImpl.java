@@ -110,8 +110,8 @@ public class AuthServiceImpl implements AuthService {
 		if (existingUserByPhone.isPresent() && !existingUserByPhone.get().getId().equals(userDTO.getId()))
 			throw new DuplicateResourceException("El número de teléfono ya está registrado");
 
-		OurUser user = userRepository.findByEmail(loggedInUserEmail)
-				.orElseThrow(() -> new ResourceNotFoundException("Usuario no encontrado con email: " + loggedInUserEmail));
+		OurUser user = userRepository.findByEmail(loggedInUserEmail).orElseThrow(
+				() -> new ResourceNotFoundException("Usuario no encontrado con email: " + loggedInUserEmail));
 
 		if (!passwordEncoder.matches(currentPassword, user.getPassword())) {
 			throw new InvalidCredentialsException("La contraseña actual es incorrecta.");
