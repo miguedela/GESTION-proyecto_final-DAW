@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.gestion.backend.entity.Menu;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -27,5 +28,6 @@ public class RestaurantDTO {
 	private String openingHours;
 	private LocalDateTime creationDate;
 	private LocalDateTime lastModifiedDate;
+	private Menu menu;
 
 }

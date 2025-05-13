@@ -9,8 +9,10 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import com.gestion.backend.dto.RestaurantDTO;
+import com.gestion.backend.entity.Menu;
 import com.gestion.backend.entity.Restaurant;
 import com.gestion.backend.exception.DuplicateResourceException;
+import com.gestion.backend.repository.MenuRepository;
 import com.gestion.backend.repository.RestaurantRepository;
 import com.gestion.backend.repository.RestaurantStaffRepository;
 import com.gestion.backend.service.RestaurantService;
@@ -26,6 +28,8 @@ public class RestaurantServiceImpl implements RestaurantService {
 
 	private final RestaurantRepository restaurantRepository;
 	private final RestaurantStaffRepository restaurantStaffRepository;
+	private final MenuRepository menuRepository;
+
 	private final RestaurantStaffService restaurantStaffService;
 
 	@Override
@@ -66,10 +70,19 @@ public class RestaurantServiceImpl implements RestaurantService {
 		restaurant.setOpeningHours(registrationRequest.getOpeningHours());
 		restaurant.setCreationDate(LocalDateTime.now());
 		restaurant.setLastModifiedDate(LocalDateTime.now());
-
+		
+		
 		Restaurant savedRestaurant = restaurantRepository.save(restaurant);
+		
+		Menu menu = new Menu();
+		menu.setRestaurant(restaurant);	
+		menuRepository.save(menu);
+		
+		savedRestaurant.setMenu(menu);
 
-		return convertToDTO(savedRestaurant);
+		Restaurant updateRestaurant = restaurantRepository.save(savedRestaurant);
+
+		return convertToDTO(updateRestaurant);
 	}
 
 	@Override
