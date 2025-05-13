@@ -78,5 +78,4 @@ public class RestaurantStaffServiceImpl implements RestaurantStaffService {
 				.phone(restaurant.getPhone()).openingHours(restaurant.getOpeningHours())
 				.creationDate(restaurant.getCreationDate()).lastModifiedDate(restaurant.getLastModifiedDate()).build();
 	}
-
 }

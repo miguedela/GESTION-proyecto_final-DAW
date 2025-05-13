@@ -85,7 +85,9 @@ public class RestaurantServiceImpl implements RestaurantService {
 		restaurant.setOpeningHours(updateRequest.getOpeningHours());
 		restaurant.setLastModifiedDate(LocalDateTime.now());
 
-		return convertToDTO(restaurant);
+		Restaurant savedRestaurant = restaurantRepository.save(restaurant);
+
+		return convertToDTO(savedRestaurant);
 	}
 
 	@Override
