@@ -1,17 +1,17 @@
 import { useAtom } from "jotai";
 import { useCallback, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { loadRestaurants, registerRestaurant, deleteRestaurant, updateRestaurant } from "../api/restaurants.api";
+import { deleteRestaurant, loadRestaurants, registerRestaurant, updateRestaurant } from "../api/restaurants.api";
 import { restaurantAtom } from "../atoms/restaurants.atom";
 import { IPaginationInfo, PaginationInfo } from "../types/Pagination";
 import { IRestaurant } from "../types/Restaurants";
 import { setMessageError } from "../utils/utilsFunctions";
 
 const useRestaurant = () => {
+    const [restaurants, setRestaurants] = useAtom(restaurantAtom);
     const [loading, setLoading] = useState<boolean>(false);
     const navigate = useNavigate();
     const [error, setError] = useState<string | null>(null);
-    const [restaurants, setRestaurants] = useAtom(restaurantAtom);
 
     const handleGetRestaurants = useCallback(
         async (pagination: IPaginationInfo) => {

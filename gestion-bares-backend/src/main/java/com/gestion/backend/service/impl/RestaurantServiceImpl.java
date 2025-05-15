@@ -9,9 +9,13 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import com.gestion.backend.dto.RestaurantDTO;
+import com.gestion.backend.dto.UserDTO;
 import com.gestion.backend.entity.Menu;
+import com.gestion.backend.entity.OurUser;
 import com.gestion.backend.entity.Restaurant;
+import com.gestion.backend.enums.Roles;
 import com.gestion.backend.exception.DuplicateResourceException;
+import com.gestion.backend.exception.ResourceNotFoundException;
 import com.gestion.backend.repository.MenuRepository;
 import com.gestion.backend.repository.RestaurantRepository;
 import com.gestion.backend.repository.RestaurantStaffRepository;
@@ -70,14 +74,13 @@ public class RestaurantServiceImpl implements RestaurantService {
 		restaurant.setOpeningHours(registrationRequest.getOpeningHours());
 		restaurant.setCreationDate(LocalDateTime.now());
 		restaurant.setLastModifiedDate(LocalDateTime.now());
-		
-		
+
 		Restaurant savedRestaurant = restaurantRepository.save(restaurant);
-		
+
 		Menu menu = new Menu();
-		menu.setRestaurant(restaurant);	
+		menu.setRestaurant(restaurant);
 		menuRepository.save(menu);
-		
+
 		savedRestaurant.setMenu(menu);
 
 		Restaurant updateRestaurant = restaurantRepository.save(savedRestaurant);
@@ -86,10 +89,9 @@ public class RestaurantServiceImpl implements RestaurantService {
 	}
 
 	@Override
-	public RestaurantDTO updateRestaurant(RestaurantDTO updateRequest) {
-		Restaurant restaurant = restaurantRepository.findById(updateRequest.getId())
-				.orElseThrow(() -> new RuntimeException("Restaurante no econtrado con ID: " + updateRequest.getId()));
-
+	public RestaurantDTO updateRestaurant(RestaurantDTO updateRequest, UserDTO userRequest) {
+		Restaurant restaurant = restaurantRepository.findById(updateRequest.getId()).orElseThrow(
+				() -> new ResourceNotFoundException("Restaurante no econtrado con ID: " + updateRequest.getId()));
 		restaurant.setName(updateRequest.getName());
 		restaurant.setDescription(updateRequest.getDescription());
 		restaurant.setAddress(updateRequest.getAddress());
@@ -98,9 +100,22 @@ public class RestaurantServiceImpl implements RestaurantService {
 		restaurant.setOpeningHours(updateRequest.getOpeningHours());
 		restaurant.setLastModifiedDate(LocalDateTime.now());
 
-		Restaurant savedRestaurant = restaurantRepository.save(restaurant);
+		OurUser user = new OurUser();
+		user.setName(userRequest.getName());
+		user.setSurnames(userRequest.getSurnames());
+		user.setEmail(userRequest.getEmail());
+		user.setTelephone(userRequest.getTelephone());
+		user.setCreationDate(LocalDateTime.now());
+		user.setLastModifiedDate(LocalDateTime.now());
 
-		return convertToDTO(savedRestaurant);
+		if (restaurantStaffRepository.existsByStaffAndRestaurant(user, restaurant)
+				|| userRequest.getRole().equals(Roles.ADMIN)) {
+			return convertToDTO(restaurantRepository.save(restaurant));
+		} else {
+			throw new ResourceNotFoundException("No hay relacion entre este staff: " + userRequest.getId()
+					+ " y restaurante con id: " + updateRequest.getId());
+		}
+
 	}
 
 	@Override

@@ -1,13 +1,14 @@
 import { useAtom } from "jotai";
 import { useCallback, useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
-import { loadRestaurant } from "../../../../api/restaurants.api";
-import { breadcrumbsAtom } from "../../../../atoms/breadcrumbs.atom";
-import ConfirmModal from "../../../../components/ConfirmModal";
-import { Loader } from "../../../../components/Loader";
-import useRestaurant from "../../../../hooks/useRestaurant";
-import { IRestaurant } from "../../../../types/Restaurants";
-import { formatDate } from "../../../../utils/dateUtils";
+import { IoPencilOutline } from "react-icons/io5";
+import { Link, useNavigate, useParams } from "react-router-dom";
+import { loadRestaurant } from "../../../api/restaurants.api";
+import { breadcrumbsAtom } from "../../../atoms/breadcrumbs.atom";
+import ConfirmModal from "../../../components/ConfirmModal";
+import { Loader } from "../../../components/Loader";
+import useRestaurant from "../../../hooks/useRestaurant";
+import { IRestaurant } from "../../../types/Restaurants";
+import { formatDate } from "../../../utils/dateUtils";
 
 export const RestaurantDetail = () => {
   const { id } = useParams();
@@ -19,10 +20,10 @@ export const RestaurantDetail = () => {
   const [, setBreadcrumbs] = useAtom(breadcrumbsAtom);
   useEffect(() => {
     setBreadcrumbs([
-      { label: 'Restaurantes', path: "/admin/restaurants" },
-      { label: 'Detalles del restaurante', path: `/admin/restaurants/${id}` },
+      { label: 'Restaurantes', path: "/staff/restaurants" },
+      { label: `${restaurant?.name}`, path: `/staff/restaurants/${id}` },
     ]);
-  }, [id, setBreadcrumbs])
+  }, [id, restaurant, setBreadcrumbs])
 
   const { handleDeleteRestaurant } = useRestaurant();
 
@@ -33,7 +34,7 @@ export const RestaurantDetail = () => {
       try {
         const response = await loadRestaurant(id!);
         if (response.status !== 200)
-          navigate('/admin/restaurants')
+          navigate('/staff/restaurants')
 
         setRestaurant(response.data);
         setLoading(false);
@@ -46,7 +47,7 @@ export const RestaurantDetail = () => {
 
   useEffect(() => {
     if (!id)
-      navigate("/admin/restaurants")
+      navigate("/staff/restaurants")
     else
       handleLoadRestaurant()
   }, [id, navigate, handleLoadRestaurant]);
@@ -88,6 +89,7 @@ export const RestaurantDetail = () => {
           <span className="text-xs text-neutral-400">Última modificación</span>
           <p className="ml-2 mt-1">{restaurant?.lastModifiedDate && formatDate(restaurant?.lastModifiedDate)}</p>
         </div>
+        <Link to={`/staff/restaurants/${restaurant?.id}/edit`}><IoPencilOutline className="text-xl text-amber-500 hover:text-amber-600" /></Link>
 
         <ConfirmModal
           isOpen={modalOpen}

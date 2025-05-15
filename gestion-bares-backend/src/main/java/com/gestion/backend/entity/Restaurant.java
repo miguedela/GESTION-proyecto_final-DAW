@@ -40,10 +40,10 @@ public class Restaurant {
 	@Column(name = "address", nullable = true)
 	private String address;
 
-	@Column(name = "email", nullable = false, unique = true)
+	@Column(name = "email", nullable = false, unique = false)
 	private String email;
 
-	@Column(name = "phone", nullable = false, unique = true)
+	@Column(name = "phone", nullable = false, unique = false)
 	private String phone;
 
 	@Column(name = "opening_hours", nullable = true)
@@ -57,7 +57,10 @@ public class Restaurant {
 	@Column(name = "last_modified_date")
 	private LocalDateTime lastModifiedDate;
 
-	@OneToOne(mappedBy = "restaurant", cascade = CascadeType.ALL, orphanRemoval = true)
+	@OneToOne(mappedBy = "restaurant", cascade = CascadeType.ALL, orphanRemoval = false)
 	private Menu menu;
-	
+
+	@Column(name = "customer_amount", nullable = false)
+	private int customerAmount;
+
 }

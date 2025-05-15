@@ -16,7 +16,7 @@ import com.gestion.backend.service.DishService;
 import lombok.AllArgsConstructor;
 
 @RestController
-@RequestMapping("/api/dish")
+@RequestMapping("/api/dishes")
 @AllArgsConstructor
 public class DishController {
 

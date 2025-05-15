@@ -1,20 +1,24 @@
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
-import { RestaurantDetail } from '../features/app/admin/restaurants/RestaurantDetail';
+import { About } from '../features/app/About';
+import { CreateRestaurant } from '../features/app/admin/restaurants/CreateRestaurant';
 import { RestaurantsManagement } from '../features/app/admin/restaurants/RestaurantsManagement';
 import { EditUser } from '../features/app/admin/users/EditUser';
 import { UserDetails } from '../features/app/admin/users/UserDetails';
 import { UsersManagement } from '../features/app/admin/users/UsersManagement';
 import { App } from '../features/app/App';
+import { Contact } from '../features/app/Contact';
 import { EditMyAccount } from '../features/app/my-account/EditMyAccount';
 import { MyAccount } from '../features/app/my-account/MyAccount';
+import { RestaurantsList } from '../features/app/restaurants/RestaurantsList';
+import { RestaurantEdit } from '../features/app/staff/restaurants/RestaurantEdit';
 import { RestaurantManagement } from '../features/app/staff/restaurants/RestaurantManagement';
-import { RestaurantEdit } from '../features/app/staff/restaurants/ResturantEdit';
 import { LogIn } from '../features/auth/LogIn';
 import { SignUp } from '../features/auth/SignUp';
 import { Home } from '../features/home/Home';
 import { NotFound } from '../features/not-found/NotFound';
 import { ProtectedRoute } from './ProtectedRoute';
-import { CreateRestaurant } from '../features/app/admin/restaurants/CreateRestaurant';
+import { RestaurantDetail } from '../features/app/restaurants/RestaurantDetail';
+import { RestaurantDetailStaff } from '../features/app/staff/restaurants/RestaurantDetailStaff';
 
 export const AppRouter = () => {
 
@@ -29,6 +33,10 @@ export const AppRouter = () => {
         ...renderMultiRoutes({ paths: ['/home', '/'], element: <Home /> }),
         { path: '/login', element: <LogIn /> },
         { path: '/signup', element: <SignUp /> },
+        { path: '/main', element: <RestaurantsList /> },
+        { path: '/about', element: <About /> },
+        { path: '/contact', element: <Contact /> },
+        { path: '/restaurant/:id', element: <RestaurantDetail /> },
         { path: '*', element: <NotFound /> },
 
         {
@@ -42,6 +50,12 @@ export const AppRouter = () => {
                         // Rutas para todos los usuarios
                     ]
                 }
+            ]
+        }, {
+            element: <ProtectedRoute allowedRoles={["STAFF", "CUSTOMER"]} />,
+            children: [
+                { path: "/main", element: <RestaurantsList /> },
+                { path: "/restaurant/:id", element: <RestaurantsList /> },
             ]
         },
         {
@@ -69,7 +83,8 @@ export const AppRouter = () => {
                     element: <App />,
                     children: [
                         { path: "/staff/restaurants", element: <RestaurantManagement /> },
-                        { path: "/staff/:id", element: <RestaurantEdit /> },
+                        { path: "/staff/restaurants/:id/edit", element: <RestaurantEdit /> },
+                        { path: "/staff/restaurant/:id", element: <RestaurantDetailStaff /> },
                         // Rutas para staffs
                     ]
                 }

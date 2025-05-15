@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.gestion.backend.dto.RestaurantDTO;
+import com.gestion.backend.dto.UserDTO;
 import com.gestion.backend.service.RestaurantService;
 
 import lombok.AllArgsConstructor;
@@ -49,8 +50,8 @@ public class RestaurantController {
 
 	@PutMapping("/{id}")
 	public ResponseEntity<RestaurantDTO> updateRestaurant(@PathVariable Long id,
-			@RequestBody RestaurantDTO restaurantDTO) {
-		RestaurantDTO updateResturant = restaurantService.updateRestaurant(restaurantDTO);
+			@RequestBody RestaurantDTO restaurantDTO, @RequestBody UserDTO userDTO) {
+		RestaurantDTO updateResturant = restaurantService.updateRestaurant(restaurantDTO, userDTO);
 		return new ResponseEntity<>(updateResturant, HttpStatus.OK);
 	}
 

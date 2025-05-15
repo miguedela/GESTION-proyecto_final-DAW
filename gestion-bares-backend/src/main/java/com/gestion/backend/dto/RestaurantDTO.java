@@ -29,5 +29,6 @@ public class RestaurantDTO {
 	private LocalDateTime creationDate;
 	private LocalDateTime lastModifiedDate;
 	private Menu menu;
+	private int customer_ammount;
 
 }

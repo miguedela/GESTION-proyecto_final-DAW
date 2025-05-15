@@ -1,5 +1,5 @@
 import { IoCloseOutline, IoLogOutOutline, IoPeopleOutline, IoPersonOutline, IoRestaurantOutline } from "react-icons/io5";
-import { NavLink } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import useAuth from "../hooks/useAuth";
 
 export const NavMenu = ({ isOpen, setIsSidebarOpen }: { isOpen: boolean; setIsSidebarOpen: (open: boolean) => void }) => {
@@ -59,11 +59,15 @@ export const NavMenu = ({ isOpen, setIsSidebarOpen }: { isOpen: boolean; setIsSi
             <IoCloseOutline className="size-6" aria-hidden="true" />
         </button>
 
-        <div className="h-full py-14 px-3 overflow-y-auto flex flex-col dark:bg-neutral-800 bg-white">
-            <div className="border-b pb-5 flex items-end">
-                <div className="ml-3 w-5 h-full bg-amber-600"></div>
-                <h1 className="text-2xl font-semibold border-b-3 border-amber-600 pl-2">TapaTech</h1>
-            </div>
+        <div className="h-full py-8 px-3 overflow-y-auto flex flex-col dark:bg-neutral-800 bg-white">
+            <Link to="/main">
+                <div className="border-b pb-5 flex items-end">
+                    <div className="ml-3 w-5 h-full bg-amber-600"></div>
+                    <h1 className="text-2xl font-semibold border-b-3 border-amber-600 pl-2 transition-transform hover:scale-105 active:scale-95">
+                        TapaTech
+                    </h1>
+                </div>
+            </Link>
             <div className="font-medium flex flex-col flex-1">
                 {filteredLinks.map((linkGroup, index) => (
                     <>

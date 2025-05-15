@@ -13,7 +13,7 @@ import com.gestion.backend.service.MenuService;
 import lombok.AllArgsConstructor;
 
 @RestController
-@RequestMapping("/api/menu")
+@RequestMapping("/api/menus")
 @AllArgsConstructor
 public class MenuController {
 

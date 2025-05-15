@@ -73,7 +73,9 @@ export const RestaurantsManagement = () => {
               <td className="px-6 py-4">{formatDateShort(restaurant.creationDate)}</td>
               <td className="py-4 flex items-center gap-3">
                 <Link to={`/admin/restaurants/${restaurant.id}`}><IoEyeOutline className="text-xl text-amber-500 hover:text-amber-600" /></Link>
-                <button onClick={() => setRestaurantToDelete(restaurant.id)} className="cursor-pointer"><IoTrashOutline className="text-xl text-red-500 hover:text-red-600" /></button>
+                <button onClick={() => setRestaurantToDelete(restaurant.id)} className="cursor-pointer">
+                  <IoTrashOutline className="text-xl text-red-500 hover:text-red-600" />
+                </button>
               </td>
             </tr>
           ))}

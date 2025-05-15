@@ -40,7 +40,7 @@ export const deleteRestaurant = async (userId: string) => {
 // Editar un restaurante
 export const updateRestaurant = async (restaurant: IRestaurant) => {
     return await httpClient({
-        url: `${urlBase}/update/${restaurant.id}`,
+        url: `${urlBase}/${restaurant.id}`,
         method: "PUT",
         data: restaurant,
     });
