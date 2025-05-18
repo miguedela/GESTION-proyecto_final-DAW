@@ -1,9 +1,9 @@
 import { IRestaurant } from "./Restaurants";
 
 export enum Roles {
-  "ADMIN",
-  "STAFF",
-  "CUSTOMER",
+  ADMIN = "ADMIN",
+  STAFF = "STAFF",
+  CUSTOMER = "CUSTOMER",
 }
 
 export interface IUser {

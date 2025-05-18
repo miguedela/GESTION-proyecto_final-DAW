@@ -64,6 +64,7 @@ public class ReservationServiceImpl implements ReservationService {
 		reservationDTO.setCustomer(reservation.getCustomer());
 		reservationDTO.setRestaurant(reservation.getRestaurant());
 		reservationDTO.setReservationTime(reservation.getReservationTime());
+		reservationDTO.setStatus(reservation.getStatus());
 		reservationDTO.setReservationNumber(reservation.getReservationNumber());
 		return reservationDTO;
 	}

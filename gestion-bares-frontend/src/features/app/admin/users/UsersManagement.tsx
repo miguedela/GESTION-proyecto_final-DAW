@@ -3,14 +3,15 @@ import { useEffect, useState } from "react";
 import { IoArrowDownOutline, IoArrowUpOutline, IoEyeOutline, IoPencilOutline, IoTrashOutline } from "react-icons/io5";
 import { Link } from "react-router-dom";
 import { breadcrumbsAtom } from "../../../../atoms/breadcrumbs.atom";
+import { userAtom } from "../../../../atoms/user.atom";
 import { Pill } from "../../../../components/Buttons";
+import ConfirmModal from "../../../../components/ConfirmModal";
 import { Loader } from "../../../../components/Loader";
 import { Paginator } from "../../../../components/Paginator";
 import useUser from "../../../../hooks/useUser";
+import { Roles } from "../../../../types/User";
 import { formatDateShort } from "../../../../utils/dateUtils";
 import { UsersFilters } from "./UsersFilters";
-import ConfirmModal from "../../../../components/ConfirmModal";
-import { userAtom } from "../../../../atoms/user.atom";
 
 export const UsersManagement = () => {
     const [, setBreadcrumbs] = useAtom(breadcrumbsAtom);
@@ -76,7 +77,7 @@ export const UsersManagement = () => {
                             <td className="px-6 py-4">{user.telephone}</td>
                             <td className="px-6 py-4">{formatDateShort(user.creationDate)}</td>
                             <td className="px-6 py-4">
-                                <Pill text={user.role.toString()} color={user.role.toString() === "ADMIN" ? "yellow" : user.role.toString() === "STAFF" ? "purple" : "amber"} />
+                                <Pill text={user.role.toString()} color={user.role.toString() === "ADMIN" ? "yellow" : user.role.toString() === Roles.STAFF ? "purple" : "amber"} />
                             </td>
                             <td className="py-4 flex items-center gap-3">
                                 <Link to={`/admin/users/${user.id}`}><IoEyeOutline className="text-xl text-amber-500 hover:text-amber-600" /></Link>

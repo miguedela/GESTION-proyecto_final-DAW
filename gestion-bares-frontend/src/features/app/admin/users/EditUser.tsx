@@ -9,7 +9,7 @@ import { MainButton } from "../../../../components/Buttons";
 import { Input, Select } from "../../../../components/Forms";
 import { Loader } from "../../../../components/Loader";
 import useRestaurant from "../../../../hooks/useRestaurant";
-import { IUser } from "../../../../types/User";
+import { IUser, Roles } from "../../../../types/User";
 import { setMessageError } from "../../../../utils/utilsFunctions";
 
 const editScheme = z.object({
@@ -160,7 +160,7 @@ export const EditUser = () => {
                     </form>
                 }
 
-                {user?.role.toString() === "STAFF" &&
+                {user?.role.toString() === Roles.STAFF &&
                     <form onSubmit={handleAsignRestaurant} className="flex flex-col">
                         <Select label="Restaurante"
                             id="restaurant"

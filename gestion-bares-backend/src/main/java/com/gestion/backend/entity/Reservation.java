@@ -5,6 +5,7 @@ import java.time.LocalDateTime;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import com.gestion.backend.dto.ReservationDTO;
+import com.gestion.backend.enums.Status;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -41,6 +42,9 @@ public class Reservation {
 
 	@Column(name = "reservation_number", nullable = false, unique = false)
 	private int reservationNumber;
+
+	@Column(name = "status", nullable = false, unique = false)
+	private Status status;
 
 	@Column(name = "reservation_time", nullable = false, unique = false)
 	private LocalDateTime reservationTime;

@@ -9,13 +9,17 @@ import { Loader } from "../../../../components/Loader";
 import useRestaurant from "../../../../hooks/useRestaurant";
 import { IRestaurant } from "../../../../types/Restaurants";
 import { formatDate } from "../../../../utils/dateUtils";
+import { getRestaurantsByStaff } from "../../../../api/restaurantstaff.api";
+import { userAtom } from "../../../../atoms/user.atom";
 
 export const RestaurantDetailStaff = () => {
   const { id } = useParams();
   const navigate = useNavigate();
+  const [user] = useAtom(userAtom); // Usuario staff actual
   const [loading, setLoading] = useState(false);
   const [restaurant, setRestaurant] = useState<IRestaurant | null>(null);
   const [modalOpen, setModalOpen] = useState(false);
+  const [canEdit, setCanEdit] = useState(false);
 
   const [, setBreadcrumbs] = useAtom(breadcrumbsAtom);
   useEffect(() => {
@@ -27,10 +31,26 @@ export const RestaurantDetailStaff = () => {
 
   const { handleDeleteRestaurant } = useRestaurant();
 
+  useEffect(() => {
+    const checkPermissions = async () => {
+      if (!user?.id || !id) return;
+      try {
+        const response = await getRestaurantsByStaff(user.id);
+        const assigned = response.data?.some((rest: IRestaurant) => rest.id === id);
+        setCanEdit(assigned);
+      } catch (error) {
+        console.error("Error loading restaurant: ", error);
+        setCanEdit(false);
+      }
+    };
+    checkPermissions();
+  }, [user, id]);
+
   const handleLoadRestaurant = useCallback(
     async () => {
-      setLoading(true);
+      if (!id) return;
 
+      setLoading(true);
       try {
         const response = await loadRestaurant(id!);
         if (response.status !== 200)
@@ -46,11 +66,11 @@ export const RestaurantDetailStaff = () => {
   );
 
   useEffect(() => {
-    if (!id)
+    if (!id || !canEdit)
       navigate("/staff/restaurants")
     else
       handleLoadRestaurant()
-  }, [id, navigate, handleLoadRestaurant]);
+  }, [id, canEdit, navigate, handleLoadRestaurant]);
 
   return (<div className="w-1/2 dark:bg-neutral-900 bg-white dark:text-neutral-200 text-dark rounded-md p-20">
     <Loader loading={loading}>
