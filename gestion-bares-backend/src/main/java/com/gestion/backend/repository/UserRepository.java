@@ -10,6 +10,8 @@ import com.gestion.backend.enums.Roles;
 
 public interface UserRepository extends JpaRepository<OurUser, Long>, JpaSpecificationExecutor<OurUser> {
 
+	Optional<OurUser> findById(Long id);
+
 	Optional<OurUser> findByEmail(String email);
 
 	Optional<OurUser> findByTelephone(String telephone);

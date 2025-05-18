@@ -9,7 +9,6 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import com.gestion.backend.dto.RestaurantDTO;
-import com.gestion.backend.dto.UserDTO;
 import com.gestion.backend.entity.Menu;
 import com.gestion.backend.entity.OurUser;
 import com.gestion.backend.entity.Restaurant;
@@ -19,6 +18,7 @@ import com.gestion.backend.exception.ResourceNotFoundException;
 import com.gestion.backend.repository.MenuRepository;
 import com.gestion.backend.repository.RestaurantRepository;
 import com.gestion.backend.repository.RestaurantStaffRepository;
+import com.gestion.backend.repository.UserRepository;
 import com.gestion.backend.service.RestaurantService;
 import com.gestion.backend.service.RestaurantStaffService;
 import com.gestion.backend.specification.RestaurantSpecifications;
@@ -33,6 +33,7 @@ public class RestaurantServiceImpl implements RestaurantService {
 	private final RestaurantRepository restaurantRepository;
 	private final RestaurantStaffRepository restaurantStaffRepository;
 	private final MenuRepository menuRepository;
+	private final UserRepository userRepository;
 
 	private final RestaurantStaffService restaurantStaffService;
 
@@ -89,7 +90,7 @@ public class RestaurantServiceImpl implements RestaurantService {
 	}
 
 	@Override
-	public RestaurantDTO updateRestaurant(RestaurantDTO updateRequest, UserDTO userRequest) {
+	public RestaurantDTO updateRestaurant(Long userId, RestaurantDTO updateRequest) {
 		Restaurant restaurant = restaurantRepository.findById(updateRequest.getId()).orElseThrow(
 				() -> new ResourceNotFoundException("Restaurante no econtrado con ID: " + updateRequest.getId()));
 		restaurant.setName(updateRequest.getName());
@@ -100,28 +101,22 @@ public class RestaurantServiceImpl implements RestaurantService {
 		restaurant.setOpeningHours(updateRequest.getOpeningHours());
 		restaurant.setLastModifiedDate(LocalDateTime.now());
 
-		OurUser user = new OurUser();
-		user.setName(userRequest.getName());
-		user.setSurnames(userRequest.getSurnames());
-		user.setEmail(userRequest.getEmail());
-		user.setTelephone(userRequest.getTelephone());
-		user.setCreationDate(LocalDateTime.now());
-		user.setLastModifiedDate(LocalDateTime.now());
+		OurUser user = userRepository.findById(userId)
+				.orElseThrow(() -> new ResourceNotFoundException("Usuario no encontrado con ID: " + userId));
 
 		if (restaurantStaffRepository.existsByStaffAndRestaurant(user, restaurant)
-				|| userRequest.getRole().equals(Roles.ADMIN)) {
+				|| user.getRole().equals(Roles.ADMIN)) {
 			return convertToDTO(restaurantRepository.save(restaurant));
 		} else {
-			throw new ResourceNotFoundException("No hay relacion entre este staff: " + userRequest.getId()
+			throw new ResourceNotFoundException("No hay relacion entre este staff: " + user.getId()
 					+ " y restaurante con id: " + updateRequest.getId());
 		}
-
 	}
 
 	@Override
 	public void deleteRestaurant(Long id) {
 		if (!restaurantRepository.existsById(id)) {
-			throw new RuntimeException("Restaurant no encontrado con ID: " + id);
+			throw new ResourceNotFoundException("Restaurant no encontrado con ID: " + id);
 		}
 
 		if (restaurantStaffRepository.findByRestaurantId(id) != null) {

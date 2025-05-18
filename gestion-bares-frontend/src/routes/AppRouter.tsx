@@ -55,7 +55,6 @@ export const AppRouter = () => {
             element: <ProtectedRoute allowedRoles={["STAFF", "CUSTOMER"]} />,
             children: [
                 { path: "/main", element: <RestaurantsList /> },
-                { path: "/restaurant/:id", element: <RestaurantsList /> },
             ]
         },
         {
@@ -83,7 +82,7 @@ export const AppRouter = () => {
                     element: <App />,
                     children: [
                         { path: "/staff/restaurants", element: <RestaurantManagement /> },
-                        { path: "/staff/restaurants/:id/edit", element: <RestaurantEdit /> },
+                        { path: "/staff/restaurant/:id/edit", element: <RestaurantEdit /> },
                         { path: "/staff/restaurant/:id", element: <RestaurantDetailStaff /> },
                         // Rutas para staffs
                     ]

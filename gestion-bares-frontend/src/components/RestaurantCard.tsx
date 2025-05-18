@@ -1,20 +1,11 @@
-import { useAtom } from "jotai";
 import { Link } from "react-router-dom";
-import { userAtom } from "../atoms/user.atom";
 import { IRestaurant } from "../types/Restaurants";
-import { Roles } from "../types/User";
 
 export const RestaurantCard = ({ restaurant }: { restaurant: IRestaurant }) => {
-    const [user] = useAtom(userAtom);
-
-    const linkTo = user.role === Roles.STAFF
-        ? `/restaurant/${restaurant.id}`
-        : `/staff/restaurant/${restaurant.id}`;
 
     return (
         <Link
-            to={linkTo}
-            className="block group"
+            to={`/restaurant/${restaurant.id}`} className="block group"
         >
             <div className="rounded-xl shadow-lg p-6 bg-white dark:bg-neutral-800 mb-6 border border-neutral-200 dark:border-neutral-700 transition-transform transform group-hover:scale-105 group-hover:shadow-xl duration-200 cursor-pointer">
                 <div className="flex items-center gap-4 mb-3">

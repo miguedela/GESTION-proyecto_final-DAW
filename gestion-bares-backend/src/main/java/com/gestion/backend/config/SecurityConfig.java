@@ -34,11 +34,11 @@ public class SecurityConfig {
         httpSecurity.csrf(AbstractHttpConfigurer::disable)
                 .cors(Customizer.withDefaults())
                 .authorizeHttpRequests(request-> request
-                		.requestMatchers("/api/users/auth/**", "/public/**").permitAll()
+                		.requestMatchers("/api/users/auth/**", "/public/**, /api/restaurants").permitAll()
                         .requestMatchers("/api/users/admin/**").hasAnyAuthority(Roles.ADMIN.name())
                         .requestMatchers("/api/users/**").hasAnyAuthority(Roles.ADMIN.name(), Roles.STAFF.name(), Roles.CUSTOMER.name())
 
-                        .requestMatchers("/api/restaurants**").hasAnyAuthority(Roles.ADMIN.name(), Roles.STAFF.name())
+//                        .requestMatchers("").hasAnyAuthority(Roles.ADMIN.name(), Roles.STAFF.name())
                         
                         .anyRequest().authenticated())
                 .sessionManagement(manager->manager.sessionCreationPolicy(SessionCreationPolicy.STATELESS))

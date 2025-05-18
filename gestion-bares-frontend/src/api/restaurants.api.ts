@@ -1,6 +1,7 @@
 import queryString from "query-string";
 import { IRestaurant } from "../types/Restaurants";
 import httpClient from "../utils/httpClient";
+import { IUser } from "../types/User";
 
 const urlBase = "/restaurants";
 
@@ -38,18 +39,18 @@ export const deleteRestaurant = async (userId: string) => {
 };
 
 // Editar un restaurante
-export const updateRestaurant = async (restaurant: IRestaurant) => {
+export const updateRestaurant = async (user: IUser, restaurant: IRestaurant) => {
     return await httpClient({
-        url: `${urlBase}/${restaurant.id}`,
+        url: `${urlBase}/${user.id}`,
         method: "PUT",
-        data: restaurant,
+        data: restaurant
     });
 };
 
 // Cargar un restaurante específico
 export const loadRestaurant = async (restaurantId: string) => {
     return await httpClient({
-      url: `${urlBase}/${restaurantId}`,
-      method: "GET",
+        url: `${urlBase}/${restaurantId}`,
+        method: "GET",
     });
-  };
+};

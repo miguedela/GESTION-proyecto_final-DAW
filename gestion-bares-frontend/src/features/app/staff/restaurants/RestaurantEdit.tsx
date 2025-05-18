@@ -9,9 +9,11 @@ import { Input } from "../../../../components/Forms";
 import useRestaurant from "../../../../hooks/useRestaurant";
 import { Loading } from "../../../../layouts/Loading";
 import { IRestaurant } from "../../../../types/Restaurants";
+import { userAtom } from "../../../../atoms/user.atom";
 
 export const RestaurantEdit = () => {
   const { id } = useParams();
+  const [user] = useAtom(userAtom);
   const navigate = useNavigate();
   const [, setBreadcrumbs] = useAtom(breadcrumbsAtom);
 
@@ -32,9 +34,7 @@ export const RestaurantEdit = () => {
     if (!id) return;
     try {
       const response = await loadRestaurant(id);
-      if (response.status !== 200) {
-        navigate("/staff/restaurants");
-      }
+
       setRestaurant(response.data);
     } catch (err) {
       console.error("Error loading restaurant: ", err);
@@ -79,9 +79,9 @@ export const RestaurantEdit = () => {
       }
     }
 
-    const response = await handleUpdateRestaurant(restaurant);
+    const response = await handleUpdateRestaurant(user, restaurant);
     if (response)
-      navigate('/staff/restaurants');
+      navigate(`/staff/restaurants/${restaurant.id}`);
   };
 
   if (!restaurant) {

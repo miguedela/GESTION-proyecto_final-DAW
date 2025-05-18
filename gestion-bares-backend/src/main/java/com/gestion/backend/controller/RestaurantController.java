@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.gestion.backend.dto.RestaurantDTO;
-import com.gestion.backend.dto.UserDTO;
 import com.gestion.backend.service.RestaurantService;
 
 import lombok.AllArgsConstructor;
@@ -28,6 +27,25 @@ import lombok.AllArgsConstructor;
 public class RestaurantController {
 
 	private final RestaurantService restaurantService;
+
+	@PostMapping
+	public ResponseEntity<RestaurantDTO> createRestaurant(@RequestBody RestaurantDTO restaurantDTO) {
+		RestaurantDTO resturant = restaurantService.createRestaurant(restaurantDTO);
+		return new ResponseEntity<>(resturant, HttpStatus.OK);
+	}
+
+	@PutMapping("/{userId}")
+	public ResponseEntity<RestaurantDTO> updateRestaurant(@PathVariable Long userId,
+			@RequestBody RestaurantDTO restaurantDTO) {
+		RestaurantDTO updateResturant = restaurantService.updateRestaurant(userId, restaurantDTO);
+		return new ResponseEntity<>(updateResturant, HttpStatus.OK);
+	}
+
+	@DeleteMapping("/{id}")
+	public ResponseEntity<RestaurantDTO> deleteRestaurant(@PathVariable Long id) {
+		restaurantService.deleteRestaurant(id);
+		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+	}
 
 	@GetMapping
 	public ResponseEntity<Page<RestaurantDTO>> getRestaurants(Pageable pageable,
@@ -40,25 +58,6 @@ public class RestaurantController {
 	public ResponseEntity<RestaurantDTO> getRestaurantById(@PathVariable Long id) {
 		RestaurantDTO restaurantDTO = restaurantService.getRestaurantById(id);
 		return new ResponseEntity<>(restaurantDTO, HttpStatus.OK);
-	}
-
-	@PostMapping
-	public ResponseEntity<RestaurantDTO> createRestaurant(@RequestBody RestaurantDTO restaurantDTO) {
-		RestaurantDTO resturant = restaurantService.createRestaurant(restaurantDTO);
-		return new ResponseEntity<>(resturant, HttpStatus.OK);
-	}
-
-	@PutMapping("/{id}")
-	public ResponseEntity<RestaurantDTO> updateRestaurant(@PathVariable Long id,
-			@RequestBody RestaurantDTO restaurantDTO, @RequestBody UserDTO userDTO) {
-		RestaurantDTO updateResturant = restaurantService.updateRestaurant(restaurantDTO, userDTO);
-		return new ResponseEntity<>(updateResturant, HttpStatus.OK);
-	}
-
-	@DeleteMapping("/{id}")
-	public ResponseEntity<RestaurantDTO> deleteRestaurant(@PathVariable Long id) {
-		restaurantService.deleteRestaurant(id);
-		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 	}
 
 }

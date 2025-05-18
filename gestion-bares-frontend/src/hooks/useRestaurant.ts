@@ -6,6 +6,7 @@ import { restaurantAtom } from "../atoms/restaurants.atom";
 import { IPaginationInfo, PaginationInfo } from "../types/Pagination";
 import { IRestaurant } from "../types/Restaurants";
 import { setMessageError } from "../utils/utilsFunctions";
+import { IUser } from "../types/User";
 
 const useRestaurant = () => {
     const [restaurants, setRestaurants] = useAtom(restaurantAtom);
@@ -63,11 +64,11 @@ const useRestaurant = () => {
         }
     }
 
-    const handleUpdateRestaurant = async (restaurant: IRestaurant) => {
+    const handleUpdateRestaurant = async (user: IUser, restaurant: IRestaurant) => {
         setLoading(true);
         setError(null);
         try {
-            const response = await updateRestaurant(restaurant);
+            const response = await updateRestaurant(user, restaurant);
             return response;
         } catch (error: unknown) {
             setMessageError(error, setError)
