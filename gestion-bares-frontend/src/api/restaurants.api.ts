@@ -1,7 +1,7 @@
 import queryString from "query-string";
 import { IRestaurant } from "../types/Restaurants";
-import httpClient from "../utils/httpClient";
 import { IUser } from "../types/User";
+import httpClient from "../utils/httpClient";
 
 const urlBase = "/restaurants";
 

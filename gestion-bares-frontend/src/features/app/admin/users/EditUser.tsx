@@ -2,7 +2,6 @@ import { useAtom } from "jotai";
 import { useCallback, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { z } from "zod";
-import { addStaffToRestaurant } from "../../../../api/restaurantstaff.api";
 import { loadUser, updateUser } from "../../../../api/users.api";
 import { breadcrumbsAtom } from "../../../../atoms/breadcrumbs.atom";
 import { MainButton } from "../../../../components/Buttons";
@@ -11,6 +10,7 @@ import { Loader } from "../../../../components/Loader";
 import useRestaurant from "../../../../hooks/useRestaurant";
 import { IUser, Roles } from "../../../../types/User";
 import { setMessageError } from "../../../../utils/utilsFunctions";
+import useRestaurantStaff from "../../../../hooks/useRestaurantStaff";
 
 const editScheme = z.object({
     name: z.string().min(1, "El nombre es obligatorio"),
@@ -31,6 +31,8 @@ export const EditUser = () => {
     const [error, setError] = useState<string | null>(null);
     const { id } = useParams();
 
+    const { handleAddStaffToRestaurant } = useRestaurantStaff();
+
     const handleLoadUser = useCallback(
         async () => {
             setLoading(true);
@@ -41,9 +43,9 @@ export const EditUser = () => {
                     navigate('/admin/users')
 
                 setUser(response.data);
-                setLoading(false);
             } catch (error) {
                 console.error("Error loading user: ", error);
+            } finally {
                 setLoading(false);
             }
         }, [setUser, id, navigate]
@@ -95,7 +97,7 @@ export const EditUser = () => {
     const handleAsignRestaurant = async (e: React.FormEvent) => {
         e.preventDefault();
 
-        const response = await addStaffToRestaurant(id!, selectedRestaurant);
+        const response = await handleAddStaffToRestaurant(id!, selectedRestaurant);
         if (response) {
             navigate(`/admin/users`);
         }

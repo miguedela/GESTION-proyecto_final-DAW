@@ -1,18 +1,16 @@
 import { useAtom } from "jotai";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { IoSettingsOutline } from "react-icons/io5";
 import { Link } from "react-router-dom";
-import { getRestaurantsByStaff } from "../../../../api/restaurantstaff.api";
 import { breadcrumbsAtom } from "../../../../atoms/breadcrumbs.atom";
 import { userAtom } from "../../../../atoms/user.atom";
 import { Loader } from "../../../../components/Loader";
-import { IRestaurant } from "../../../../types/Restaurants";
+import useRestaurantStaff from "../../../../hooks/useRestaurantStaff";
 import { formatDateShort } from "../../../../utils/dateUtils";
 
 export const RestaurantManagement = () => {
   const [user] = useAtom(userAtom);
-  const [restaurants, setRestaurants] = useState<IRestaurant[]>([]);
-  const [loading, setLoading] = useState(false);
+  const { restaurants, loading, handleGetRestaurantsByStaff } = useRestaurantStaff();
 
   const [, setBreadcrumbs] = useAtom(breadcrumbsAtom);
   useEffect(() => {
@@ -22,26 +20,10 @@ export const RestaurantManagement = () => {
   }, [setBreadcrumbs]);
 
   useEffect(() => {
-    const fetchRestaurants = async () => {
-      setLoading(true);
-      try {
-        if (user?.id) {
-          const response = await getRestaurantsByStaff(user.id);
-          setRestaurants(response.data);
-        } else {
-          setRestaurants([]);
-        }
-      } catch (error) {
-        console.error("Error fetching restaurants:", error);
-        setRestaurants([]);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchRestaurants();
-  }, [user.id])
-
+    if (user?.id) {
+      handleGetRestaurantsByStaff(user.id);
+    }
+  }, [user?.id, handleGetRestaurantsByStaff]);
 
   return (
     <div className="w-full flex flex-col gap-3 dark:bg-neutral-900 bg-white dark:text-neutral-200 text-dark rounded-md p-20">
@@ -59,12 +41,12 @@ export const RestaurantManagement = () => {
             </tr>
           </thead>
           <tbody>
-            {restaurants.length === 0 && (
+            {restaurants.content.length === 0 && (
               <tr>
                 <td colSpan={6} className="px-6 py-4 text-center">No tienes restaurantes asignados.</td>
               </tr>
             )}
-            {restaurants.map((restaurant) => (
+            {restaurants.content.map((restaurant) => (
               <tr key={restaurant.id} className="bg-white dark:bg-neutral-600 border-b border-neutral-800 hover:bg-gray-50 dark:hover:bg-neutral-700">
                 <td className="px-6 py-4">{restaurant.email}</td>
                 <td className="px-6 py-4">{restaurant.name}</td>

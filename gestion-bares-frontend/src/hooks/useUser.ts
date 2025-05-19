@@ -1,9 +1,9 @@
-import { useCallback } from "react";
-import { IPaginationInfo, PaginationInfo } from "../types/Pagination";
-import { deleteUser, loadUsers } from "../api/users.api";
 import { useAtom } from "jotai";
-import { usersAtom } from "../atoms/users.atom";
+import { useCallback } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
+import { deleteUser, loadUsers } from "../api/users.api";
+import { usersAtom } from "../atoms/users.atom";
+import { IPaginationInfo, PaginationInfo } from "../types/Pagination";
 
 const useUser = () => {
     const [users, setUsers] = useAtom(usersAtom);
@@ -84,7 +84,14 @@ const useUser = () => {
         }
     }
 
-    return { handleLoadUsers, handleStateFilter, handlePageChange, handleSearch, handleDeleteUser, users }
+    return {
+        handleLoadUsers,
+        handleStateFilter,
+        handlePageChange,
+        handleSearch,
+        handleDeleteUser,
+        users
+    };
 };
 
 export default useUser;

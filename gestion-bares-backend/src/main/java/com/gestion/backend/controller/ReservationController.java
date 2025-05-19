@@ -31,16 +31,22 @@ public class ReservationController {
 		return new ResponseEntity<>(createReservation, HttpStatus.OK);
 	}
 
+	@DeleteMapping("/{id}")
+	public ResponseEntity<ReservationDTO> deleteReservation(@PathVariable Long id) {
+		reservationService.deleteReservation(id);
+		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+	}
+
 	@PutMapping
 	public ResponseEntity<ReservationDTO> updateReservation(@RequestBody ReservationDTO reservationDTO) {
 		ReservationDTO updateReservation = reservationService.updateReservation(reservationDTO);
 		return new ResponseEntity<>(updateReservation, HttpStatus.OK);
 	}
 
-	@DeleteMapping("/{id}")
-	public ResponseEntity<ReservationDTO> deleteReservation(@PathVariable Long id) {
-		reservationService.deleteReservation(id);
-		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+	@GetMapping("/{id}")
+	public ResponseEntity<ReservationDTO> getReservationById(@PathVariable Long id) {
+		ReservationDTO reservation = reservationService.getReservationById(id);
+		return new ResponseEntity<>(reservation, HttpStatus.OK);
 	}
 
 	@GetMapping("/restaurant/{restaurantId}")

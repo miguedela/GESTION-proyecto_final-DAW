@@ -95,7 +95,16 @@ const useAuth = () => {
     }
   }
 
-  return { register, login, logout, getProfile, updateProfile, user, loading, error };
+  return {
+    register,
+    login,
+    logout,
+    getProfile,
+    updateProfile,
+    user,
+    loading,
+    error
+  };
 };
 
 export default useAuth;

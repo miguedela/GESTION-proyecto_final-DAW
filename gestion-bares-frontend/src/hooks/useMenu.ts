@@ -22,7 +22,12 @@ const useMenu = () => {
         }
     };
 
-    return { menus, loading, error, handleGetMenus };
+    return {
+        menus,
+        loading,
+        error,
+        handleGetMenus
+    };
 };
 
 export default useMenu;

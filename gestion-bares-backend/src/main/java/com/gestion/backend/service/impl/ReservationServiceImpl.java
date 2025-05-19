@@ -41,6 +41,14 @@ public class ReservationServiceImpl implements ReservationService {
 	}
 
 	@Override
+	public ReservationDTO getReservationById(Long reservationId) {
+		Reservation reservation = reservationRepository.findById(reservationId)
+				.orElseThrow(() -> new ResourceNotFoundException("Reserva no econtrada con ID: " + reservationId));
+
+		return convertToDTO(reservation);
+	}
+
+	@Override
 	public List<ReservationDTO> getReservationByRestaurant(Long restaurantId) {
 		List<Reservation> reservations = reservationRepository.findByRestaurantId(restaurantId);
 		if (reservations.isEmpty()) {

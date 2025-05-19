@@ -18,11 +18,13 @@ export const NavMenu = ({ isOpen, setIsSidebarOpen }: { isOpen: boolean; setIsSi
             access: "STAFF",
             sections: [
                 { name: "Restaurantes", url: "/staff/restaurants", icon: <IoRestaurantOutline /> },
+                // Secciones de staff
             ],
         },
         {
             access: "CUSTOMER",
             sections: [
+                { name: "Reservas", url: "/reservations", icon: <IoRestaurantOutline /> },
                 // Secciones de customer
             ],
         },

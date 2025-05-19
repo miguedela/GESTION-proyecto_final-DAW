@@ -101,7 +101,18 @@ const useRestaurant = () => {
         });
     };
 
-    return { handleGetRestaurants, handleCreateRestaurant, handleDeleteRestaurant, handleUpdateRestaurant, loadRestaurants, handlePageChange, handleSearch, restaurants, loading, error }
+    return {
+        handleGetRestaurants,
+        handleCreateRestaurant,
+        handleDeleteRestaurant,
+        handleUpdateRestaurant,
+        loadRestaurants,
+        handlePageChange,
+        handleSearch,
+        restaurants,
+        loading,
+        error
+    }
 };
 
 export default useRestaurant;

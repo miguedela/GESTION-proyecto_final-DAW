@@ -1,24 +1,21 @@
 import { useAtom } from "jotai";
 import { useCallback, useEffect, useState } from "react";
-import { IoPencilOutline } from "react-icons/io5";
-import { Link, useNavigate, useParams } from "react-router-dom";
-import { loadRestaurant } from "../../../../api/restaurants.api";
+import { useNavigate, useParams, Link } from "react-router-dom";
 import { breadcrumbsAtom } from "../../../../atoms/breadcrumbs.atom";
-import ConfirmModal from "../../../../components/ConfirmModal";
-import { Loader } from "../../../../components/Loader";
-import useRestaurant from "../../../../hooks/useRestaurant";
-import { IRestaurant } from "../../../../types/Restaurants";
-import { formatDate } from "../../../../utils/dateUtils";
-import { getRestaurantsByStaff } from "../../../../api/restaurantstaff.api";
 import { userAtom } from "../../../../atoms/user.atom";
+import { Loader } from "../../../../components/Loader";
+import { IRestaurant } from "../../../../types/Restaurants";
+import { loadRestaurant } from "../../../../api/restaurants.api";
+import useRestaurantStaff from "../../../../hooks/useRestaurantStaff";
+import { IoPencilOutline } from "react-icons/io5";
+import { formatDate } from "../../../../utils/dateUtils";
 
 export const RestaurantDetailStaff = () => {
   const { id } = useParams();
   const navigate = useNavigate();
-  const [user] = useAtom(userAtom); // Usuario staff actual
+  const [user] = useAtom(userAtom);
   const [loading, setLoading] = useState(false);
   const [restaurant, setRestaurant] = useState<IRestaurant | null>(null);
-  const [modalOpen, setModalOpen] = useState(false);
   const [canEdit, setCanEdit] = useState(false);
 
   const [, setBreadcrumbs] = useAtom(breadcrumbsAtom);
@@ -29,22 +26,22 @@ export const RestaurantDetailStaff = () => {
     ]);
   }, [id, restaurant, setBreadcrumbs])
 
-  const { handleDeleteRestaurant } = useRestaurant();
+  const { handleGetRestaurantsByStaff } = useRestaurantStaff();
 
   useEffect(() => {
     const checkPermissions = async () => {
       if (!user?.id || !id) return;
       try {
-        const response = await getRestaurantsByStaff(user.id);
-        const assigned = response.data?.some((rest: IRestaurant) => rest.id === id);
+        const assignedRestaurants = await handleGetRestaurantsByStaff(user.id);
+        const assigned = assignedRestaurants?.some((rest: IRestaurant) => rest.id === id);
         setCanEdit(assigned);
       } catch (error) {
-        console.error("Error loading restaurant: ", error);
+        console.error("Error checking permissions: ", error);
         setCanEdit(false);
       }
     };
     checkPermissions();
-  }, [user, id]);
+  }, [user, id, handleGetRestaurantsByStaff]);
 
   const handleLoadRestaurant = useCallback(
     async () => {
@@ -72,54 +69,47 @@ export const RestaurantDetailStaff = () => {
       handleLoadRestaurant()
   }, [id, canEdit, navigate, handleLoadRestaurant]);
 
-  return (<div className="w-1/2 dark:bg-neutral-900 bg-white dark:text-neutral-200 text-dark rounded-md p-20">
-    <Loader loading={loading}>
-      <div>
-        <h1 className="mb-7">Detalles del restaurante</h1>
+  return (
+    <div className="w-1/2 dark:bg-neutral-900 bg-white dark:text-neutral-200 text-dark rounded-md p-20">
+      <Loader loading={loading}>
+        <div>
+          <h1 className="mb-7">Detalles del restaurante</h1>
 
-        <div className="border-b border-neutral-400">
-          <span className="text-xs text-neutral-400">Nombre</span>
-          <p className="ml-2 mt-1">{restaurant?.name}</p>
+          <div className="border-b border-neutral-400">
+            <span className="text-xs text-neutral-400">Nombre</span>
+            <p className="ml-2 mt-1">{restaurant?.name}</p>
+          </div>
+          <div className="border-b border-neutral-400">
+            <span className="text-xs text-neutral-400">Descripcion</span>
+            <p className="ml-2 mt-1">{restaurant?.description}</p>
+          </div>
+          <div className="border-b border-neutral-400">
+            <span className="text-xs text-neutral-400">Dirección</span>
+            <p className="ml-2 mt-1">{restaurant?.address}</p>
+          </div>
+          <div className="border-b border-neutral-400">
+            <span className="text-xs text-neutral-400">Email</span>
+            <p className="ml-2 mt-1">{restaurant?.email}</p>
+          </div>
+          <div className="border-b border-neutral-400">
+            <span className="text-xs text-neutral-400">Teléfono</span>
+            <p className="ml-2 mt-1">{restaurant?.phone}</p>
+          </div>
+          <div className="border-b border-neutral-400">
+            <span className="text-xs text-neutral-400">Fecha de creación</span>
+            <p className="ml-2 mt-1">{restaurant?.creationDate && formatDate(restaurant?.creationDate)}</p>
+          </div>
+          <div className="border-b border-neutral-400">
+            <span className="text-xs text-neutral-400">Horas abierto</span>
+            <p className="ml-2 mt-1">{restaurant?.openingHours && formatDate(restaurant?.openingHours)}</p>
+          </div>
+          <div className="border-b border-neutral-400">
+            <span className="text-xs text-neutral-400">Última modificación</span>
+            <p className="ml-2 mt-1">{restaurant?.lastModifiedDate && formatDate(restaurant?.lastModifiedDate)}</p>
+          </div>
+          <Link to={`/staff/restaurants/${restaurant?.id}/edit`}><IoPencilOutline className="text-xl text-amber-500 hover:text-amber-600" /></Link>
         </div>
-        <div className="border-b border-neutral-400">
-          <span className="text-xs text-neutral-400">Descripcion</span>
-          <p className="ml-2 mt-1">{restaurant?.description}</p>
-        </div>
-        <div className="border-b border-neutral-400">
-          <span className="text-xs text-neutral-400">Dirección</span>
-          <p className="ml-2 mt-1">{restaurant?.address}</p>
-        </div>
-        <div className="border-b border-neutral-400">
-          <span className="text-xs text-neutral-400">Email</span>
-          <p className="ml-2 mt-1">{restaurant?.email}</p>
-        </div>
-        <div className="border-b border-neutral-400">
-          <span className="text-xs text-neutral-400">Teléfono</span>
-          <p className="ml-2 mt-1">{restaurant?.phone}</p>
-        </div>
-        <div className="border-b border-neutral-400">
-          <span className="text-xs text-neutral-400">Fecha de creación</span>
-          <p className="ml-2 mt-1">{restaurant?.creationDate && formatDate(restaurant?.creationDate)}</p>
-        </div>
-        <div className="border-b border-neutral-400">
-          <span className="text-xs text-neutral-400">Horas abierto</span>
-          <p className="ml-2 mt-1">{restaurant?.openingHours && formatDate(restaurant?.openingHours)}</p>
-        </div>
-        <div className="border-b border-neutral-400">
-          <span className="text-xs text-neutral-400">Última modificación</span>
-          <p className="ml-2 mt-1">{restaurant?.lastModifiedDate && formatDate(restaurant?.lastModifiedDate)}</p>
-        </div>
-        <Link to={`/staff/restaurants/${restaurant?.id}/edit`}><IoPencilOutline className="text-xl text-amber-500 hover:text-amber-600" /></Link>
-
-        <ConfirmModal
-          isOpen={modalOpen}
-          text={"Estás seguro de que quieres eliminar el usuario?"}
-          type="negative"
-          onConfirm={() => handleDeleteRestaurant(id!)}
-          onCancel={() => setModalOpen(false)}
-        />
-      </div>
-    </Loader>
-  </div>
+      </Loader>
+    </div>
   )
 }

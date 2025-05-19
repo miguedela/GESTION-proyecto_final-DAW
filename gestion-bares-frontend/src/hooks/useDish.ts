@@ -45,7 +45,13 @@ const useDish = () => {
         }
     };
 
-    return { loading, error, handleCreateDish, handleUpdateDish, handleDeleteDish };
+    return {
+        loading,
+        error,
+        handleCreateDish,
+        handleUpdateDish,
+        handleDeleteDish
+    };
 };
 
 export default useDish;
