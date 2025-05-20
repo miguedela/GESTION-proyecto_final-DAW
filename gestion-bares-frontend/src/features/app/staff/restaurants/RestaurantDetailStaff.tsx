@@ -1,13 +1,13 @@
 import { useAtom } from "jotai";
 import { useCallback, useEffect, useState } from "react";
-import { useNavigate, useParams, Link } from "react-router-dom";
+import { IoMenu, IoPencilOutline } from "react-icons/io5";
+import { Link, useNavigate, useParams } from "react-router-dom";
+import { loadRestaurant } from "../../../../api/restaurants.api";
 import { breadcrumbsAtom } from "../../../../atoms/breadcrumbs.atom";
 import { userAtom } from "../../../../atoms/user.atom";
 import { Loader } from "../../../../components/Loader";
-import { IRestaurant } from "../../../../types/Restaurants";
-import { loadRestaurant } from "../../../../api/restaurants.api";
 import useRestaurantStaff from "../../../../hooks/useRestaurantStaff";
-import { IoPencilOutline } from "react-icons/io5";
+import { IRestaurant } from "../../../../types/Restaurants";
 import { formatDate } from "../../../../utils/dateUtils";
 
 export const RestaurantDetailStaff = () => {
@@ -16,32 +16,30 @@ export const RestaurantDetailStaff = () => {
   const [user] = useAtom(userAtom);
   const [loading, setLoading] = useState(false);
   const [restaurant, setRestaurant] = useState<IRestaurant | null>(null);
-  const [canEdit, setCanEdit] = useState(false);
 
   const [, setBreadcrumbs] = useAtom(breadcrumbsAtom);
   useEffect(() => {
     setBreadcrumbs([
       { label: 'Restaurantes', path: "/staff/restaurants" },
-      { label: `${restaurant?.name}`, path: `/staff/restaurants/${id}` },
+      { label: `${restaurant?.name}`, path: `/staff/restaurant/${id}` },
     ]);
   }, [id, restaurant, setBreadcrumbs])
 
   const { handleGetRestaurantsByStaff } = useRestaurantStaff();
 
-  useEffect(() => {
-    const checkPermissions = async () => {
-      if (!user?.id || !id) return;
+  const checkPermissions = useCallback(async () => {
+    if (user?.id != null && id != null) {
       try {
         const assignedRestaurants = await handleGetRestaurantsByStaff(user.id);
-        const assigned = assignedRestaurants?.some((rest: IRestaurant) => rest.id === id);
-        setCanEdit(assigned);
+        const assigned = assignedRestaurants?.some((rest: IRestaurant) => String(rest.id) === String(id));
+        if (!assigned)
+          navigate("/staff/restaurants");
       } catch (error) {
         console.error("Error checking permissions: ", error);
-        setCanEdit(false);
+        navigate("/staff/restaurants")
       }
-    };
-    checkPermissions();
-  }, [user, id, handleGetRestaurantsByStaff]);
+    }
+  }, [user?.id, id, navigate, handleGetRestaurantsByStaff]);
 
   const handleLoadRestaurant = useCallback(
     async () => {
@@ -63,11 +61,12 @@ export const RestaurantDetailStaff = () => {
   );
 
   useEffect(() => {
-    if (!id || !canEdit)
-      navigate("/staff/restaurants")
+    checkPermissions();
+    if (!id)
+      navigate("/staff/restaurants");
     else
-      handleLoadRestaurant()
-  }, [id, canEdit, navigate, handleLoadRestaurant]);
+      handleLoadRestaurant();
+  }, [id, navigate, handleLoadRestaurant, checkPermissions]);
 
   return (
     <div className="w-1/2 dark:bg-neutral-900 bg-white dark:text-neutral-200 text-dark rounded-md p-20">
@@ -107,7 +106,12 @@ export const RestaurantDetailStaff = () => {
             <span className="text-xs text-neutral-400">Última modificación</span>
             <p className="ml-2 mt-1">{restaurant?.lastModifiedDate && formatDate(restaurant?.lastModifiedDate)}</p>
           </div>
-          <Link to={`/staff/restaurants/${restaurant?.id}/edit`}><IoPencilOutline className="text-xl text-amber-500 hover:text-amber-600" /></Link>
+          <Link to={`/staff/restaurant/${restaurant?.id}/edit`}>
+            <IoPencilOutline className="text-xl text-amber-500 hover:text-amber-600" />
+          </Link>
+          <Link to={`/staff/restaurant/${restaurant?.id}/menu`}>
+            <IoMenu className="text-xl text-amber-500 hover:text-amber-600" />
+          </Link>
         </div>
       </Loader>
     </div>

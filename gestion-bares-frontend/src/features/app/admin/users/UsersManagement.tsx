@@ -1,6 +1,6 @@
 import { useAtom } from "jotai";
 import { useEffect, useState } from "react";
-import { IoArrowDownOutline, IoArrowUpOutline, IoEyeOutline, IoPencilOutline, IoTrashOutline } from "react-icons/io5";
+import { IoArrowDownOutline, IoArrowUpOutline, IoEyeOutline, IoPencilOutline, IoRemoveOutline } from "react-icons/io5";
 import { Link } from "react-router-dom";
 import { breadcrumbsAtom } from "../../../../atoms/breadcrumbs.atom";
 import { userAtom } from "../../../../atoms/user.atom";
@@ -8,10 +8,10 @@ import { Pill } from "../../../../components/Buttons";
 import ConfirmModal from "../../../../components/ConfirmModal";
 import { Loader } from "../../../../components/Loader";
 import { Paginator } from "../../../../components/Paginator";
+import { UsersFilters } from "../../../../components/UsersFilters";
 import useUser from "../../../../hooks/useUser";
 import { Roles } from "../../../../types/User";
 import { formatDateShort } from "../../../../utils/dateUtils";
-import { UsersFilters } from "./UsersFilters";
 
 export const UsersManagement = () => {
     const [, setBreadcrumbs] = useAtom(breadcrumbsAtom);
@@ -84,7 +84,7 @@ export const UsersManagement = () => {
                                 {myUser.id !== user.id &&
                                     <>
                                         <Link to={`/admin/users/edit/${user.id}`}><IoPencilOutline className="text-xl text-amber-500 hover:text-amber-600" /></Link>
-                                        <button onClick={() => setUserToDelete(user.id)} className="cursor-pointer"><IoTrashOutline className="text-xl text-red-500 hover:text-red-600" /></button>
+                                        <button onClick={() => setUserToDelete(user.id)} className="cursor-pointer"><IoRemoveOutline className="text-xl text-red-500 hover:text-red-600" /></button>
                                     </>
                                 }
                             </td>

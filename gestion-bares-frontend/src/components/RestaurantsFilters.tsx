@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { IoSearch } from "react-icons/io5";
-import { Input } from "../../../../components/Forms";
-import useRestaurant from "../../../../hooks/useRestaurant";
+import { Input } from "./Forms";
+import useRestaurant from "../hooks/useRestaurant";
 
 export const RestaurantsFilters = () => {
     const [search, setSearch] = useState("");

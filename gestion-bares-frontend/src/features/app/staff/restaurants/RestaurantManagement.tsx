@@ -42,7 +42,7 @@ export const RestaurantManagement = () => {
           </thead>
           <tbody>
             {restaurants.content.length === 0 && (
-              <tr>
+              <tr className="bg-white dark:bg-neutral-600 border-b border-neutral-800 hover:bg-gray-50 dark:hover:bg-neutral-700">
                 <td colSpan={6} className="px-6 py-4 text-center">No tienes restaurantes asignados.</td>
               </tr>
             )}
@@ -54,7 +54,9 @@ export const RestaurantManagement = () => {
                 <td className="px-6 py-4">{restaurant.phone}</td>
                 <td className="px-6 py-4">{formatDateShort(restaurant.creationDate)}</td>
                 <td className="px-6 py-4 flex items-center gap-3">
-                  <Link to={`/staff/restaurants/${restaurant.id}`}><IoSettingsOutline className="text-xl text-amber-500 hover:text-amber-600" /></Link>
+                  <Link to={`/staff/restaurant/${restaurant.id}`}>
+                    <IoSettingsOutline className="text-xl text-amber-500 hover:text-amber-600" />
+                  </Link>
                 </td>
               </tr>
             ))}

@@ -1,5 +1,5 @@
 import { useAtom } from "jotai";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { addStaffToRestaurant, deleteRestaurantStaff, getRestaurantsByStaff } from "../api/restaurantstaff.api";
 import { restaurantAtom } from "../atoms/restaurants.atom";
 import { setMessageError } from "../utils/utilsFunctions";
@@ -24,23 +24,24 @@ const useRestaurantStaff = () => {
     };
 
     // Obtener restaurantes asignados a un staff
-    const handleGetRestaurantsByStaff = async (staffId: string) => {
+    const handleGetRestaurantsByStaff = useCallback(async (staffId: string) => {
         setLoading(true);
         setError(null);
         try {
             const { data } = await getRestaurantsByStaff(staffId);
             setRestaurants(prev => ({
                 ...prev,
-                content: data, // <-- solo actualiza el contenido
+                content: data,
                 loading: false,
             }));
             return data;
         } catch (err: unknown) {
             setMessageError(err, setError);
+            return [];
         } finally {
             setLoading(false);
         }
-    };
+    }, [setRestaurants]);
 
     // Eliminar asignación staff-restaurante
     const handleDeleteRestaurantStaff = async (restaurantStaffId: string) => {
@@ -50,7 +51,7 @@ const useRestaurantStaff = () => {
             await deleteRestaurantStaff(restaurantStaffId);
             setRestaurants(prev => ({
                 ...prev,
-                content: prev.content.filter(r => r.id !== restaurantStaffId), // <-- filtra solo el contenido
+                content: prev.content.filter(r => r.id !== restaurantStaffId),
             }));
         } catch (err: unknown) {
             setMessageError(err, setError);

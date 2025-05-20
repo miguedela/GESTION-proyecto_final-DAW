@@ -3,6 +3,7 @@ export interface IDish {
     name: string;
     description: string;
     price: number;
-    boolean: boolean;
+    available: boolean;
+    menuId: string;
 }
 

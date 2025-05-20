@@ -18,7 +18,7 @@ export const RestaurantDetail = () => {
   useEffect(() => {
     setBreadcrumbs([
       { label: 'Restaurantes', path: "/staff/restaurants" },
-      { label: `${restaurant?.name}`, path: `/staff/restaurants/${id}` },
+      { label: `${restaurant?.name}`, path: `/staff/restaurant/${id}` },
     ]);
   }, [id, restaurant, setBreadcrumbs])
 

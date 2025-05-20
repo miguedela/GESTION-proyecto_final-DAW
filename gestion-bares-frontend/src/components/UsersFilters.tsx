@@ -1,7 +1,7 @@
 import { useState } from "react"
-import useUser from "../../../../hooks/useUser";
-import { Input } from "../../../../components/Forms";
-import { PillCheck } from "../../../../components/Buttons";
+import useUser from "../hooks/useUser";
+import { Input } from "./Forms";
+import { PillCheck } from "./Buttons";
 import { IoSearch } from "react-icons/io5";
 
 export const UsersFilters = () => {

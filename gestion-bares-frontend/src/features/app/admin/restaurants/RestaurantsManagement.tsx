@@ -1,14 +1,14 @@
 import { useAtom } from "jotai";
 import { useEffect, useState } from "react";
-import { IoArrowDownOutline, IoArrowUpOutline, IoEyeOutline, IoTrashOutline } from "react-icons/io5";
+import { IoArrowDownOutline, IoArrowUpOutline, IoEyeOutline, IoRemoveOutline } from "react-icons/io5";
 import { Link } from "react-router-dom";
 import { breadcrumbsAtom } from "../../../../atoms/breadcrumbs.atom";
 import ConfirmModal from "../../../../components/ConfirmModal";
 import { Loader } from "../../../../components/Loader";
 import { Paginator } from "../../../../components/Paginator";
+import { RestaurantsFilters } from "../../../../components/RestaurantsFilters";
 import useRestaurant from "../../../../hooks/useRestaurant";
 import { formatDateShort } from "../../../../utils/dateUtils";
-import { RestaurantsFilters } from "./RestaurantsFilters";
 
 export const RestaurantsManagement = () => {
   const [, setBreadcrumbs] = useAtom(breadcrumbsAtom);
@@ -19,10 +19,8 @@ export const RestaurantsManagement = () => {
   }, [setBreadcrumbs]);
 
   const [restaurantToDelete, setRestaurantToDelete] = useState<string | null>(null);
-
   const [sortBy, setSortBy] = useState<string>("creationDate");
   const [sortOrder, setSortOrder] = useState<"asc" | "desc">("desc");
-
   const { restaurants, handleGetRestaurants, handlePageChange, handleDeleteRestaurant } = useRestaurant();
 
   const handleSort = (field: string) => {
@@ -74,7 +72,7 @@ export const RestaurantsManagement = () => {
               <td className="py-4 flex items-center gap-3">
                 <Link to={`/admin/restaurants/${restaurant.id}`}><IoEyeOutline className="text-xl text-amber-500 hover:text-amber-600" /></Link>
                 <button onClick={() => setRestaurantToDelete(restaurant.id)} className="cursor-pointer">
-                  <IoTrashOutline className="text-xl text-red-500 hover:text-red-600" />
+                  <IoRemoveOutline className="text-xl text-red-500 hover:text-red-600" />
                 </button>
               </td>
             </tr>

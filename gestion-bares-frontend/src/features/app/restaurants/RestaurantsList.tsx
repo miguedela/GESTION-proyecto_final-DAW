@@ -7,7 +7,7 @@ import { Loader } from "../../../components/Loader";
 import { Paginator } from "../../../components/Paginator";
 import { RestaurantCard } from "../../../components/RestaurantCard";
 import useRestaurant from "../../../hooks/useRestaurant";
-import { RestaurantsFilters } from "../admin/restaurants/RestaurantsFilters";
+import { RestaurantsFilters } from "../../../components/RestaurantsFilters";
 
 export const RestaurantsList = () => {
   const [, setBreadcrumbs] = useAtom(breadcrumbsAtom);

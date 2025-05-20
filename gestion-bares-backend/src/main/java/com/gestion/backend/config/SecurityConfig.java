@@ -30,22 +30,22 @@ public class SecurityConfig {
 	private JWTAuthFilter jwtAuthFilter;
 
 	@Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception{
-        httpSecurity.csrf(AbstractHttpConfigurer::disable)
-                .cors(Customizer.withDefaults())
-                .authorizeHttpRequests(request-> request
-                		.requestMatchers("/api/users/auth/**", "/public/**, /api/restaurants").permitAll()
-                        .requestMatchers("/api/users/admin/**").hasAnyAuthority(Roles.ADMIN.name())
-                        .requestMatchers("/api/users/**").hasAnyAuthority(Roles.ADMIN.name(), Roles.STAFF.name(), Roles.CUSTOMER.name())
+	public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
+		httpSecurity.csrf(AbstractHttpConfigurer::disable).cors(Customizer.withDefaults())
+				.authorizeHttpRequests(request -> request
+						.requestMatchers("/api/users/auth/**", "/public/**", "/v3/**", "/swagger-ui/**").permitAll()
+						.requestMatchers("/api/users/admin/**").hasAnyAuthority(Roles.ADMIN.name())
+						.requestMatchers("/api/users/**")
+						.hasAnyAuthority(Roles.ADMIN.name(), Roles.STAFF.name(), Roles.CUSTOMER.name())
 
 //                        .requestMatchers("").hasAnyAuthority(Roles.ADMIN.name(), Roles.STAFF.name())
-                        
-                        .anyRequest().authenticated())
-                .sessionManagement(manager->manager.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .authenticationProvider(authenticationProvider()).addFilterBefore(
-						jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
-        return httpSecurity.build();
-    }
+
+						.anyRequest().authenticated())
+				.sessionManagement(manager -> manager.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+				.authenticationProvider(authenticationProvider())
+				.addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
+		return httpSecurity.build();
+	}
 
 	@Bean
 	public AuthenticationProvider authenticationProvider() {
