@@ -56,11 +56,20 @@ public class DishServiceImpl implements DishService {
 		dishRepository.deleteById(dishId);
 	}
 
+	@Override
+	public DishDTO getDishById(Long dishId) {
+		Dish dish = dishRepository.findById(dishId)
+				.orElseThrow(() -> new ResourceNotFoundException("Plato no econtrado con ID: " + dishId));
+
+		return convertToDTO(dish);
+	}
+
 	private DishDTO convertToDTO(Dish dish) {
 		DishDTO d = new DishDTO();
 		d.setId(dish.getId());
 		d.setName(dish.getName());
 		d.setDescription(dish.getDescription());
+		d.setPrice(dish.getPrice());
 		d.setAvailable(dish.getAvailable());
 		return d;
 	}

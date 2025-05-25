@@ -55,6 +55,7 @@ public class MenuServiceImpl implements MenuService {
 			d.setId(dish.getId());
 			d.setName(dish.getName());
 			d.setDescription(dish.getDescription());
+			d.setPrice(dish.getPrice());
 			d.setAvailable(dish.getAvailable());
 			return d;
 		}).collect(Collectors.toList()));

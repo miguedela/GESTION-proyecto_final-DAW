@@ -10,4 +10,6 @@ public interface DishService {
 
 	public void deleteDish(Long dishId);
 
+	public DishDTO getDishById(Long dishId);
+
 }

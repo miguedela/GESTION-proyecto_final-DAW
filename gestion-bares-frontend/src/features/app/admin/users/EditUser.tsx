@@ -70,10 +70,8 @@ export const EditUser = () => {
         setFieldErrors({});
 
         try {
-            // Primero validamos con Zod
             editScheme.parse({ ...user });
 
-            // Si la validación es exitosa, procedemos con la actualización
             const response = await updateUser(user);
             if (response) {
                 navigate(`/admin/users`);

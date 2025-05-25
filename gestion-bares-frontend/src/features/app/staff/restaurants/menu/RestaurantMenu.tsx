@@ -1,13 +1,15 @@
 import { useAtom } from "jotai";
 import { useCallback, useEffect, useState } from "react";
-import { IoAddOutline, IoPencilOutline, IoRemoveOutline } from "react-icons/io5";
+import { IoAddOutline, IoEyeOffOutline, IoEyeOutline, IoPencilOutline, IoRemoveOutline } from "react-icons/io5";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { loadMenu } from "../../../../../api/menu.api";
 import { breadcrumbsAtom } from "../../../../../atoms/breadcrumbs.atom";
-import { Loader } from "../../../../../components/Loader";
-import { IMenu } from "../../../../../types/Menu";
 import ConfirmModal from "../../../../../components/ConfirmModal";
+import { Loader } from "../../../../../components/Loader";
 import useDish from "../../../../../hooks/useDish";
+import { IMenu } from "../../../../../types/Menu";
+import { loadRestaurant } from "../../../../../api/restaurants.api";
+import { IRestaurant } from "../../../../../types/Restaurants";
 
 export const RestaurantMenu = () => {
   const { id } = useParams();
@@ -16,15 +18,42 @@ export const RestaurantMenu = () => {
   const [loading, setLoading] = useState(true);
   const [dishToDelete, setDishToDelete] = useState<string | null>(null);
   const { handleDeleteDish } = useDish();
+  const [restaurant, setRestaurant] = useState<IRestaurant | null>(null);
+
+  const handleLoadRestaurant = useCallback(
+    async () => {
+      if (!id) return;
+
+      setLoading(true);
+      try {
+        const response = await loadRestaurant(id!);
+        if (response.status !== 200)
+          navigate('/staff/restaurants')
+
+        setRestaurant(response.data);
+        setLoading(false);
+      } catch (error) {
+        console.error("Error loading restaurant: ", error);
+        setLoading(false);
+      }
+    }, [setRestaurant, id, navigate]
+  );
+
+  useEffect(() => {
+    if (!id)
+      navigate("/staff/restaurants");
+    else
+      handleLoadRestaurant();
+  }, [id, navigate, handleLoadRestaurant]);
 
   const [, setBreadcrumbs] = useAtom(breadcrumbsAtom);
   useEffect(() => {
     setBreadcrumbs([
-      { label: 'Restaurantes', path: "/staff/restaurants" },
-      { label: `Restaurante ${id}`, path: `/staff/restaurant/${id}` },
+      { label: 'Restaurantes asignados', path: "/staff/restaurants" },
+      { label: `${restaurant?.name}`, path: `/staff/restaurant/${id}` },
       { label: 'Menú', path: `/staff/restaurant/${id}/menu` },
     ]);
-  }, [id, setBreadcrumbs]);
+  }, [id, setBreadcrumbs, restaurant]);
 
   const handleLoadMenu = useCallback(async (id: string) => {
     setLoading(true);
@@ -57,7 +86,7 @@ export const RestaurantMenu = () => {
               <th className="px-6 py-3">Nombre</th>
               <th className="px-6 py-3">Descripción</th>
               <th className="px-6 py-3">Precio</th>
-              <th className="px-6 py-3">Categoría</th>
+              <th className="px-6 py-3">Disponible</th>
               <th></th>
             </tr>
           </thead>
@@ -67,9 +96,9 @@ export const RestaurantMenu = () => {
                 <td className="px-6 py-4">{dish.name}</td>
                 <td className="px-6 py-4">{dish.description}</td>
                 <td className="px-6 py-4">{dish.price}</td>
-                <td className="px-6 py-4">{dish.available}</td>
+                <td className="px-6 py-4">{dish.available ? <IoEyeOutline /> : <IoEyeOffOutline />}</td>
                 <td>
-                  <Link to={`/staff/restaurant/menu/dish/${dish.id}/edit`}>
+                  <Link to={`/staff/restaurant/menu/${id}/dish/${dish.id}/edit`}>
                     <IoPencilOutline className="text-xl text-amber-500 hover:text-amber-600" />
                   </Link>
                   <button onClick={() => setDishToDelete(dish.id)} className="cursor-pointer">
@@ -88,9 +117,19 @@ export const RestaurantMenu = () => {
           isOpen={!!dishToDelete}
           text={"Estás seguro de que quieres eliminar el plato?"}
           type="negative"
-          onConfirm={() => {
-            if (dishToDelete) handleDeleteDish(dishToDelete)
-            setDishToDelete(null);
+          onConfirm={async () => {
+            if (dishToDelete && id) {
+              try {
+                await handleDeleteDish(dishToDelete, id);
+                handleLoadMenu(id);
+              } catch (error) {
+                console.error("Error durante el proceso de eliminación o recarga del menú:", error);
+              } finally {
+                setDishToDelete(null);
+              }
+            } else {
+              setDishToDelete(null);
+            }
           }}
           onCancel={() => setDishToDelete(null)}
         />

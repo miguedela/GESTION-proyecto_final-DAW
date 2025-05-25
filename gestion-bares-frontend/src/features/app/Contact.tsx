@@ -10,7 +10,6 @@ export const Contact = () => {
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
         setSent(true);
-        // Aquí podrías enviar el mensaje a tu backend
     };
 
     return (

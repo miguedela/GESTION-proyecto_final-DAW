@@ -90,7 +90,7 @@ export const AppRouter = () => {
                         { path: "/staff/restaurant/:id/edit", element: <RestaurantEdit /> },
                         { path: "/staff/restaurant/:id/menu", element: <RestaurantMenu /> },
                         { path: "/staff/restaurant/:restaurantId/menu/:menuId/create", element: <CreateDishToMenu /> },
-                        { path: "/staff/restaurant/menu/dish/:id/edit", element: <EditDish /> },
+                        { path: "/staff/restaurant/menu/:restaurantId/dish/:id/edit", element: <EditDish /> },
                         // Rutas para staffs
                     ]
                 }

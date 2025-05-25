@@ -28,3 +28,11 @@ export const deleteDish = async (dishId: string) => {
         method: "DELETE",
     });
 };
+
+// Obtener un plato por ID
+export const getDishById = async (dishId: string) => {
+    return await httpClient({
+        url: `${urlBase}/${dishId}`,
+        method: "GET",
+    });
+};

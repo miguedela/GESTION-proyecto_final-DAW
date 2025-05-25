@@ -35,10 +35,9 @@ public class SecurityConfig {
 				.authorizeHttpRequests(request -> request
 						.requestMatchers("/api/users/auth/**", "/public/**", "/v3/**", "/swagger-ui/**").permitAll()
 						.requestMatchers("/api/users/admin/**").hasAnyAuthority(Roles.ADMIN.name())
+						.requestMatchers("/api/dishes/**", "/api/restaurants/").hasAnyAuthority(Roles.STAFF.name())
 						.requestMatchers("/api/users/**")
 						.hasAnyAuthority(Roles.ADMIN.name(), Roles.STAFF.name(), Roles.CUSTOMER.name())
-
-//                        .requestMatchers("").hasAnyAuthority(Roles.ADMIN.name(), Roles.STAFF.name())
 
 						.anyRequest().authenticated())
 				.sessionManagement(manager -> manager.sessionCreationPolicy(SessionCreationPolicy.STATELESS))

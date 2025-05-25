@@ -1,4 +1,3 @@
-// src/components/Breadcrumbs.tsx
 import { useAtom } from "jotai";
 import { Link } from "react-router-dom";
 import { breadcrumbsAtom } from "../atoms/breadcrumbs.atom";

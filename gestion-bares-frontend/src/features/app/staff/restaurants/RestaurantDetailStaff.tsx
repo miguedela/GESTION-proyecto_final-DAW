@@ -20,7 +20,7 @@ export const RestaurantDetailStaff = () => {
   const [, setBreadcrumbs] = useAtom(breadcrumbsAtom);
   useEffect(() => {
     setBreadcrumbs([
-      { label: 'Restaurantes', path: "/staff/restaurants" },
+      { label: 'Restaurantes asignados', path: "/staff/restaurants" },
       { label: `${restaurant?.name}`, path: `/staff/restaurant/${id}` },
     ]);
   }, [id, restaurant, setBreadcrumbs])

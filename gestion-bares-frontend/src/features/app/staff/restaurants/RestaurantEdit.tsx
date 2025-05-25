@@ -29,7 +29,6 @@ export const RestaurantEdit = () => {
     ]);
   }, [id, restaurant, setBreadcrumbs]);
 
-  // Cargar datos actuales del restaurante
   const fetchRestaurant = useCallback(async () => {
     if (!id) return;
     try {
