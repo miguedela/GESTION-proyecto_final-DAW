@@ -9,6 +9,7 @@ import { Loader } from "../../../components/Loader";
 import { IRestaurant } from "../../../types/Restaurants";
 
 export const RestaurantDetail = () => {
+  const dias = ["Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado", "Domingo"];
   const { id } = useParams();
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
@@ -78,7 +79,9 @@ export const RestaurantDetail = () => {
             </div>
             <div>
               <span className="text-xs text-neutral-400">Horario de apertura</span>
-              <p className="ml-2 mt-1">{restaurant?.openingHours}</p>
+              {restaurant?.openingHours && restaurant.openingHours.split(';').map((schedule, index) => (
+                <p key={index} className="ml-2">{dias[index]}: {schedule.trim()}</p>
+              ))}
             </div>
             <div>
               <span className="text-xs text-neutral-400">Ubicación</span>

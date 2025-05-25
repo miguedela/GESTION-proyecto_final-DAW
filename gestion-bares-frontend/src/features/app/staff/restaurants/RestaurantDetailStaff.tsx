@@ -11,6 +11,7 @@ import { IRestaurant } from "../../../../types/Restaurants";
 import { formatDate } from "../../../../utils/dateUtils";
 
 export const RestaurantDetailStaff = () => {
+  const dias = ["Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado", "Domingo"];
   const { id } = useParams();
   const navigate = useNavigate();
   const [user] = useAtom(userAtom);
@@ -100,7 +101,9 @@ export const RestaurantDetailStaff = () => {
           </div>
           <div className="border-b border-neutral-400">
             <span className="text-xs text-neutral-400">Horas abierto</span>
-            <p className="ml-2 mt-1">{restaurant?.openingHours && formatDate(restaurant?.openingHours)}</p>
+            {restaurant?.openingHours && restaurant.openingHours.split(';').map((schedule, index) => (
+              <p key={index} className="ml-2">{dias[index]}: {schedule.trim()}</p>
+            ))}
           </div>
           <div className="border-b border-neutral-400">
             <span className="text-xs text-neutral-400">Última modificación</span>
