@@ -88,9 +88,10 @@ export const NewReservation = () => {
   }, [restaurantId, restaurant, setBreadcrumbs]);
 
   useEffect(() => {
+    if (!user && restaurantId) navigate(`/restaurant/${restaurantId}`);
     if (!restaurantId) navigate("/main");
     else fetchRestaurant();
-  }, [restaurantId, navigate, fetchRestaurant]);
+  }, [restaurantId, user, navigate, fetchRestaurant]);
 
   useEffect(() => {
     if (restaurant?.openingHours) {
