@@ -55,6 +55,7 @@ public class Reservation {
 		this.restaurant = reservationDTO.getRestaurant();
 		this.reservationTime = reservationDTO.getReservationTime();
 		this.reservationNumber = reservationDTO.getReservationNumber();
+		this.status = reservationDTO.getStatus();
 	}
 
 }

@@ -10,9 +10,11 @@ interface InputProps {
     type?: string;
     onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
     fieldErrors?: string;
+    min?: string;
+    step?: string;
 }
 
-export const Input = ({ label, id, value, placeholder, type = 'text', onChange, fieldErrors }: InputProps) => {
+export const Input = ({ label, id, value, placeholder, type = 'text', onChange, fieldErrors, min, step }: InputProps) => {
     const [viewPassword, setViewPassword] = useState(false);
     const isPassword = type === 'password';
 
@@ -29,7 +31,9 @@ export const Input = ({ label, id, value, placeholder, type = 'text', onChange, 
                     value={value}
                     placeholder={placeholder}
                     onChange={onChange}
-                    className={`${isPassword ? 'flex-1' : ''} p-2 border border-neutral-400/70 rounded-sm outline-0 focus:border-amber-500 w-full`}
+                    min={min}
+                    className="p-2 border border-neutral-400/70 rounded-sm outline-0 focus:border-amber-500 w-full bg-white dark:bg-neutral-900 text-neutral-900 dark:text-neutral-100"
+                    step={step}
                 />
                 {isPassword && (
                     <button
@@ -66,6 +70,7 @@ interface SelectProps {
     onChange: (e: React.ChangeEvent<HTMLSelectElement>) => void;
     fieldErrors?: string;
     placeholderOption?: string;
+    disabled?: boolean;
 }
 
 export const Select: React.FC<SelectProps> = ({
@@ -76,6 +81,7 @@ export const Select: React.FC<SelectProps> = ({
     onChange,
     fieldErrors,
     placeholderOption = 'Selecciona una opción',
+    disabled = false, // Añadido
 }) => {
     return (
         <div className="flex flex-col mb-4">
@@ -84,9 +90,10 @@ export const Select: React.FC<SelectProps> = ({
                 id={id}
                 value={value}
                 onChange={onChange}
-                className="p-2 border border-neutral-400 rounded-sm outline-0 focus:border-orange-500"
+                disabled={disabled}
+                className="p-2 border border-neutral-400/70 rounded-sm outline-0 focus:border-amber-500 w-full bg-white dark:bg-neutral-900 text-neutral-900 dark:text-neutral-100"
             >
-                <option value="">{placeholderOption}</option>
+                <option value="" className='bg-amber-600 text-neutral-800'>{placeholderOption}</option>
                 {options.map((option) => (
                     <option key={option.value} value={option.value}>{option.label}</option>
                 ))}

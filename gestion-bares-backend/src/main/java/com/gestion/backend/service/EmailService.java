@@ -11,4 +11,6 @@ public interface EmailService {
 	// No funcional por ahora
 //	public void sendEmailWithATttachment(EmailDTO emailDTO);
 
+	void sendResetPasswordEmail(String emailTo);
+
 }

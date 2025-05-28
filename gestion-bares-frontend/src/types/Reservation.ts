@@ -1,3 +1,6 @@
+import { IRestaurant } from "./Restaurants";
+import { IUser } from "./User";
+
 export enum Status {
     PENDING = 'PENDING',
     CONFIRMED = 'CONFIRMED',
@@ -5,12 +8,10 @@ export enum Status {
 }
 
 export interface IReservation {
-    id: string;
-    date: Date;
-    time: string;
-    numberOfPeople: number;
-    specialRequests?: string;
-    status: string;
-    customerId: string;
-    restaurantId: string;
+    id?: string | null;
+    customer: IUser;
+    restaurant: IRestaurant;
+    reservationNumber: number;
+    status: Status;
+    reservationTime: Date;
 }

@@ -43,6 +43,16 @@ public class JWTUtils {
 				.expiration(new Date(System.currentTimeMillis() + EXPIRATION_TIME)).signWith(key).compact();
 	}
 
+	public String generateResetPasswordToken(String email) {
+		long expiration = 1000 * 60 * 15;
+
+		HashMap<String, Object> claims = new HashMap<>();
+		claims.put("token_type", "reset_password");
+
+		return Jwts.builder().claims(claims).subject(email).issuedAt(new Date())
+				.expiration(new Date(System.currentTimeMillis() + expiration)).signWith(key).compact();
+	}
+
 	public String extractUsername(String token) {
 		return extractClaims(token, Claims::getSubject);
 	}
@@ -58,5 +68,16 @@ public class JWTUtils {
 
 	public boolean isTokenExpired(String token) {
 		return extractClaims(token, Claims::getExpiration).before(new Date());
+	}
+
+	public boolean validateResetPasswordToken(String token) {
+		try {
+			if (isTokenExpired(token))
+				return false;
+			String type = extractClaims(token, claims -> (String) claims.get("token_type"));
+			return "reset_password".equals(type);
+		} catch (Exception e) {
+			return false;
+		}
 	}
 }

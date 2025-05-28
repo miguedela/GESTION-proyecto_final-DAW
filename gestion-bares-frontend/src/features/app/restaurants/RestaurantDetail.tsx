@@ -1,12 +1,14 @@
 import { useAtom } from "jotai";
 import { useCallback, useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { loadRestaurant } from "../../../api/restaurants.api";
 import { breadcrumbsAtom } from "../../../atoms/breadcrumbs.atom";
+import { userAtom } from "../../../atoms/user.atom";
 import { Footer } from "../../../components/Footer";
 import { Header } from "../../../components/Header";
 import { Loader } from "../../../components/Loader";
 import { IRestaurant } from "../../../types/Restaurants";
+import { Roles } from "../../../types/User";
 
 export const RestaurantDetail = () => {
   const dias = ["Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado", "Domingo"];
@@ -14,6 +16,7 @@ export const RestaurantDetail = () => {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [restaurant, setRestaurant] = useState<IRestaurant | null>(null);
+  const [user] = useAtom(userAtom);
 
   const [, setBreadcrumbs] = useAtom(breadcrumbsAtom);
   useEffect(() => {
@@ -101,6 +104,11 @@ export const RestaurantDetail = () => {
               </div>
             </div>
           </div>
+          {user?.role === Roles.CUSTOMER &&
+            <Link to={`/restaurant/${id}/reservation/new`} className="mt-6 inline-block bg-amber-500 text-neutral-800 px-4 py-2 rounded hover:bg-amber-600 transition text-center">
+              Realizar reserva
+            </Link>
+          }
         </Loader>
       </div>
       <Footer />

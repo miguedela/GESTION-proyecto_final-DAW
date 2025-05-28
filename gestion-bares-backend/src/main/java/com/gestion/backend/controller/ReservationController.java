@@ -19,7 +19,7 @@ import com.gestion.backend.service.ReservationService;
 import lombok.AllArgsConstructor;
 
 @RestController
-@RequestMapping("/api/reservation")
+@RequestMapping("/api/reservations")
 @AllArgsConstructor
 public class ReservationController {
 

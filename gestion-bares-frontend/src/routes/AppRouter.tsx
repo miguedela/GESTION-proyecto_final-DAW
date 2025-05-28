@@ -7,6 +7,7 @@ import { UserDetails } from '../features/app/admin/users/UserDetails';
 import { UsersManagement } from '../features/app/admin/users/UsersManagement';
 import { App } from '../features/app/App';
 import { Contact } from '../features/app/Contact';
+import { NewReservation } from '../features/app/customer/NewReservation';
 import { Reservations } from '../features/app/customer/Reservations';
 import { EditMyAccount } from '../features/app/my-account/EditMyAccount';
 import { MyAccount } from '../features/app/my-account/MyAccount';
@@ -18,6 +19,8 @@ import { RestaurantMenu } from '../features/app/staff/restaurants/menu/Restauran
 import { RestaurantDetailStaff } from '../features/app/staff/restaurants/RestaurantDetailStaff';
 import { RestaurantEdit } from '../features/app/staff/restaurants/RestaurantEdit';
 import { RestaurantManagement } from '../features/app/staff/restaurants/RestaurantManagement';
+import { ChangePassword } from '../features/auth/ChangePassword';
+import { ChangePasswordEmail } from '../features/auth/ChangePasswordEmail';
 import { LogIn } from '../features/auth/LogIn';
 import { SignUp } from '../features/auth/SignUp';
 import { Home } from '../features/home/Home';
@@ -51,6 +54,8 @@ export const AppRouter = () => {
                     children: [
                         { path: "/account", element: <MyAccount /> },
                         { path: "/account/edit", element: <EditMyAccount /> },
+                        { path: "/account/reset-password", element: <ChangePasswordEmail /> },
+                        { path: "/account/reset-password/:uuid", element: <ChangePassword /> },
                         // Rutas para todos los usuarios
                     ]
                 }
@@ -103,6 +108,7 @@ export const AppRouter = () => {
                     element: <App />,
                     children: [
                         { path: "/reservations", element: <Reservations /> },
+                        { path: "/restaurant/:restaurantId/reservation/new", element: <NewReservation /> },
                         // Rutas para customers
                     ]
                 }

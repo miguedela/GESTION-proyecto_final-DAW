@@ -94,6 +94,8 @@ export const LogIn = () => {
             </div>
 
             <Link to="/" className="text-amber-500 underline text-sm">Volver a inicio</Link>
+            <Link to="/" className="text-amber-500 underline text-sm">Cambiar contraseña</Link>
+            
         </div>
     </div>
 }
