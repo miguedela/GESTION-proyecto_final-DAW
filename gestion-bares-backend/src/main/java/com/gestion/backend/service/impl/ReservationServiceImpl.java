@@ -45,12 +45,9 @@ public class ReservationServiceImpl implements ReservationService {
 		LocalDateTime start = reservationDTO.getReservationTime().withMinute(0).withSecond(0).withNano(0);
 		LocalDateTime end = start.plusHours(1);
 
-		// Verificar si hay reservas existentes en ese rango de tiempo
-		List<Reservation> reservations = reservationRepository
-				.findByRestaurantIdAndReservationTimeBetween(reservationDTO.getRestaurant().getId(), start, end);
-
-		// Validar capacidad
-		if (reservations.size() >= capacity) {
+		// Vaslidar capacidad
+		int totalCustomers = getTotalCustomersInTimeRange(reservationDTO.getRestaurant().getId(), start, end);
+		if (totalCustomers + reservationDTO.getReservationNumber() > capacity) {
 			throw new IllegalArgumentException("No hay disponibilidad para la hora seleccionada.");
 		}
 
@@ -92,13 +89,14 @@ public class ReservationServiceImpl implements ReservationService {
 		LocalDateTime start = reservationDTO.getReservationTime().withMinute(0).withSecond(0).withNano(0);
 		LocalDateTime end = start.plusHours(1);
 
-		// Obtener reservas existentes en ese rango de tiempo
-		List<Reservation> reservations = reservationRepository
-				.findByRestaurantIdAndReservationTimeBetween(reservationDTO.getRestaurant().getId(), start, end)
-				.stream().filter(r -> !r.getId().equals(reservationDTO.getId())).toList();
+		// In updateReservation
+		int totalCustomers = getTotalCustomersInTimeRange(reservationDTO.getRestaurant().getId(), start, end);
+		// Exclude the current reservation's customers if updating
+		Reservation existing = reservationRepository.findById(reservationDTO.getId()).orElseThrow(
+				() -> new ResourceNotFoundException("Reserva no econtrada con ID: " + reservationDTO.getId()));
+		totalCustomers -= existing.getReservationNumber();
 
-		// Validar capacidad
-		if (reservations.size() >= capacity) {
+		if (totalCustomers + reservationDTO.getReservationNumber() > capacity) {
 			throw new IllegalArgumentException("No hay disponibilidad para la hora seleccionada.");
 		}
 
@@ -114,7 +112,7 @@ public class ReservationServiceImpl implements ReservationService {
 	}
 
 	@Override
-	public List<ReservationDTO> getReservationByRestaurant(Long restaurantId) {
+	public List<ReservationDTO> getReservationByRestaurantId(Long restaurantId) {
 		List<Reservation> reservations = reservationRepository.findByRestaurantId(restaurantId);
 		if (reservations.isEmpty()) {
 			throw new ResourceNotFoundException("No hay reservas para el restaurante con ID: " + restaurantId);
@@ -123,12 +121,18 @@ public class ReservationServiceImpl implements ReservationService {
 	}
 
 	@Override
-	public List<ReservationDTO> getReservationByCustomer(Long customerId) {
+	public List<ReservationDTO> getReservationByCustomerId(Long customerId) {
 		List<Reservation> reservations = reservationRepository.findByCustomerId(customerId);
 		if (reservations.isEmpty()) {
 			throw new ResourceNotFoundException("No hay reservas para el cliente con ID: " + customerId);
 		}
 		return reservations.stream().map(this::convertToDTO).toList();
+	}
+
+	public int getTotalCustomersInTimeRange(Long restaurantId, LocalDateTime start, LocalDateTime end) {
+		List<Reservation> reservations = reservationRepository.findByRestaurantIdAndReservationTimeBetween(restaurantId,
+				start, end);
+		return reservations.stream().mapToInt(Reservation::getReservationNumber).sum();
 	}
 
 	private ReservationDTO convertToDTO(Reservation reservation) {

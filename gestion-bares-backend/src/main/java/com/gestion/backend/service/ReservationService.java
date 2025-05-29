@@ -14,8 +14,8 @@ public interface ReservationService {
 
 	public ReservationDTO getReservationById(Long id);
 
-	public List<ReservationDTO> getReservationByRestaurant(Long restaurantId);
+	public List<ReservationDTO> getReservationByRestaurantId(Long restaurantId);
 
-	public List<ReservationDTO> getReservationByCustomer(Long customerId);
+	public List<ReservationDTO> getReservationByCustomerId(Long customerId);
 
 }

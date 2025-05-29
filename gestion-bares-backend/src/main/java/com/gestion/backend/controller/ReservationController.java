@@ -51,13 +51,13 @@ public class ReservationController {
 
 	@GetMapping("/restaurant/{restaurantId}")
 	public ResponseEntity<List<ReservationDTO>> getReservationByRestaurantId(@PathVariable Long restaurantId) {
-		List<ReservationDTO> reservationsDTO = reservationService.getReservationByRestaurant(restaurantId);
+		List<ReservationDTO> reservationsDTO = reservationService.getReservationByRestaurantId(restaurantId);
 		return new ResponseEntity<>(reservationsDTO, HttpStatus.OK);
 	}
 
 	@GetMapping("/customer/{customerId}")
 	public ResponseEntity<List<ReservationDTO>> getReservationByCustomerId(@PathVariable Long customerId) {
-		List<ReservationDTO> reservationsDTO = reservationService.getReservationByCustomer(customerId);
+		List<ReservationDTO> reservationsDTO = reservationService.getReservationByCustomerId(customerId);
 		return new ResponseEntity<>(reservationsDTO, HttpStatus.OK);
 	}
 

@@ -2,6 +2,7 @@ package com.gestion.backend.dto;
 
 import java.time.LocalDateTime;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.gestion.backend.entity.OurUser;
 import com.gestion.backend.entity.Restaurant;
 import com.gestion.backend.enums.Status;
@@ -19,6 +20,7 @@ public class ReservationDTO {
 
 	private Long id;
 	private OurUser customer;
+	@JsonIgnore
 	private Restaurant restaurant;
 	private int reservationNumber;
 	private Status status;

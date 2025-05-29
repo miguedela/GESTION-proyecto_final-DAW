@@ -183,10 +183,7 @@ export const NewReservation = () => {
 
     const res = await handleCreateReservation(reservation);
     if (res && !error) {
-      setSuccess(true);
-      setReservationDate('');
-      setReservationHour('');
-      setReservationNumber('1');
+      navigate(`/restaurant/${restaurantId}`);
     }
   };
 
