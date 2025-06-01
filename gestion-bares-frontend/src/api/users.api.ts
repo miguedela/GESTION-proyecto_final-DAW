@@ -82,13 +82,12 @@ export const updateMyProfile = async (userDTO: IUser, currentPassword: string) =
 };
 
 // Restablecer contraseña de usuario
-export const resetPassword = async (jwtToken: string, email: string, password: string) => {
+export const resetPassword = async (jwtToken: string, password: string) => {
   return await httpClient({
     url: `${urlBase}/profile/update-password`,
     method: "PUT",
     params: {
       jwtToken,
-      email,
       password,
     },
     paramsSerializer: (params: Record<string, unknown>): string => {

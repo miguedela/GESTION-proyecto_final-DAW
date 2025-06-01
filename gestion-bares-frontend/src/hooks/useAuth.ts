@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { getMyProfile, loginUser, registerUser, updateMyProfile } from "../api/users.api";
 import { userAtom } from "../atoms/user.atom";
+import { showErrorToast, showSuccessToast } from "../components/ToastUtils";
 import { ILoginUser, IRegisterUser, IUser } from "../types/User";
 import { setMessageError } from "../utils/utilsFunctions";
 
@@ -35,9 +36,11 @@ const useAuth = () => {
       const response = await registerUser(userData);
       saveUserToStorage(response.data.user, response.data.token);
       setLoading(false);
+      showSuccessToast("Registro exitoso. Bienvenido!");
       return response;
     } catch (err: unknown) {
       setMessageError(err, setError);
+      showErrorToast("Error al registrar el usuario. Por favor, inténtalo de nuevo.");
     } finally {
       setLoading(false);
     }
@@ -49,9 +52,11 @@ const useAuth = () => {
     try {
       const response = await loginUser(userData);
       saveUserToStorage(response.data.user, response.data.token);
+      showSuccessToast("Inicio de sesión exitoso.");
       return response;
     } catch (err: unknown) {
       setMessageError(err, setError);
+      showErrorToast("Error al iniciar sesión. Por favor, verifica tus credenciales e inténtalo de nuevo.");
     } finally {
       setLoading(false);
     }
@@ -66,9 +71,11 @@ const useAuth = () => {
 
       const response = await getMyProfile();
       saveUserToStorage(response.data, token);
+      showSuccessToast("Perfil obtenido correctamente.");
       return response;
     } catch (err: unknown) {
       setMessageError(err, setError);
+      showErrorToast("Error al obtener el perfil. Por favor, inténtalo de nuevo.");
     } finally {
       setLoading(false);
     }
@@ -78,6 +85,7 @@ const useAuth = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("user");
     setUser(null);
+    showSuccessToast("Has cerrado sesión correctamente.");
     navigate("/");
   };
 
@@ -87,9 +95,11 @@ const useAuth = () => {
     try {
       const response = await updateMyProfile(userData, currentPassword);
       saveUserToStorage(response.data.user, response.data.token);
+      showSuccessToast("Perfil actualizado correctamente.");
       return response;
     } catch (error: unknown) {
       setMessageError(error, setError)
+      showErrorToast("Error al actualizar el perfil. Por favor, inténtalo de nuevo.");
     } finally {
       setLoading(false);
     }

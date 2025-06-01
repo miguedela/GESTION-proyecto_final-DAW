@@ -90,8 +90,8 @@ public class UserController {
 	}
 
 	@PutMapping("/profile/update-password")
-	public ResponseEntity<AuthResponseDTO> updatePassword(@RequestParam String email, @RequestParam String password,
+	public ResponseEntity<AuthResponseDTO> updatePassword(@RequestParam String password,
 			@RequestParam String jwtToken) {
-		return ResponseEntity.ok(authService.updatePassword(jwtToken, email, password));
+		return ResponseEntity.ok(authService.updatePassword(jwtToken, password));
 	}
 }

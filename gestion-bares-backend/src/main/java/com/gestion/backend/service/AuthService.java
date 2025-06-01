@@ -37,6 +37,6 @@ public interface AuthService {
 	 * 
 	 * @return AuthResponseDTO Respuesta indicando el cambio de contraseña.
 	 */
-	public AuthResponseDTO updatePassword(String jwtToken, String email, String password);
+	public AuthResponseDTO updatePassword(String jwtToken, String password);
 
 }

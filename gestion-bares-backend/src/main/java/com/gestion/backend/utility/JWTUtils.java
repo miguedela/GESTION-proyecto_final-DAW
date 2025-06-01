@@ -44,7 +44,7 @@ public class JWTUtils {
 	}
 
 	public String generateResetPasswordToken(String email) {
-		long expiration = 1000 * 60 * 15;
+		long expiration = 60000;
 
 		HashMap<String, Object> claims = new HashMap<>();
 		claims.put("token_type", "reset_password");
@@ -72,10 +72,13 @@ public class JWTUtils {
 
 	public String validateResetPasswordToken(String token) {
 		try {
-			if (isTokenExpired(token)) return null;
+			if (isTokenExpired(token))
+				return null;
+			
 			String type = extractClaims(token, claims -> (String) claims.get("token_type"));
 			String email = extractClaims(token, claims -> (String) claims.getSubject());
-			if (!"reset_password".equals(type)) return null;
+			if (!"reset_password".equals(type))
+				return null;
 			
 			return email;
 		} catch (Exception e) {

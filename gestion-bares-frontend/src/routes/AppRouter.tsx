@@ -9,6 +9,7 @@ import { App } from '../features/app/App';
 import { Contact } from '../features/app/Contact';
 import { NewReservation } from '../features/app/customer/NewReservation';
 import { Reservations } from '../features/app/customer/Reservations';
+import { UpdateReservation } from '../features/app/customer/UpdateReservation';
 import { EditMyAccount } from '../features/app/my-account/EditMyAccount';
 import { MyAccount } from '../features/app/my-account/MyAccount';
 import { RestaurantDetail } from '../features/app/restaurants/RestaurantDetail';
@@ -21,12 +22,11 @@ import { RestaurantEdit } from '../features/app/staff/restaurants/RestaurantEdit
 import { RestaurantManagement } from '../features/app/staff/restaurants/RestaurantManagement';
 import { ChangePassword } from '../features/auth/ChangePassword';
 import { LogIn } from '../features/auth/LogIn';
+import { ResetPassword } from '../features/auth/ResetPassword';
 import { SignUp } from '../features/auth/SignUp';
 import { Home } from '../features/home/Home';
 import { NotFound } from '../features/not-found/NotFound';
 import { ProtectedRoute } from './ProtectedRoute';
-import { ResetPassword } from '../features/auth/ResetPassword';
-import { UpdateReservation } from '../features/app/customer/UpdateReservation';
 
 export const AppRouter = () => {
 

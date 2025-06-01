@@ -152,29 +152,27 @@ public class AuthServiceImpl implements AuthService {
 	}
 
 	@Override
-	public AuthResponseDTO updatePassword(String jwtToken, String email, String password) {
-		if (jwtUtils.validateResetPasswordToken(jwtToken).equals(email)) {
-			OurUser user = userRepository.findByEmail(email)
-					.orElseThrow(() -> new ResourceNotFoundException("Usuario no encontrado con email: " + email));
-			user.setPassword(passwordEncoder.encode(password));
-			OurUser updatedUser = userRepository.save(user);
+	public AuthResponseDTO updatePassword(String jwtToken, String password) {
+		String email = jwtUtils.validateResetPasswordToken(jwtToken);
 
-			UserDTO updatedUserDTO = new UserDTO();
-			updatedUserDTO.setName(updatedUser.getName());
-			updatedUserDTO.setSurnames(updatedUser.getSurnames());
-			updatedUserDTO.setTelephone(updatedUser.getTelephone());
-			updatedUserDTO.setEmail(updatedUser.getEmail());
-			updatedUserDTO.setRole(updatedUser.getRole().name());
-			updatedUserDTO.setCreationDate(updatedUser.getCreationDate());
-			updatedUserDTO.setLastModifiedDate(updatedUser.getLastModifiedDate());
+		if (email == null)
+			throw new InvalidCredentialsException("Token de restablecimiento de contraseña inválido o expirado.");
 
-			String token = jwtUtils.generateToken(user);
-			String refreshToken = jwtUtils.generateRefreshToken(new HashMap<>(), user);
+		OurUser user = userRepository.findByEmail(email)
+				.orElseThrow(() -> new ResourceNotFoundException("Usuario no encontrado con email: " + email));
+		user.setPassword(passwordEncoder.encode(password));
+		OurUser updatedUser = userRepository.save(user);
 
-			return AuthResponseDTO.builder().statusCode(200).message("Datos actualizados exitosamente").token(token)
-					.refreshToken(refreshToken).user(updatedUserDTO).build();
-		}
-		throw new InvalidCredentialsException("Token de restablecimiento de contraseña inválido o expirado.");
+		UserDTO updatedUserDTO = new UserDTO();
+		updatedUserDTO.setName(updatedUser.getName());
+		updatedUserDTO.setSurnames(updatedUser.getSurnames());
+		updatedUserDTO.setTelephone(updatedUser.getTelephone());
+		updatedUserDTO.setEmail(updatedUser.getEmail());
+		updatedUserDTO.setRole(updatedUser.getRole().name());
+		updatedUserDTO.setCreationDate(updatedUser.getCreationDate());
+		updatedUserDTO.setLastModifiedDate(updatedUser.getLastModifiedDate());
+
+		return AuthResponseDTO.builder().statusCode(200).message("Datos actualizados exitosamente").build();
 	}
 
 }

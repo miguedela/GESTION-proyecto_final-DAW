@@ -2,6 +2,7 @@ import { useAtom } from "jotai";
 import { useCallback, useState } from "react";
 import { addStaffToRestaurant, deleteRestaurantStaff, getRestaurantsByStaff } from "../api/restaurantstaff.api";
 import { restaurantAtom } from "../atoms/restaurants.atom";
+import { showErrorToast, showSuccessToast } from "../components/ToastUtils";
 import { setMessageError } from "../utils/utilsFunctions";
 
 const useRestaurantStaff = () => {
@@ -15,9 +16,11 @@ const useRestaurantStaff = () => {
         setError(null);
         try {
             const { data } = await addStaffToRestaurant(staffId, restaurantId);
+            showSuccessToast("Staff asignado al restaurante exitosamente.");
             return data;
         } catch (err: unknown) {
             setMessageError(err, setError);
+            showErrorToast("Error al asignar el staff al restaurante. Por favor, inténtalo de nuevo.");
         } finally {
             setLoading(false);
         }
@@ -34,9 +37,11 @@ const useRestaurantStaff = () => {
                 content: data,
                 loading: false,
             }));
+            showSuccessToast("Restaurantes obtenidos exitosamente.");
             return data;
         } catch (err: unknown) {
             setMessageError(err, setError);
+            showErrorToast("Error al obtener los restaurantes. Por favor, inténtalo de nuevo.");
             return [];
         } finally {
             setLoading(false);
@@ -53,8 +58,10 @@ const useRestaurantStaff = () => {
                 ...prev,
                 content: prev.content.filter(r => r.id !== restaurantStaffId),
             }));
+            showSuccessToast("Staff eliminado del restaurante exitosamente.");
         } catch (err: unknown) {
             setMessageError(err, setError);
+            showErrorToast("Error al eliminar el staff del restaurante. Por favor, inténtalo de nuevo.");
         } finally {
             setLoading(false);
         }

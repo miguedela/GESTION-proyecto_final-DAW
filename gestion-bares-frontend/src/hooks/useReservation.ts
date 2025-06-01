@@ -1,5 +1,6 @@
 import { useState } from "react";
-import { registerReservation, deleteReservation, updateReservation, getReservationById, loadReservations, loadReservationsByRestaurant } from "../api/reservations.api";
+import { deleteReservation, getReservationById, loadReservations, loadReservationsByRestaurant, registerReservation, updateReservation } from "../api/reservations.api";
+import { showErrorToast, showSuccessToast } from "../components/ToastUtils";
 import { IReservation } from "../types/Reservation";
 import { setMessageError } from "../utils/utilsFunctions";
 
@@ -16,9 +17,11 @@ const useReservation = () => {
         try {
             const { data } = await registerReservation(reservation);
             setReservation(data);
+            showSuccessToast("Reserva creada exitosamente.");
             return data;
         } catch (err: unknown) {
             setMessageError(err, setError);
+            showErrorToast("Error al crear la reserva. Por favor, inténtalo de nuevo.");
         } finally {
             setLoading(false);
         }
@@ -31,8 +34,10 @@ const useReservation = () => {
         try {
             await deleteReservation(reservationId);
             setReservations(prev => prev.filter(r => r.id !== reservationId));
+            showSuccessToast("Reserva eliminada exitosamente.");
         } catch (err: unknown) {
             setMessageError(err, setError);
+            showErrorToast("Error al eliminar la reserva. Por favor, inténtalo de nuevo.");
         } finally {
             setLoading(false);
         }
@@ -46,9 +51,11 @@ const useReservation = () => {
             const { data } = await updateReservation(reservation);
             setReservation(data);
             setReservations(prev => prev.map(r => r.id === data.id ? data : r));
+            showSuccessToast("Reserva actualizada exitosamente.");
             return data;
         } catch (err: unknown) {
             setMessageError(err, setError);
+            showErrorToast("Error al actualizar la reserva. Por favor, inténtalo de nuevo.");
         } finally {
             setLoading(false);
         }
@@ -61,9 +68,11 @@ const useReservation = () => {
         try {
             const { data } = await getReservationById(reservationId);
             setReservation(data);
+            showSuccessToast("Reserva obtenida exitosamente.");
             return data;
         } catch (err: unknown) {
             setMessageError(err, setError);
+            showErrorToast("Error al obtener la reserva. Por favor, inténtalo de nuevo.");
         } finally {
             setLoading(false);
         }
@@ -76,8 +85,10 @@ const useReservation = () => {
         try {
             const { data } = await loadReservations(customerId);
             setReservations(data);
+            showSuccessToast("Reservas cargadas exitosamente.");
         } catch (err: unknown) {
             setMessageError(err, setError);
+            showErrorToast("Error al cargar las reservas. Por favor, inténtalo de nuevo.");
         } finally {
             setLoading(false);
         }
@@ -90,8 +101,10 @@ const useReservation = () => {
         try {
             const { data } = await loadReservationsByRestaurant(restaurantId);
             setReservations(data);
+            showSuccessToast("Reservas del restaurante cargadas exitosamente.");
         } catch (err: unknown) {
             setMessageError(err, setError);
+            showErrorToast("Error al cargar las reservas del restaurante. Por favor, inténtalo de nuevo.");
         } finally {
             setLoading(false);
         }
