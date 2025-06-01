@@ -20,12 +20,13 @@ import { RestaurantDetailStaff } from '../features/app/staff/restaurants/Restaur
 import { RestaurantEdit } from '../features/app/staff/restaurants/RestaurantEdit';
 import { RestaurantManagement } from '../features/app/staff/restaurants/RestaurantManagement';
 import { ChangePassword } from '../features/auth/ChangePassword';
-import { ChangePasswordEmail } from '../features/auth/ChangePasswordEmail';
 import { LogIn } from '../features/auth/LogIn';
 import { SignUp } from '../features/auth/SignUp';
 import { Home } from '../features/home/Home';
 import { NotFound } from '../features/not-found/NotFound';
 import { ProtectedRoute } from './ProtectedRoute';
+import { ResetPassword } from '../features/auth/ResetPassword';
+import { UpdateReservation } from '../features/app/customer/UpdateReservation';
 
 export const AppRouter = () => {
 
@@ -44,6 +45,8 @@ export const AppRouter = () => {
         { path: '/about', element: <About /> },
         { path: '/contact', element: <Contact /> },
         { path: '/restaurant/:id', element: <RestaurantDetail /> },
+        { path: "/account/reset-password", element: <ResetPassword /> },
+        { path: "/account/change-password", element: <ChangePassword /> },
         { path: '*', element: <NotFound /> },
 
         {
@@ -54,8 +57,6 @@ export const AppRouter = () => {
                     children: [
                         { path: "/account", element: <MyAccount /> },
                         { path: "/account/edit", element: <EditMyAccount /> },
-                        { path: "/account/reset-password", element: <ChangePasswordEmail /> },
-                        { path: "/account/reset-password/:uuid", element: <ChangePassword /> },
                         // Rutas para todos los usuarios
                     ]
                 }
@@ -108,7 +109,11 @@ export const AppRouter = () => {
                     element: <App />,
                     children: [
                         { path: "/reservations", element: <Reservations /> },
-                        { path: "/restaurant/:restaurantId/reservation/new", element: <NewReservation /> },
+                        { path: "/reservation/:reservationId/update", element: <UpdateReservation /> },
+                        {
+                            path: "/restaurant/:restaurantId/reservation/new", element:
+                                <NewReservation />
+                        },
                         // Rutas para customers
                     ]
                 }

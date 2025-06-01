@@ -34,60 +34,64 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class UserController {
 
-    private final AuthService authService;
-    private final UserService userService;
+	private final AuthService authService;
+	private final UserService userService;
 
-    @GetMapping("/admin/users")
-    public ResponseEntity<Page<UserDTO>> getUsers(
-            @PageableDefault(page = 0, size = 10)
-            @SortDefault.SortDefaults({
-                @SortDefault(sort = "creationDate", direction = Sort.Direction.DESC)
-            }) Pageable pageable,
-            @RequestParam Map<String, String> filters
-    ) {
-        filters.remove("size");
-        filters.remove("page");
-        filters.remove("sort");
+	@GetMapping("/admin/users")
+	public ResponseEntity<Page<UserDTO>> getUsers(
+			@PageableDefault(page = 0, size = 10) @SortDefault.SortDefaults({
+					@SortDefault(sort = "creationDate", direction = Sort.Direction.DESC) }) Pageable pageable,
+			@RequestParam Map<String, String> filters) {
+		filters.remove("size");
+		filters.remove("page");
+		filters.remove("sort");
 
-        return ResponseEntity.ok(userService.getUsers(pageable, filters));
-    }
+		return ResponseEntity.ok(userService.getUsers(pageable, filters));
+	}
 
-    @GetMapping("/admin/{userId}")
-    public ResponseEntity<UserDTO> getUser(@PathVariable Long userId) {
-        return ResponseEntity.ok(userService.getUserById(userId));
-    }
+	@GetMapping("/admin/{userId}")
+	public ResponseEntity<UserDTO> getUser(@PathVariable Long userId) {
+		return ResponseEntity.ok(userService.getUserById(userId));
+	}
 
-    @GetMapping("/profile")
-    public ResponseEntity<UserDTO> getMyProfile() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String email = authentication.getName();
+	@GetMapping("/profile")
+	public ResponseEntity<UserDTO> getMyProfile() {
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		String email = authentication.getName();
 
-        return ResponseEntity.ok(userService.getUserByEmail(email));
-    }
+		return ResponseEntity.ok(userService.getUserByEmail(email));
+	}
 
-    @PostMapping("/auth/register")
-    public ResponseEntity<AuthResponseDTO> register(@RequestBody RegisterDTO reg) {
-        return ResponseEntity.ok(authService.register(reg));
-    }
+	@PostMapping("/auth/register")
+	public ResponseEntity<AuthResponseDTO> register(@RequestBody RegisterDTO reg) {
+		return ResponseEntity.ok(authService.register(reg));
+	}
 
-    @PostMapping("/auth/login")
-    public ResponseEntity<AuthResponseDTO> login(@RequestBody LoginDTO req) {
-        return ResponseEntity.ok(authService.login(req.getEmail(), req.getPassword()));
-    }
+	@PostMapping("/auth/login")
+	public ResponseEntity<AuthResponseDTO> login(@RequestBody LoginDTO req) {
+		return ResponseEntity.ok(authService.login(req.getEmail(), req.getPassword()));
+	}
 
-    @DeleteMapping("/admin/{userId}")
-    public ResponseEntity<Void> deleteUser(@PathVariable Long userId) {
-        userService.deleteUser(userId);
-        return ResponseEntity.noContent().build();
-    }
+	@DeleteMapping("/admin/{userId}")
+	public ResponseEntity<Void> deleteUser(@PathVariable Long userId) {
+		userService.deleteUser(userId);
+		return ResponseEntity.noContent().build();
+	}
 
-    @PostMapping("/profile/update")
-    public ResponseEntity<AuthResponseDTO> updateMyData(@RequestBody UserDTO userDTO, @RequestParam(required = false) String currentPassword) {
-        return ResponseEntity.ok(authService.updateMyData(userDTO, currentPassword));
-    }
+	@PostMapping("/profile/update")
+	public ResponseEntity<AuthResponseDTO> updateMyData(@RequestBody UserDTO userDTO,
+			@RequestParam(required = false) String currentPassword) {
+		return ResponseEntity.ok(authService.updateMyData(userDTO, currentPassword));
+	}
 
-    @PutMapping("/admin/update/{userId}")
-    public ResponseEntity<UserDTO> updateUser(@PathVariable Long userId, @RequestBody UserDTO userDTO) {
-        return ResponseEntity.ok(userService.updateUser(userDTO));
-    }
+	@PutMapping("/admin/update/{userId}")
+	public ResponseEntity<UserDTO> updateUser(@PathVariable Long userId, @RequestBody UserDTO userDTO) {
+		return ResponseEntity.ok(userService.updateUser(userDTO));
+	}
+
+	@PutMapping("/profile/update-password")
+	public ResponseEntity<AuthResponseDTO> updatePassword(@RequestParam String email, @RequestParam String password,
+			@RequestParam String jwtToken) {
+		return ResponseEntity.ok(authService.updatePassword(jwtToken, email, password));
+	}
 }

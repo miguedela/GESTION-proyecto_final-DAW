@@ -82,7 +82,7 @@ public class EmailServiceImpl implements EmailService {
 		String token = jwtUtils.generateResetPasswordToken(emailTo);
 
 		Map<String, Object> variables = new HashMap<>();
-		variables.put("temporalUrl", frontendUrl + "/account/reset-password?token=" + token);
+		variables.put("temporalUrl", frontendUrl + "/account/change-password?token=" + token);
 
 		EmailDTO emailDTO = new EmailDTO();
 		emailDTO.setTo(emailTo);

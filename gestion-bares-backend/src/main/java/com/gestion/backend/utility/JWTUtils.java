@@ -70,14 +70,16 @@ public class JWTUtils {
 		return extractClaims(token, Claims::getExpiration).before(new Date());
 	}
 
-	public boolean validateResetPasswordToken(String token) {
+	public String validateResetPasswordToken(String token) {
 		try {
-			if (isTokenExpired(token))
-				return false;
+			if (isTokenExpired(token)) return null;
 			String type = extractClaims(token, claims -> (String) claims.get("token_type"));
-			return "reset_password".equals(type);
+			String email = extractClaims(token, claims -> (String) claims.getSubject());
+			if (!"reset_password".equals(type)) return null;
+			
+			return email;
 		} catch (Exception e) {
-			return false;
+			return null;
 		}
 	}
 }

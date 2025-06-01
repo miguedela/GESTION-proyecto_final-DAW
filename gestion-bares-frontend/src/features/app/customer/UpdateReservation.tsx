@@ -1,14 +1,13 @@
 import { useAtom } from 'jotai';
-import { useCallback, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { z } from 'zod';
-import { loadRestaurant } from '../../../api/restaurants.api';
-import { breadcrumbsAtom } from '../../../atoms/breadcrumbs.atom';
 import { userAtom } from '../../../atoms/user.atom';
 import { Input, Select } from '../../../components/Forms';
 import useReservation from '../../../hooks/useReservation';
 import { Status } from '../../../types/Reservation';
 import { IRestaurant } from '../../../types/Restaurants';
+import { breadcrumbsAtom } from '../../../atoms/breadcrumbs.atom';
 
 const reservationSchema = z.object({
   reservationDate: z.string().min(1, "La fecha es obligatoria"),
@@ -45,8 +44,8 @@ function generateHourOptions(franjas: string[][]) {
   return Array.from(new Set(options)).sort();
 }
 
-export const NewReservation = () => {
-  const { restaurantId } = useParams<{ restaurantId: string }>();
+export const UpdateReservation = () => {
+  const { reservationId } = useParams<{ reservationId: string }>();
   const [user] = useAtom(userAtom);
   const navigate = useNavigate();
 
@@ -62,36 +61,37 @@ export const NewReservation = () => {
   const [openingHoursParsed, setOpeningHoursParsed] = useState<string[][][]>([]);
   const [closedDays, setClosedDays] = useState<number[]>([]);
 
-  const { handleCreateReservation, loading, error } = useReservation();
-
-  const fetchRestaurant = useCallback(async () => {
-    if (!restaurantId) return;
-    try {
-      const response = await loadRestaurant(restaurantId);
-      setRestaurant(response.data);
-      if (response.data.openingHours) {
-        setOpeningHoursParsed(parseOpeningHours(response.data.openingHours));
-      }
-    } catch (err) {
-      console.error("Error loading restaurant: ", err);
-      navigate("/main");
-    }
-  }, [restaurantId, navigate]);
+  const {
+    handleUpdateReservation,
+    handleGetReservationById,
+    loading,
+    error,
+    reservation,
+  } = useReservation();
 
   const [, setBreadcrumbs] = useAtom(breadcrumbsAtom);
   useEffect(() => {
     setBreadcrumbs([
-      { label: "Restaurantes", path: "/main" },
-      { label: `${restaurant?.name || ''}`, path: `/restaurant/${restaurantId}` },
-      { label: "Hacer reserva", path: `/restaurant/${restaurantId}/reservation/new` },
+      { label: "Reservas", path: "/reservations" },
+      { label: "Actualizar reserva", path: `/reservation/${reservationId}/update` },
     ]);
-  }, [restaurantId, restaurant, setBreadcrumbs]);
+  }, [setBreadcrumbs, reservationId]);
 
   useEffect(() => {
-    if (!user && restaurantId) navigate(`/restaurant/${restaurantId}`);
-    if (!restaurantId) navigate("/main");
-    else fetchRestaurant();
-  }, [restaurantId, user, navigate, fetchRestaurant]);
+    const fetchData = async () => {
+      if (!reservationId) return;
+      const data = await handleGetReservationById(reservationId);
+      if (data) {
+        setReservationDate(data.reservationTime.slice(0, 10));
+        setReservationHour(
+          new Date(data.reservationTime).toLocaleTimeString('es-ES', { hour: '2-digit', minute: '2-digit', hour12: false })
+        );
+        setReservationNumber(data.reservationNumber.toString());
+        setRestaurant(data.restaurant);
+      }
+    };
+    fetchData();
+  }, [reservationId]);
 
   useEffect(() => {
     if (restaurant?.openingHours) {
@@ -153,7 +153,7 @@ export const NewReservation = () => {
       reservationNumber,
     });
 
-    if (!restaurant ||  restaurant === null) {
+    if (!restaurant) {
       setFormError("Restaurante no válido.");
       return;
     }
@@ -173,17 +173,19 @@ export const NewReservation = () => {
 
     const reservationTime = new Date(`${reservationDate}T${reservationHour}`);
 
-    const reservation = {
+    const updatedReservation = {
+      ...reservation,
       customer: user,
       restaurant: restaurant,
       reservationNumber: Number(reservationNumber),
-      status: Status.PENDING,
+      status: reservation?.status || Status.PENDING,
       reservationTime,
     };
 
-    const res = await handleCreateReservation(reservation);
+    const res = await handleUpdateReservation(updatedReservation);
     if (res && !error) {
-      navigate(`/restaurant/${restaurantId}`);
+      setSuccess(true);
+      navigate(`/restaurant/${restaurant.id}`);
     }
   };
 
@@ -192,10 +194,18 @@ export const NewReservation = () => {
 
   const isClosed = reservationDate && availableHours.length === 0;
 
+  if (!restaurant) {
+    return (
+      <div className="max-w-md mx-auto mt-8 p-6 bg-white dark:bg-neutral-900 rounded shadow">
+        <div className="text-amber-600">Cargando restaurante...</div>
+      </div>
+    );
+  }
+
   return (
     <div className="max-w-md mx-auto mt-8 p-6 bg-white dark:bg-neutral-900 rounded shadow">
       <h2 className="text-2xl font-bold mb-4 text-amber-600 dark:text-amber-400">
-        Nueva Reserva en {restaurant?.name || "..."}
+        Editar Reserva en {restaurant?.name || "..."}
       </h2>
       <form onSubmit={handleSubmit} className="flex flex-col gap-4">
         <Input
@@ -233,13 +243,13 @@ export const NewReservation = () => {
         )}
         {formError && <div className="text-red-600 font-semibold">{formError}</div>}
         {error && <div className="text-red-600 font-semibold">{error}</div>}
-        {success && <div className="text-amber-600 font-semibold">¡Reserva creada con éxito!</div>}
+        {success && <div className="text-amber-600 font-semibold">¡Reserva actualizada con éxito!</div>}
         <button
           type="submit"
           className="bg-amber-500 text-white py-2 rounded hover:bg-amber-600 transition"
           disabled={!!loading || !!isClosed}
         >
-          {loading ? "Creando..." : "Reservar"}
+          {loading ? "Actualizando..." : "Actualizar"}
         </button>
       </form>
     </div>

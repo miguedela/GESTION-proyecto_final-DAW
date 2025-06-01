@@ -13,14 +13,10 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
-@AllArgsConstructor
-@NoArgsConstructor
-@Builder
 public class ReservationDTO {
 
 	private Long id;
 	private OurUser customer;
-	@JsonIgnore
 	private Restaurant restaurant;
 	private int reservationNumber;
 	private Status status;

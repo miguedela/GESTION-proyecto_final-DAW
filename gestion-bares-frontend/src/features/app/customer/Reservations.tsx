@@ -1,7 +1,9 @@
 import { useAtom } from 'jotai';
 import { useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import { userAtom } from '../../../atoms/user.atom';
 import useReservation from '../../../hooks/useReservation';
+import { breadcrumbsAtom } from '../../../atoms/breadcrumbs.atom';
 
 export const Reservations = () => {
   const [user] = useAtom(userAtom);
@@ -12,11 +14,18 @@ export const Reservations = () => {
     handleLoadReservationsByCustomer,
   } = useReservation();
 
+  const [, setBreadcrumbs] = useAtom(breadcrumbsAtom);
+  useEffect(() => {
+    setBreadcrumbs([
+      { label: "Reservas", path: "/reservations" },
+    ]);
+  }, [setBreadcrumbs]);
+
   useEffect(() => {
     if (user?.id) {
       handleLoadReservationsByCustomer(user.id);
     }
-  }, [user, handleLoadReservationsByCustomer]);
+  }, [user?.id]);
 
   return (
     <div className="max-w-2xl mx-auto mt-8 p-6 bg-white dark:bg-neutral-900 rounded shadow">
@@ -47,7 +56,14 @@ export const Reservations = () => {
                 const hour = dateObj.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
                 return (
                   <tr key={r.id} className="hover:bg-amber-50 dark:hover:bg-neutral-800">
-                    <td className="px-4 py-2">{r.restaurant?.name || '-'}</td>
+                    <Link
+                      to={`/reservation/${r.id}/update`}
+                      className="text-amber-600 hover:underline"
+                    >
+                      <td className="px-4 py-2">
+                        {r.restaurant?.name || '-'}
+                      </td>
+                    </Link>
                     <td className="px-4 py-2">{date}</td>
                     <td className="px-4 py-2">{hour}</td>
                     <td className="px-4 py-2">{r.reservationNumber}</td>

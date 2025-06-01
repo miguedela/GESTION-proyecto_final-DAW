@@ -32,4 +32,11 @@ public interface AuthService {
 	 */
 	public AuthResponseDTO updateMyData(UserDTO userDTO, String currentPassword);
 
+	/**
+	 * Actualiza la contraseña del usuario logueado.
+	 * 
+	 * @return AuthResponseDTO Respuesta indicando el cambio de contraseña.
+	 */
+	public AuthResponseDTO updatePassword(String jwtToken, String email, String password);
+
 }

@@ -85,9 +85,15 @@ export const LogIn = () => {
 
                     <div className='mt-10 flex gap-5 items-center justify-between'>
                         <MainButton text='Entrar' type='submit' />
-                        <div className="flex flex-col items-end">
-                            <p className="text-sm text-neutral-400">¿Ya tienes una cuenta?</p>
-                            <Link to="/signup" className="text-amber-500 underline">Registrarme</Link>
+                        <div>
+                            <div className="flex flex-col items-end">
+                                <p className="text-sm text-neutral-400">¿Aún no tienes cuenta?</p>
+                                <Link to="/signup" className="text-amber-500 underline">Registrarme</Link>
+                            </div>
+                            <div className="flex flex-col items-end">
+                                <p className="text-sm text-neutral-400">¿Has olvidado tu contraseña?</p>
+                                <Link to="/account/reset-password" className="text-amber-500 underline">Recuperar contraseña</Link>
+                            </div>
                         </div>
                     </div>
                 </form>
@@ -95,7 +101,7 @@ export const LogIn = () => {
 
             <Link to="/" className="text-amber-500 underline text-sm">Volver a inicio</Link>
             <Link to="/" className="text-amber-500 underline text-sm">Cambiar contraseña</Link>
-            
+
         </div>
     </div>
 }

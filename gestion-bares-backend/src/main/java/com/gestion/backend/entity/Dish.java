@@ -4,6 +4,8 @@ import java.math.BigDecimal;
 
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EntityListeners;
@@ -43,6 +45,7 @@ public class Dish {
 
 	@ManyToOne
 	@JoinColumn(name = "menu_id")
+	@JsonIgnore
 	private Menu menu;
 
 }

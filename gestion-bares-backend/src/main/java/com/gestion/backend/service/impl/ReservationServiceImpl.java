@@ -29,11 +29,11 @@ public class ReservationServiceImpl implements ReservationService {
 		if (reservationDTO.getReservationTime().isBefore(LocalDateTime.now())) {
 			throw new IllegalArgumentException("La fecha de la reserva debe ser futura.");
 		}
-		// Validar que el restaurante exista
+		// Válidar que el restaurante exista
 		if (!restaurantRepository.existsById(reservationDTO.getRestaurant().getId())) {
 			throw new ResourceNotFoundException("Restaurante no encontrado.");
 		}
-		// Validar que el cliente exista
+		// Válidar que el cliente exista
 		if (!customerRepository.existsById(reservationDTO.getCustomer().getId())) {
 			throw new ResourceNotFoundException("Cliente no encontrado.");
 		}
@@ -45,7 +45,7 @@ public class ReservationServiceImpl implements ReservationService {
 		LocalDateTime start = reservationDTO.getReservationTime().withMinute(0).withSecond(0).withNano(0);
 		LocalDateTime end = start.plusHours(1);
 
-		// Vaslidar capacidad
+		// Válidar capacidad
 		int totalCustomers = getTotalCustomersInTimeRange(reservationDTO.getRestaurant().getId(), start, end);
 		if (totalCustomers + reservationDTO.getReservationNumber() > capacity) {
 			throw new IllegalArgumentException("No hay disponibilidad para la hora seleccionada.");
@@ -65,19 +65,19 @@ public class ReservationServiceImpl implements ReservationService {
 
 	@Override
 	public ReservationDTO updateReservation(ReservationDTO reservationDTO) {
-		// Validar que la reserva existe
+		// Válidar que la reserva existe
 		reservationRepository.findById(reservationDTO.getId()).orElseThrow(
 				() -> new ResourceNotFoundException("Reserva no econtrada con ID: " + reservationDTO.getId()));
 
-		// Validar que la fecha de reserva es futura
+		// Válidar que la fecha de reserva es futura
 		if (reservationDTO.getReservationTime().isBefore(LocalDateTime.now())) {
 			throw new IllegalArgumentException("La fecha de la reserva debe ser futura.");
 		}
-		// Validar que el restaurante existe
+		// Válidar que el restaurante existe
 		if (!restaurantRepository.existsById(reservationDTO.getRestaurant().getId())) {
 			throw new ResourceNotFoundException("Restaurante no encontrado.");
 		}
-		// Validar que el cliente existe
+		// Válidar que el cliente existe
 		if (!customerRepository.existsById(reservationDTO.getCustomer().getId())) {
 			throw new ResourceNotFoundException("Cliente no encontrado.");
 		}
@@ -89,13 +89,8 @@ public class ReservationServiceImpl implements ReservationService {
 		LocalDateTime start = reservationDTO.getReservationTime().withMinute(0).withSecond(0).withNano(0);
 		LocalDateTime end = start.plusHours(1);
 
-		// In updateReservation
+		// Válidar capacidad
 		int totalCustomers = getTotalCustomersInTimeRange(reservationDTO.getRestaurant().getId(), start, end);
-		// Exclude the current reservation's customers if updating
-		Reservation existing = reservationRepository.findById(reservationDTO.getId()).orElseThrow(
-				() -> new ResourceNotFoundException("Reserva no econtrada con ID: " + reservationDTO.getId()));
-		totalCustomers -= existing.getReservationNumber();
-
 		if (totalCustomers + reservationDTO.getReservationNumber() > capacity) {
 			throw new IllegalArgumentException("No hay disponibilidad para la hora seleccionada.");
 		}
