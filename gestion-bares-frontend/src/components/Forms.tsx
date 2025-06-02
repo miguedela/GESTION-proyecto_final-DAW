@@ -32,7 +32,7 @@ export const Input = ({ label, id, value, placeholder, type = 'text', onChange, 
                     placeholder={placeholder}
                     onChange={onChange}
                     min={min}
-                    className="p-2 border border-neutral-400/70 rounded-sm outline-0 focus:border-amber-500 w-full bg-white dark:bg-neutral-900 text-neutral-900 dark:text-neutral-100"
+                    className="p-2 border border-neutral-400/70 rounded-sm outline-0 focus:border-amber-500 w-full bg-white text-neutral-900"
                     step={step}
                 />
                 {isPassword && (
@@ -91,7 +91,7 @@ export const Select: React.FC<SelectProps> = ({
                 value={value}
                 onChange={onChange}
                 disabled={disabled}
-                className="p-2 border border-neutral-400/70 rounded-sm outline-0 focus:border-amber-500 w-full bg-white dark:bg-neutral-900 text-neutral-900 dark:text-neutral-100"
+                className="p-2 border border-neutral-400/70 rounded-sm outline-0 focus:border-amber-500 w-full bg-white text-neutral-900"
             >
                 <option value="" className='bg-amber-600 text-neutral-800'>{placeholderOption}</option>
                 {options.map((option) => (

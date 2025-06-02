@@ -1,12 +1,12 @@
 import { useAtom } from 'jotai';
 import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { userAtom } from '../../../atoms/user.atom';
-import useReservation from '../../../hooks/useReservation';
-import { breadcrumbsAtom } from '../../../atoms/breadcrumbs.atom';
-import { Status } from '../../../types/Reservation';
+import { breadcrumbsAtom } from '../../../../atoms/breadcrumbs.atom';
+import { userAtom } from '../../../../atoms/user.atom';
+import useReservation from '../../../../hooks/useReservation';
+import { Status } from '../../../../types/Reservation';
 
-export const Reservations = () => {
+export const MyReservations = () => {
   const [user] = useAtom(userAtom);
   const {
     reservations,
@@ -29,18 +29,18 @@ export const Reservations = () => {
   }, [user?.id]);
 
   return (
-    <div className="max-w-2xl mx-auto mt-8 p-6 bg-white dark:bg-neutral-900 rounded shadow">
-      <h2 className="text-2xl font-bold mb-4 text-amber-600 dark:text-amber-400">
+    <div className="max-w-2xl mx-auto mt-8 p-6 bg-white rounded shadow">
+      <h2 className="text-2xl font-bold mb-4 text-amber-600">
         Mis Reservas
       </h2>
       {loading && <div className="text-amber-600">Cargando reservas...</div>}
       {error && <div className="text-red-600 font-semibold">{error}</div>}
       {!loading && reservations.length === 0 && (
-        <div className="text-gray-600 dark:text-gray-300">No tienes reservas.</div>
+        <div className="text-gray-600">No tienes reservas.</div>
       )}
       {!loading && reservations.length > 0 && (
         <div className="overflow-x-auto">
-          <table className="min-w-full divide-y divide-gray-200 dark:divide-neutral-700">
+          <table className="min-w-full divide-y divide-gray-200">
             <thead>
               <tr>
                 <th className="px-4 py-2 text-left">Restaurante</th>
@@ -58,7 +58,7 @@ export const Reservations = () => {
                   const date = dateObj.toLocaleDateString();
                   const hour = dateObj.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
                   return (
-                    <tr key={r.id} className="hover:bg-amber-50 dark:hover:bg-neutral-800">
+                    <tr key={r.id} className="hover:bg-amber-50">
                       <Link
                         to={`/reservation/${r.id}/update`}
                         className="text-amber-600 hover:underline"

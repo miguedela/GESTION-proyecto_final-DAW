@@ -74,7 +74,7 @@ export const CreateRestaurant = () => {
       navigate('/account');
   }
 
-  return <div className="w-full flex flex-col gap-3 dark:bg-neutral-900 bg-white dark:text-neutral-200 text-dark rounded-md p-20">
+  return <div className="w-full flex flex-col gap-3 bg-white text-dark rounded-md p-20">
     <h1 className="text-4xl">Crear Restaurante</h1>
 
     <div className="my-20 flex flex-col gap-5">

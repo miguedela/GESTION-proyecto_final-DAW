@@ -52,7 +52,7 @@ export const UserDetails = () => {
       handleLoadUser()
   }, [id, navigate, handleLoadUser]);
 
-  return <div className="w-1/2 dark:bg-neutral-900 bg-white dark:text-neutral-200 text-dark rounded-md p-20">
+  return <div className="w-1/2 bg-white text-dark rounded-md p-20">
     <Loader loading={loading}>
       <div>
         <h1 className="mb-7">Detalles de usuario</h1>

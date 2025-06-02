@@ -45,11 +45,11 @@ export const UsersManagement = () => {
         handleLoadUsers({ page: 0, size: 5 });
     }, [handleLoadUsers]);
 
-    return <div className="w-full flex flex-col gap-3 dark:bg-neutral-900 bg-white dark:text-neutral-200 text-dark rounded-md p-20">
+    return <div className="w-full flex flex-col gap-3 bg-white text-dark rounded-md p-20">
         <UsersFilters />
         <Loader loading={users.loading}>
-            <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-neutral-400">
-                <thead className="text-xs dark:text-white text-gray-700 uppercase bg-gray-50 dark:bg-neutral-700 drak:text-neutral-400">
+            <table className="w-full text-sm text-left rtl:text-right text-gray-500">
+                <thead className="text-xs text-gray-700 uppercase bg-gray-50">
                     <tr>
                         {[
                             { label: "Email", key: "email" },
@@ -71,7 +71,7 @@ export const UsersManagement = () => {
                 </thead>
                 <tbody>
                     {users.content.map((user, index) => (
-                        <tr key={index} className="bg-white dark:bg-neutral-600 border-b border-neutral-800 hover:bg-gray-50 dark:hover:bg-neutral-700">
+                        <tr key={index} className="bg-white border-b border-neutral-800 hover:bg-gray-50">
                             <td className="px-6 py-4">{user.email}</td>
                             <td className="px-6 py-4">{user.name}</td>
                             <td className="px-6 py-4">{user.surnames}</td>

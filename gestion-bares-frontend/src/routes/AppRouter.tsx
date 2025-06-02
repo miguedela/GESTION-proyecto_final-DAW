@@ -9,15 +9,17 @@ import { UserDetails } from '../features/app/admin/users/UserDetails';
 import { UsersManagement } from '../features/app/admin/users/UsersManagement';
 import { App } from '../features/app/App';
 import { Contact } from '../features/app/Contact';
-import { NewReservation } from '../features/app/customer/NewReservation';
-import { Reservations } from '../features/app/customer/Reservations';
-import { RestaurantDetail } from '../features/app/customer/RestaurantDetail';
-import { UpdateReservation } from '../features/app/customer/UpdateReservation';
+import { MyNotifications } from '../features/app/customer/MyNotifications';
+import { MyReservations } from '../features/app/customer/reservation/MyReservations';
+import { NewReservation } from '../features/app/customer/reservation/NewReservation';
+import { Reservations } from '../features/app/customer/reservation/Reservations';
+import { UpdateReservation } from '../features/app/customer/reservation/UpdateReservation';
+import { RestaurantContact } from '../features/app/customer/restaurant/RestaurantContact';
+import { RestaurantDetail } from '../features/app/customer/restaurant/RestaurantDetail';
+import { RestaurantMenu } from '../features/app/customer/restaurant/RestaurantMenu';
+import { Help } from '../features/app/Help';
 import { EditMyAccount } from '../features/app/my-account/EditMyAccount';
 import { MyAccount } from '../features/app/my-account/MyAccount';
-import { RestaurantContact } from '../features/app/restaurants/RestaurantContact';
-import { RestaurantMenu } from '../features/app/restaurants/RestaurantMenu';
-import { RestaurantsList } from '../features/app/restaurants/RestaurantsList';
 import { CreateDishToMenu } from '../features/app/staff/restaurants/menu/CreateDishToMenu';
 import { EditDish } from '../features/app/staff/restaurants/menu/EditDish';
 import { StaffRestaurantMenu } from '../features/app/staff/restaurants/menu/RestaurantMenu';
@@ -30,6 +32,9 @@ import { ResetPassword } from '../features/auth/ResetPassword';
 import { SignUp } from '../features/auth/SignUp';
 import { Home } from '../features/home/Home';
 import { NotFound } from '../features/not-found/NotFound';
+import { Menu } from '../features/restaurants/Menu';
+import { Restaurant } from '../features/restaurants/Resaturant';
+import { RestaurantsList } from '../features/restaurants/RestaurantsList';
 import { ProtectedRoute } from './ProtectedRoute';
 
 export const AppRouter = () => {
@@ -45,12 +50,13 @@ export const AppRouter = () => {
         ...renderMultiRoutes({ paths: ['/home', '/'], element: <Home /> }),
         { path: '/login', element: <LogIn /> },
         { path: '/signup', element: <SignUp /> },
+        { path: "/account/reset-password", element: <ResetPassword /> },
+        { path: "/account/change-password", element: <ChangePassword /> },
         { path: '/main', element: <RestaurantsList /> },
         { path: '/about', element: <About /> },
         { path: '/contact', element: <Contact /> },
-        { path: "/account/reset-password", element: <ResetPassword /> },
-        { path: "/account/change-password", element: <ChangePassword /> },
-        { path: '/menu', element: <RestaurantMenu /> },
+        { path: '/restaurant', element: <Restaurant /> },
+        { path: '/menu', element: <Menu /> },
         { path: '*', element: <NotFound /> },
 
         {
@@ -61,6 +67,7 @@ export const AppRouter = () => {
                     children: [
                         { path: "/my-account", element: <MyAccount /> },
                         { path: "/my-account/edit", element: <EditMyAccount /> },
+                        { path: "/help", element: <Help /> },
                         // Rutas para todos los usuarios
                     ]
                 }
@@ -70,6 +77,7 @@ export const AppRouter = () => {
             children: [
                 { path: "/account", element: <Account /> },
                 { path: "/account/edit", element: <EditAccount /> },
+                { path: "/reservations", element: <Reservations /> },
             ]
         },
         {
@@ -118,10 +126,11 @@ export const AppRouter = () => {
                             path: "/restaurant/:restaurantId/reservation/new", element:
                                 <NewReservation />
                         },
-                        { path: "/my-reservations", element: <Reservations /> },
+                        { path: "/my-reservations", element: <MyReservations /> },
                         { path: '/restaurant/info', element: <RestaurantDetail /> },
                         { path: "/restaurant/menu", element: <RestaurantMenu /> },
                         { path: '/restaurant/contact', element: <RestaurantContact /> },
+                        { path: '/my-notifications', element: <MyNotifications /> },
                         // Rutas para customers
                     ]
                 }

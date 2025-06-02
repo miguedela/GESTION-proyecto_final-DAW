@@ -15,11 +15,11 @@ export const PillCheck = ({ text, className, active, onClick }: { text: string, 
 }
 
 const colorClasses: Record<string, string> = {
-    red: 'text-red-700 bg-red-700/30 border-red-700/80 dark:text-red-300 dark:bg-red-300/30 dark:border-red-300/80',
-    amber: 'text-amber-700 bg-amber-700/30 border-amber-700/80 dark:text-amber-300 dark:bg-amber-500/30 dark:border-amber-500/80',
-    green: 'text-green-700 bg-green-700/30 border-green-700/80 dark:text-green-300 dark:bg-green-300/30 dark:border-green-300/80',
-    purple: 'text-purple-700 bg-purple-700/30 border-purple-700/80 dark:text-purple-300 dark:bg-purple-500/30 dark:border-purple-500/80',
-    yellow: 'text-yellow-700 bg-yellow-700/30 border-yellow-700/80 dark:text-yellow-300 dark:bg-yellow-500/30 dark:border-yellow-500/80'
+    red: 'text-red-700 bg-red-700/30 border-red-700/80',
+    amber: 'text-amber-700 bg-amber-700/30 border-amber-700/80',
+    green: 'text-green-700 bg-green-700/30 border-green-700/80',
+    purple: 'text-purple-700 bg-purple-700/30 border-purple-700/80',
+    yellow: 'text-yellow-700 bg-yellow-700/30 border-yellow-700/80'
 };
 
 export const Pill = ({ text, color = 'amber' }: { text: string, color?: string }) => {

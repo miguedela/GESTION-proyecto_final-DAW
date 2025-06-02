@@ -35,11 +35,11 @@ export const App = () => {
         <IoMenuOutline className="size-6" aria-hidden="true" />
       </button>
 
-      <div className="min-h-screen flex bg-neutral-100 text-neutral-800 dark:bg-neutral-700 dark:text-neutral-200">
+      <div className="min-h-screen flex bg-neutral-100 text-neutral-800">
         <NavMenu isOpen={isSidebarOpen} setIsSidebarOpen={setIsSidebarOpen} />
         <div className="flex-1 md:p-4 lg:ml-64">
           <Breadcrumbs />
-          <div className="min-h-[calc(100vh-76px)] bg-neutral-200 dark:bg-neutral-800 p-4 lg:p-16 rounded-xl flex justify-center items-center">
+          <div className="min-h-[calc(100vh-76px)] bg-neutral-200 p-4 lg:p-16 rounded-xl flex justify-center items-center">
             <Outlet />
           </div>
         </div>

@@ -99,7 +99,7 @@ export const EditDish = () => {
   };
 
   return (
-    <div className="w-full flex flex-col gap-3 dark:bg-neutral-900 bg-white dark:text-neutral-200 text-dark rounded-md p-20">
+    <div className="w-full flex flex-col gap-3 bg-white text-dark rounded-md p-20">
       <h1 className="text-4xl">Editar Plato</h1>
       <div className="my-20 flex flex-col gap-5">
         <form onSubmit={handleSubmit}>

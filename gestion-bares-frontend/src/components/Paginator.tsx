@@ -38,7 +38,7 @@ export const Paginator: React.FC<PaginatorProps> = ({
             </div>
             <div className="flex gap-2 items-center">
                 <button
-                    className="cursor-pointer p-2 dark:hover:bg-gray-700 hover:bg-gray-300 rounded"
+                    className="cursor-pointer p-2 hover:bg-gray-300 rounded"
                     onClick={() => handlePageChange(0)}
                     disabled={page <= 0}
                 >
@@ -46,7 +46,7 @@ export const Paginator: React.FC<PaginatorProps> = ({
                 </button>
 
                 <button
-                    className="cursor-pointer p-2 dark:hover:bg-gray-700 hover:bg-gray-300 rounded"
+                    className="cursor-pointer p-2 hover:bg-gray-300 rounded"
                     onClick={() => handlePageChange(page - 1)}
                     disabled={page <= 0}
                 >
@@ -56,7 +56,7 @@ export const Paginator: React.FC<PaginatorProps> = ({
                 <span className='px-3 py-1 rounded bg-amber-500 text-neutral-800'>{page + 1}</span>
 
                 <button
-                    className="cursor-pointer p-2 dark:hover:bg-gray-700 hover:bg-gray-300 rounded"
+                    className="cursor-pointer p-2 hover:bg-gray-300 rounded"
                     onClick={() => handlePageChange(page + 1)}
                     disabled={page >= pageCount - 1}
                 >
@@ -64,7 +64,7 @@ export const Paginator: React.FC<PaginatorProps> = ({
                 </button>
 
                 <button
-                    className="cursor-pointer p-2 dark:hover:bg-gray-700 hover:bg-gray-300 rounded"
+                    className="cursor-pointer p-2 hover:bg-gray-300 rounded"
                     onClick={() => handlePageChange(pageCount - 1)}
                     disabled={page >= pageCount - 1}
                 >

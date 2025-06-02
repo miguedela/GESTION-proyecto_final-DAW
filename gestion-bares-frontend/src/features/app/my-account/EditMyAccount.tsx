@@ -85,7 +85,7 @@ export const EditMyAccount = () => {
         }
     };
 
-    return <div className="w-1/2 dark:bg-neutral-900 bg-white dark:text-neutral-200 text-dark rounded-md p-20">
+    return <div className="w-1/2 bg-white text-dark rounded-md p-20">
         <h1 className="text-5xl text-center mb-10">Editar Mi Cuenta</h1>
 
         <Loader loading={loading}>

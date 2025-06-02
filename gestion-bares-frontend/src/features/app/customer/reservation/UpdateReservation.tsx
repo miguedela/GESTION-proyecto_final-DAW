@@ -2,12 +2,12 @@ import { useAtom } from 'jotai';
 import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { z } from 'zod';
-import { breadcrumbsAtom } from '../../../atoms/breadcrumbs.atom';
-import { userAtom } from '../../../atoms/user.atom';
-import { Input, Select } from '../../../components/Forms';
-import useReservation from '../../../hooks/useReservation';
-import { Status } from '../../../types/Reservation';
-import { IRestaurant } from '../../../types/Restaurants';
+import { breadcrumbsAtom } from '../../../../atoms/breadcrumbs.atom';
+import { userAtom } from '../../../../atoms/user.atom';
+import { Input, Select } from '../../../../components/Forms';
+import useReservation from '../../../../hooks/useReservation';
+import { Status } from '../../../../types/Reservation';
+import { IRestaurant } from '../../../../types/Restaurants';
 
 const reservationSchema = z.object({
   reservationDate: z.string().min(1, "La fecha es obligatoria"),
@@ -197,15 +197,15 @@ export const UpdateReservation = () => {
 
   if (!restaurant) {
     return (
-      <div className="max-w-md mx-auto mt-8 p-6 bg-white dark:bg-neutral-900 rounded shadow">
+      <div className="max-w-md mx-auto mt-8 p-6 bg-white rounded shadow">
         <div className="text-amber-600">Cargando restaurante...</div>
       </div>
     );
   }
 
   return (
-    <div className="max-w-md mx-auto mt-8 p-6 bg-white dark:bg-neutral-900 rounded shadow">
-      <h2 className="text-2xl font-bold mb-4 text-amber-600 dark:text-amber-400">
+    <div className="max-w-md mx-auto mt-8 p-6 bg-white rounded shadow">
+      <h2 className="text-2xl font-bold mb-4 text-amber-600">
         Editar Reserva en {restaurant?.name || "..."}
       </h2>
       <form onSubmit={handleSubmit} className="flex flex-col gap-4">

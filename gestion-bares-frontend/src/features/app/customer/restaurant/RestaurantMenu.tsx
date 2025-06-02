@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
-import { loadMenu } from "../../../api/menu.api";
-import { IDish } from "../../../types/Dish";
-import { IMenu } from "../../../types/Menu";
+import { loadMenu } from "../../../../api/menu.api";
+import { IDish } from "../../../../types/Dish";
+import { IMenu } from "../../../../types/Menu";
 
 export const RestaurantMenu = () => {
     const [menu, setMenu] = useState<IMenu>();

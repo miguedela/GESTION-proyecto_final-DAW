@@ -1,12 +1,12 @@
 import { useAtom } from "jotai";
 import { useCallback, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { loadRestaurant } from "../../../api/restaurants.api";
-import { breadcrumbsAtom } from "../../../atoms/breadcrumbs.atom";
-import { userAtom } from "../../../atoms/user.atom";
-import { Loader } from "../../../components/Loader";
-import { IRestaurant } from "../../../types/Restaurants";
-import { Roles } from "../../../types/User";
+import { loadRestaurant } from "../../../../api/restaurants.api";
+import { breadcrumbsAtom } from "../../../../atoms/breadcrumbs.atom";
+import { userAtom } from "../../../../atoms/user.atom";
+import { Loader } from "../../../../components/Loader";
+import { IRestaurant } from "../../../../types/Restaurants";
+import { Roles } from "../../../../types/User";
 
 export const RestaurantDetail = () => {
   const [restaurantId] = useState(localStorage.getItem("restaurantId"));
@@ -52,7 +52,7 @@ export const RestaurantDetail = () => {
 
   return (
     <div className="w-full max-h-full flex flex-col gap-3">
-      <div className="container mx-auto flex flex-1 flex-col dark:bg-neutral-900 bg-white dark:text-neutral-200 text-dark rounded-md p-10 shadow">
+      <div className="container mx-auto flex flex-1 flex-col bg-white text-dark rounded-md p-10 shadow">
         <h1 className="text-4xl font-bold mb-6">Detalles del restaurante</h1>
         <Loader loading={loading}>
           <div className="flex flex-col gap-4">

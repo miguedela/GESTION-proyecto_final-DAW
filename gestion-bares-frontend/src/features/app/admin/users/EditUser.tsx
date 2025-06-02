@@ -111,7 +111,7 @@ export const EditUser = () => {
         handleGetRestaurants({ page: 0, size: 999 });
     }, [id, navigate, handleLoadUser, handleGetRestaurants]);
 
-    return <div className="w-1/2 dark:bg-neutral-900 bg-white dark:text-neutral-200 text-dark rounded-md p-20">
+    return <div className="w-1/2 bg-white  text-dark rounded-md p-20">
         <Loader loading={loading}>
             <h1 className="mb-7">Editar usuario</h1>
 

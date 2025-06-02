@@ -1,5 +1,5 @@
 import { useAtom } from "jotai";
-import { IoCallOutline, IoInformationCircleOutline, IoPersonOutline } from "react-icons/io5";
+import { IoCallOutline, IoInformationCircleOutline, IoPersonOutline, IoRestaurantOutline } from "react-icons/io5";
 import { Link } from "react-router-dom";
 import { userAtom } from "../atoms/user.atom";
 import { Roles } from "../types/User";
@@ -8,7 +8,7 @@ export const Header = () => {
     const [user] = useAtom(userAtom);
 
     return (
-        <header className="w-full bg-white dark:bg-neutral-900 shadow-md dark:shadow-none border-b border-neutral-200 dark:border-neutral-800">
+        <header className="w-full bg-white shadow-md">
             <div className="flex items-center justify-between py-4 px-6">
                 <Link to="/main">
                     <div className="flex items-end transition-transform hover:scale-105 active:scale-95">
@@ -17,13 +17,18 @@ export const Header = () => {
                     </div>
                 </Link>
                 <nav className="flex gap-6 items-center">
-                    <Link to="/about" className="flex items-center gap-1 text-neutral-700 dark:text-neutral-200 hover:text-amber-500 transition-colors">
+                    <Link to="/about" className="flex items-center gap-1 text-neutral-700 hover:text-amber-500 transition-colors">
                         <IoInformationCircleOutline size={22} className="text-amber-600" />
                     </Link>
-                    <Link to="/restaurant/contact" className="flex items-center gap-1 text-neutral-700 dark:text-neutral-200 hover:text-amber-500 transition-colors">
+                    <Link to="/contact" className="flex items-center gap-1 text-neutral-700 hover:text-amber-500 transition-colors">
                         <IoCallOutline size={22} className="text-amber-600" />
                     </Link>
-                    <Link to={user?.role === Roles.CUSTOMER ? "/account" : "/my-account"} className="flex items-center gap-1 text-neutral-700 dark:text-neutral-200 hover:text-amber-500 transition-colors">
+                    {user?.role === Roles.CUSTOMER && (
+                        <Link to="/reservations" className="flex items-center gap-1 text-neutral-700 hover:text-amber-500 transition-colors">
+                            <IoRestaurantOutline size={22} className="text-amber-600" />
+                        </Link>
+                    )}
+                    <Link to={user?.role === Roles.CUSTOMER ? "/account" : "/my-account"} className="flex items-center gap-1 text-neutral-700 hover:text-amber-500 transition-colors">
                         <IoPersonOutline size={24} className="text-amber-600" />
                     </Link>
                 </nav>

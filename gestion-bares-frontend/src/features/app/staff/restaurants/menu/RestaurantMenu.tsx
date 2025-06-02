@@ -77,11 +77,11 @@ export const StaffRestaurantMenu = () => {
   }, [id, navigate, handleLoadMenu]);
 
   return (
-    <div className="w-full flex flex-col gap-3 dark:bg-neutral-900 bg-white dark:text-neutral-200 text-dark rounded-md p-20">
+    <div className="w-full flex flex-col gap-3 bg-white text-dark rounded-md p-20">
       <Loader loading={loading}>
         <h1>Menú del restaurante</h1>
-        <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-neutral-400">
-          <thead className="text-xs dark:text-white text-gray-700 uppercase bg-gray-50 dark:bg-neutral-700 drak:text-neutral-400">
+        <table className="w-full text-sm text-left rtl:text-right text-gray-500">
+          <thead className="text-xs text-gray-700 uppercase bg-gray-50">
             <tr>
               <th className="px-6 py-3">Nombre</th>
               <th className="px-6 py-3">Descripción</th>
@@ -92,7 +92,7 @@ export const StaffRestaurantMenu = () => {
           </thead>
           <tbody>
             {menu?.dishes.map((dish) => (
-              <tr key={dish.id} className="bg-white dark:bg-neutral-800 hover:bg-gray-50 dark:hover:bg-neutral-700">
+              <tr key={dish.id} className="bg-white hover:bg-gray-50">
                 <td className="px-6 py-4">{dish.name}</td>
                 <td className="px-6 py-4">{dish.description}</td>
                 <td className="px-6 py-4">{dish.price}</td>

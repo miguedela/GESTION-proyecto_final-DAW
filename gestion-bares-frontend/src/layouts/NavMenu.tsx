@@ -1,4 +1,4 @@
-import { IoBookOutline, IoCloseOutline, IoLogOutOutline, IoMenuOutline, IoPeopleOutline, IoPersonOutline, IoRestaurantOutline } from "react-icons/io5";
+import { IoBookOutline, IoCloseOutline, IoHelpOutline, IoLogOutOutline, IoMenuOutline, IoNotificationsOutline, IoPeopleOutline, IoPersonOutline, IoRestaurantOutline } from "react-icons/io5";
 import { Link, NavLink } from "react-router-dom";
 import useAuth from "../hooks/useAuth";
 
@@ -31,18 +31,6 @@ export const NavMenu = ({ isOpen, setIsSidebarOpen }: { isOpen: boolean; setIsSi
                 // Secciones de customer
             ],
         },
-        {
-            access: "all",
-            sections: [
-                { name: "Mi cuenta", url: "/my-account", icon: <IoPersonOutline /> },
-                {
-                    name: "Desconectar",
-                    url: "/",
-                    icon: <IoLogOutOutline />,
-                    onClick: logout,
-                },
-            ],
-        },
     ];
 
     const filteredLinks = links.filter(
@@ -64,7 +52,7 @@ export const NavMenu = ({ isOpen, setIsSidebarOpen }: { isOpen: boolean; setIsSi
             <IoCloseOutline className="size-6" aria-hidden="true" />
         </button>
 
-        <div className="h-full py-8 px-3 overflow-y-auto flex flex-col dark:bg-neutral-800 bg-white">
+        <div className="h-full pt-8 px-3 overflow-y-auto flex flex-col bg-white">
             <Link to="/main">
                 <div className="border-b pb-5 flex items-end">
                     <div className="ml-3 w-5 h-full bg-amber-600"></div>
@@ -74,27 +62,71 @@ export const NavMenu = ({ isOpen, setIsSidebarOpen }: { isOpen: boolean; setIsSi
                 </div>
             </Link>
             <div className="font-medium flex flex-col flex-1">
-                {filteredLinks.map((linkGroup, index) => (
-                    <>
-                        <div key={index}>
-                            {linkGroup.sections.map((section, idx) => (
-                                <NavLink
-                                    to={section.url}
-                                    key={idx}
-                                    onClick={section.onClick}
-                                    className={({ isActive }) =>
-                                        `flex items-center gap-3 px-5 py-2 rounded-md my-3
+                <div className="flex flex-col justify-between h-full">
+                    {filteredLinks.map((linkGroup, index) => (
+                        <>
+                            <div key={index}>
+                                {linkGroup.sections.map((section, idx) => (
+                                    <NavLink
+                                        to={section.url}
+                                        key={idx}
+                                        className={({ isActive }) =>
+                                            `flex items-center gap-3 px-5 py-2 rounded-md my-3
+                                transition-all duration-200 
+                                ${isActive ? "bg-neutral-300 outline outline-neutral-400 text-black" : "hover:bg-neutral-700"}`
+                                        }
+                                    >
+                                        <span className="text-2xl">{section.icon}</span> {section.name}
+                                    </NavLink>
+                                ))}
+                            </div>
+                        </>
+                    ))}
+                    <div>
+                        <NavLink
+                            to="/my-notifications"
+                            className={({ isActive }) =>
+                                `flex items-center gap-3 px-5 py-2 rounded-md my-3
                                         transition-all duration-200 
-                                        ${isActive ? "dark:bg-neutral-600 bg-neutral-300 outline outline-neutral-400 dark:text-neutral-100 text-black" : "hover:bg-neutral-700"}`
-                                    }
-                                >
-                                    <span className="text-2xl">{section.icon}</span> {section.name}
-                                </NavLink>
-                            ))}
-                        </div>
+                                        ${isActive ? "bg-neutral-300 outline outline-neutral-400 text-black" : "hover:bg-neutral-700"}`
+                            }
+                        >
+                            <span className="text-2xl"><IoNotificationsOutline /></span> Notificaciónes
+                        </NavLink>
                         <hr className="last:hidden text-neutral-300 my-3" />
-                    </>
-                ))}
+                        <NavLink
+                            to="/my-account"
+                            className={({ isActive }) =>
+                                `flex items-center gap-3 px-5 py-2 rounded-md my-3
+                                        transition-all duration-200 
+                                        ${isActive ? " bg-neutral-300 outline outline-neutral-400 text-black" : "hover:bg-neutral-700"}`
+                            }
+                        >
+                            <span className="text-2xl"><IoPersonOutline /></span> Mi cuenta
+                        </NavLink>
+                        <NavLink
+                            to="/help"
+                            className={({ isActive }) =>
+                                `flex items-center gap-3 px-5 py-2 rounded-md my-3
+                                        transition-all duration-200 
+                                        ${isActive ? "bg-neutral-300 outline outline-neutral-400 text-black" : "hover:bg-neutral-700"}`
+                            }
+                        >
+                            <span className="text-2xl"><IoHelpOutline /></span> Ayuda
+                        </NavLink>
+                        <NavLink
+                            to="/"
+                            onClick={logout}
+                            className={({ isActive }) =>
+                                `flex items-center gap-3 px-5 py-2 rounded-md my-3
+                                        transition-all duration-200 
+                                        ${isActive ? "g-neutral-300 outline outline-neutral-400 text-black" : "hover:bg-neutral-700"}`
+                            }
+                        >
+                            <span className="text-2xl"><IoLogOutOutline /></span> Desconectar
+                        </NavLink>
+                    </div>
+                </div>
             </div>
         </div>
     </aside>
