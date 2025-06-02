@@ -21,8 +21,8 @@ export const EditMyAccount = () => {
         telephone: '',
         password: '',
     });
-    
-    
+
+
     const { updateProfile, error } = useAuth();
     const updateSchema = z.object({
         name: z.string().min(1, "El nombre es obligatorio"),
@@ -31,7 +31,7 @@ export const EditMyAccount = () => {
         telephone: z.string().min(1, "El teléfono no es válido"),
         password: z.string().min(1, "La contraseña actual es obligatorio"),
     });
-    
+
     useEffect(() => {
         if (user) {
             setFormData({
@@ -43,15 +43,16 @@ export const EditMyAccount = () => {
             });
         }
     }, [user]);
-    
+
     const [, setBreadcrumbs] = useAtom(breadcrumbsAtom);
     useEffect(() => {
         setBreadcrumbs([
+            { label: "Inicio", path: "/main" },
             { label: "Mi cuenta", path: "/account" },
             { label: "Editar cuenta", path: `/account/edit/` }
         ])
     }, [setBreadcrumbs]);
-    
+
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
         const { id, value } = e.target;
         setFormData(prev => ({ ...prev, [id]: value }));

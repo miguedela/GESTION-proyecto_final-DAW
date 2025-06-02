@@ -11,7 +11,7 @@ import { IMenu } from "../../../../../types/Menu";
 import { loadRestaurant } from "../../../../../api/restaurants.api";
 import { IRestaurant } from "../../../../../types/Restaurants";
 
-export const RestaurantMenu = () => {
+export const StaffRestaurantMenu = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const [menu, setMenu] = useState<IMenu | null>(null);
@@ -120,7 +120,7 @@ export const RestaurantMenu = () => {
           onConfirm={async () => {
             if (dishToDelete && id) {
               try {
-                await handleDeleteDish(dishToDelete, id);
+                await handleDeleteDish(dishToDelete);
                 handleLoadMenu(id);
               } catch (error) {
                 console.error("Error durante el proceso de eliminación o recarga del menú:", error);

@@ -17,6 +17,7 @@ export const UsersManagement = () => {
     const [, setBreadcrumbs] = useAtom(breadcrumbsAtom);
     useEffect(() => {
         setBreadcrumbs([
+            { label: "Inicio", path: "/main" },
             { label: "Usuarios", path: "/admin/users" }
         ])
     }, [setBreadcrumbs]);

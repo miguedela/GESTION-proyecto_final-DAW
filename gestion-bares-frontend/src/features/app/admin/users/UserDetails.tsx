@@ -19,6 +19,7 @@ export const UserDetails = () => {
   const [, setBreadcrumbs] = useAtom(breadcrumbsAtom);
   useEffect(() => {
     setBreadcrumbs([
+      { label: "Inicio", path: "/main" },
       { label: 'Usuarios', path: "/admin/users" },
       { label: 'Detalles de usuario', path: `/admin/users/${id}` },
     ]);

@@ -2,12 +2,12 @@ import { useAtom } from 'jotai';
 import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { z } from 'zod';
+import { breadcrumbsAtom } from '../../../atoms/breadcrumbs.atom';
 import { userAtom } from '../../../atoms/user.atom';
 import { Input, Select } from '../../../components/Forms';
 import useReservation from '../../../hooks/useReservation';
 import { Status } from '../../../types/Reservation';
 import { IRestaurant } from '../../../types/Restaurants';
-import { breadcrumbsAtom } from '../../../atoms/breadcrumbs.atom';
 
 const reservationSchema = z.object({
   reservationDate: z.string().min(1, "La fecha es obligatoria"),
@@ -72,6 +72,7 @@ export const UpdateReservation = () => {
   const [, setBreadcrumbs] = useAtom(breadcrumbsAtom);
   useEffect(() => {
     setBreadcrumbs([
+      { label: "Inicio", path: "/main" },
       { label: "Reservas", path: "/reservations" },
       { label: "Actualizar reserva", path: `/reservation/${reservationId}/update` },
     ]);

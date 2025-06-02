@@ -1,5 +1,4 @@
-import { MainLinkButton } from "../../components/Buttons"
-import { RestaurantsList } from "../app/restaurants/RestaurantsList"
+import { MainLinkButton } from "../../components/Buttons";
 
 export const Home = () => {
   return (
@@ -7,7 +6,6 @@ export const Home = () => {
       <div className="min-h-screen flex flex-col items-center justify-center gap-5">
         <MainLinkButton url="/login" text="Acceder" />
       </div>
-      <RestaurantsList />
     </div>
   );
 }

@@ -21,7 +21,7 @@ const useReservation = () => {
             return data;
         } catch (err: unknown) {
             setMessageError(err, setError);
-            showErrorToast("Error al crear la reserva. Por favor, inténtalo de nuevo.");
+            showErrorToast("No hay disponible para la fecha y hora seleccionadas. Por favor, elige otra.");
         } finally {
             setLoading(false);
         }
@@ -85,7 +85,6 @@ const useReservation = () => {
         try {
             const { data } = await loadReservations(customerId);
             setReservations(data);
-            showSuccessToast("Reservas cargadas exitosamente.");
         } catch (err: unknown) {
             setMessageError(err, setError);
             showErrorToast("Error al cargar las reservas. Por favor, inténtalo de nuevo.");

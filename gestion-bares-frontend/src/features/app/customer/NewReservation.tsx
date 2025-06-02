@@ -1,13 +1,14 @@
 import { useAtom } from 'jotai';
-import { useCallback, useEffect, useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { z } from 'zod';
 import { loadRestaurant } from '../../../api/restaurants.api';
 import { breadcrumbsAtom } from '../../../atoms/breadcrumbs.atom';
 import { userAtom } from '../../../atoms/user.atom';
 import { Input, Select } from '../../../components/Forms';
+import { showErrorToast } from '../../../components/ToastUtils';
 import useReservation from '../../../hooks/useReservation';
-import { Status } from '../../../types/Reservation';
+import { IReservation, Status } from '../../../types/Reservation';
 import { IRestaurant } from '../../../types/Restaurants';
 
 const reservationSchema = z.object({
@@ -33,7 +34,6 @@ function generateHourOptions(franjas: string[][]) {
   franjas.forEach(franja => {
     if (!franja || franja.length < 2) return;
     const [start, end] = franja;
-    if (!start || !end) return;
     const [startH] = start.split(":").map(Number);
     let [endH] = end.split(":").map(Number);
     if (isNaN(startH) || isNaN(endH)) return;
@@ -46,17 +46,18 @@ function generateHourOptions(franjas: string[][]) {
 }
 
 export const NewReservation = () => {
-  const { restaurantId } = useParams<{ restaurantId: string }>();
+  const [restaurantId] = useState(localStorage.getItem("restaurantId"));
+
   const [user] = useAtom(userAtom);
   const navigate = useNavigate();
+  const [, setBreadcrumbs] = useAtom(breadcrumbsAtom);
 
   const [restaurant, setRestaurant] = useState<IRestaurant | null>(null);
   const [reservationDate, setReservationDate] = useState('');
   const [reservationHour, setReservationHour] = useState('');
   const [reservationNumber, setReservationNumber] = useState('1');
   const [formError, setFormError] = useState<string | null>(null);
-  const [fieldErrors, setFieldErrors] = useState<{ [k: string]: string }>({});
-  const [success, setSuccess] = useState(false);
+  const [fieldErrors, setFieldErrors] = useState<Record<string, string>>({});
 
   const [availableHours, setAvailableHours] = useState<string[]>([]);
   const [openingHoursParsed, setOpeningHoursParsed] = useState<string[][][]>([]);
@@ -68,9 +69,11 @@ export const NewReservation = () => {
     if (!restaurantId) return;
     try {
       const response = await loadRestaurant(restaurantId);
-      setRestaurant(response.data);
-      if (response.data.openingHours) {
-        setOpeningHoursParsed(parseOpeningHours(response.data.openingHours));
+      const rest = response.data;
+      setRestaurant(rest);
+      if (rest.openingHours) {
+        const parsed = parseOpeningHours(rest.openingHours);
+        setOpeningHoursParsed(parsed);
       }
     } catch (err) {
       console.error("Error loading restaurant: ", err);
@@ -78,18 +81,18 @@ export const NewReservation = () => {
     }
   }, [restaurantId, navigate]);
 
-  const [, setBreadcrumbs] = useAtom(breadcrumbsAtom);
   useEffect(() => {
     setBreadcrumbs([
+      { label: "Inicio", path: "/main" },
       { label: "Restaurantes", path: "/main" },
-      { label: `${restaurant?.name || ''}`, path: `/restaurant/${restaurantId}` },
-      { label: "Hacer reserva", path: `/restaurant/${restaurantId}/reservation/new` },
+      { label: `${restaurant?.name || ''}`, path: `/restaurant` },
+      { label: "Hacer reserva", path: `/restaurant/reservation/new` },
     ]);
   }, [restaurantId, restaurant, setBreadcrumbs]);
 
   useEffect(() => {
-    if (!user && restaurantId) navigate(`/restaurant/${restaurantId}`);
-    if (!restaurantId) navigate("/main");
+    if (!user && restaurantId) navigate(`/restaurant`);
+    else if (!restaurantId) navigate("/main");
     else fetchRestaurant();
   }, [restaurantId, user, navigate, fetchRestaurant]);
 
@@ -99,7 +102,7 @@ export const NewReservation = () => {
       setOpeningHoursParsed(parsed);
       const closed = parsed
         .map((franjas, idx) => (franjas.length === 0 ? idx : null))
-        .filter(idx => idx !== null) as number[];
+        .filter((idx): idx is number => idx !== null);
       setClosedDays(closed);
     }
   }, [restaurant]);
@@ -111,8 +114,8 @@ export const NewReservation = () => {
     }
     const date = new Date(reservationDate);
     const idx = date.getDay() === 0 ? 6 : date.getDay() - 1;
-    const franjas = openingHoursParsed[idx];
-    if (!franjas || franjas.length === 0) {
+    const franjas = openingHoursParsed[idx] || [];
+    if (franjas.length === 0) {
       setAvailableHours([]);
       setReservationHour('');
       return;
@@ -125,26 +128,25 @@ export const NewReservation = () => {
   const handleDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
     setReservationDate(value);
+
     if (value) {
       const date = new Date(value);
       const jsDay = date.getDay();
       const idx = jsDay === 0 ? 6 : jsDay - 1;
       if (closedDays.includes(idx)) {
-        setFormError("El restaurante está cerrado ese día.");
+        showErrorToast("El restaurante está cerrado ese día.");
         setReservationDate('');
         setAvailableHours([]);
         setReservationHour('');
         return;
-      } else {
-        setFormError(null);
       }
+      setFormError(null);
     }
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setFormError(null);
-    setSuccess(false);
     setFieldErrors({});
 
     const result = reservationSchema.safeParse({
@@ -153,43 +155,31 @@ export const NewReservation = () => {
       reservationNumber,
     });
 
-    if (!restaurant ||  restaurant === null) {
-      setFormError("Restaurante no válido.");
-      return;
-    }
-    if (!user) {
-      setFormError("Debes iniciar sesión.");
-      return;
-    }
-
     if (!result.success) {
-      const errors: { [k: string]: string } = {};
+      const errors: Record<string, string> = {};
       result.error.errors.forEach(err => {
-        if (err.path[0]) errors[err.path[0]] = err.message;
+        if (err.path[0]) errors[err.path[0] as string] = err.message;
       });
       setFieldErrors(errors);
       return;
     }
 
     const reservationTime = new Date(`${reservationDate}T${reservationHour}`);
-
-    const reservation = {
+    const newReservation: IReservation = {
       customer: user,
-      restaurant: restaurant,
+      restaurant: restaurant!,
       reservationNumber: Number(reservationNumber),
       status: Status.PENDING,
       reservationTime,
     };
 
-    const res = await handleCreateReservation(reservation);
+    const res = await handleCreateReservation(newReservation);
     if (res && !error) {
-      navigate(`/restaurant/${restaurantId}`);
+      navigate(`/restaurant`);
     }
   };
 
-  const today = new Date();
-  const minDate = today.toISOString().slice(0, 10);
-
+  const minDate = useMemo(() => new Date().toISOString().slice(0, 10), []);
   const isClosed = reservationDate && availableHours.length === 0;
 
   return (
@@ -232,8 +222,6 @@ export const NewReservation = () => {
           </div>
         )}
         {formError && <div className="text-red-600 font-semibold">{formError}</div>}
-        {error && <div className="text-red-600 font-semibold">{error}</div>}
-        {success && <div className="text-amber-600 font-semibold">¡Reserva creada con éxito!</div>}
         <button
           type="submit"
           className="bg-amber-500 text-white py-2 rounded hover:bg-amber-600 transition"

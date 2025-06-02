@@ -1,4 +1,6 @@
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import { Account } from '../features/account/Account';
+import { EditAccount } from '../features/account/EditAccount';
 import { About } from '../features/app/About';
 import { CreateRestaurant } from '../features/app/admin/restaurants/CreateRestaurant';
 import { RestaurantsManagement } from '../features/app/admin/restaurants/RestaurantsManagement';
@@ -9,14 +11,16 @@ import { App } from '../features/app/App';
 import { Contact } from '../features/app/Contact';
 import { NewReservation } from '../features/app/customer/NewReservation';
 import { Reservations } from '../features/app/customer/Reservations';
+import { RestaurantDetail } from '../features/app/customer/RestaurantDetail';
 import { UpdateReservation } from '../features/app/customer/UpdateReservation';
 import { EditMyAccount } from '../features/app/my-account/EditMyAccount';
 import { MyAccount } from '../features/app/my-account/MyAccount';
-import { RestaurantDetail } from '../features/app/restaurants/RestaurantDetail';
+import { RestaurantContact } from '../features/app/restaurants/RestaurantContact';
+import { RestaurantMenu } from '../features/app/restaurants/RestaurantMenu';
 import { RestaurantsList } from '../features/app/restaurants/RestaurantsList';
 import { CreateDishToMenu } from '../features/app/staff/restaurants/menu/CreateDishToMenu';
 import { EditDish } from '../features/app/staff/restaurants/menu/EditDish';
-import { RestaurantMenu } from '../features/app/staff/restaurants/menu/RestaurantMenu';
+import { StaffRestaurantMenu } from '../features/app/staff/restaurants/menu/RestaurantMenu';
 import { RestaurantDetailStaff } from '../features/app/staff/restaurants/RestaurantDetailStaff';
 import { RestaurantEdit } from '../features/app/staff/restaurants/RestaurantEdit';
 import { RestaurantManagement } from '../features/app/staff/restaurants/RestaurantManagement';
@@ -44,9 +48,9 @@ export const AppRouter = () => {
         { path: '/main', element: <RestaurantsList /> },
         { path: '/about', element: <About /> },
         { path: '/contact', element: <Contact /> },
-        { path: '/restaurant/:id', element: <RestaurantDetail /> },
         { path: "/account/reset-password", element: <ResetPassword /> },
         { path: "/account/change-password", element: <ChangePassword /> },
+        { path: '/menu', element: <RestaurantMenu /> },
         { path: '*', element: <NotFound /> },
 
         {
@@ -55,16 +59,17 @@ export const AppRouter = () => {
                 {
                     element: <App />,
                     children: [
-                        { path: "/account", element: <MyAccount /> },
-                        { path: "/account/edit", element: <EditMyAccount /> },
+                        { path: "/my-account", element: <MyAccount /> },
+                        { path: "/my-account/edit", element: <EditMyAccount /> },
                         // Rutas para todos los usuarios
                     ]
                 }
             ]
         }, {
-            element: <ProtectedRoute allowedRoles={["STAFF", "CUSTOMER"]} />,
+            element: <ProtectedRoute allowedRoles={["CUSTOMER"]} />,
             children: [
-                { path: "/main", element: <RestaurantsList /> },
+                { path: "/account", element: <Account /> },
+                { path: "/account/edit", element: <EditAccount /> },
             ]
         },
         {
@@ -94,7 +99,7 @@ export const AppRouter = () => {
                         { path: "/staff/restaurants", element: <RestaurantManagement /> },
                         { path: "/staff/restaurant/:id", element: <RestaurantDetailStaff /> },
                         { path: "/staff/restaurant/:id/edit", element: <RestaurantEdit /> },
-                        { path: "/staff/restaurant/:id/menu", element: <RestaurantMenu /> },
+                        { path: "/staff/restaurant/:id/menu", element: <StaffRestaurantMenu /> },
                         { path: "/staff/restaurant/:restaurantId/menu/:menuId/create", element: <CreateDishToMenu /> },
                         { path: "/staff/restaurant/menu/:restaurantId/dish/:id/edit", element: <EditDish /> },
                         // Rutas para staffs
@@ -108,12 +113,15 @@ export const AppRouter = () => {
                 {
                     element: <App />,
                     children: [
-                        { path: "/reservations", element: <Reservations /> },
                         { path: "/reservation/:reservationId/update", element: <UpdateReservation /> },
                         {
                             path: "/restaurant/:restaurantId/reservation/new", element:
                                 <NewReservation />
                         },
+                        { path: "/my-reservations", element: <Reservations /> },
+                        { path: '/restaurant/info', element: <RestaurantDetail /> },
+                        { path: "/restaurant/menu", element: <RestaurantMenu /> },
+                        { path: '/restaurant/contact', element: <RestaurantContact /> },
                         // Rutas para customers
                     ]
                 }

@@ -1,8 +1,6 @@
 import { useState } from "react";
-import { Footer } from "../../layouts/Footer";
-import { Header } from "../../layouts/Header";
 
-export const Contact = () => {
+export const RestaurantContact = () => {
     const [message, setMessage] = useState("");
     const [email, setEmail] = useState("");
     const [sent, setSent] = useState(false);
@@ -14,7 +12,6 @@ export const Contact = () => {
 
     return (
         <div className="min-h-screen flex flex-col bg-white dark:bg-neutral-900">
-            <Header />
             <main className="flex-1 container mx-auto px-4 py-12 flex flex-col items-center justify-center">
                 <h1 className="text-3xl font-bold mb-4 text-amber-600">Contacto</h1>
                 <p className="mb-6 text-neutral-700 dark:text-neutral-200 text-center">
@@ -51,7 +48,6 @@ export const Contact = () => {
                     )}
                 </form>
             </main>
-            <Footer />
         </div>
     );
 };

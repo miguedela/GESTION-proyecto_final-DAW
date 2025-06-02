@@ -25,6 +25,7 @@ export const CreateRestaurant = () => {
   const [, setBreadcrumbs] = useAtom(breadcrumbsAtom);
   useEffect(() => {
     setBreadcrumbs([
+      {label: "Inicio", path: "/main"},
       { label: "Restaurantes", path: "/admin/restaurants" },
       { label: 'Crear Restaurante', path: '/admin/restaurants/create' },
 

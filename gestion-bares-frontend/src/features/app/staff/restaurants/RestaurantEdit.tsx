@@ -1,18 +1,18 @@
 import { useAtom } from "jotai";
 import { useCallback, useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { z } from "zod";
 import { loadRestaurant } from "../../../../api/restaurants.api";
 import { breadcrumbsAtom } from "../../../../atoms/breadcrumbs.atom";
+import { userAtom } from "../../../../atoms/user.atom";
 import { MainButton } from "../../../../components/Buttons";
 import { Input } from "../../../../components/Forms";
 import useRestaurant from "../../../../hooks/useRestaurant";
 import { Loading } from "../../../../layouts/Loading";
 import { IRestaurant } from "../../../../types/Restaurants";
-import { userAtom } from "../../../../atoms/user.atom";
 
 export const RestaurantEdit = () => {
-  const { id } = useParams();
+  const [restaurantId] = useState(localStorage.getItem("restaurantId"));
   const [user] = useAtom(userAtom);
   const navigate = useNavigate();
   const [, setBreadcrumbs] = useAtom(breadcrumbsAtom);
@@ -23,23 +23,24 @@ export const RestaurantEdit = () => {
 
   useEffect(() => {
     setBreadcrumbs([
+      { label: "Inicio", path: "/main" },
       { label: "Restaurantes", path: "/staff/restaurants" },
-      { label: `${restaurant?.name}`, path: `/staff/restaurant/${id}` },
-      { label: "Editar", path: `/staff/restaurant/${id}/edit` },
+      { label: `${restaurant?.name}`, path: `/staff/restaurant/${restaurantId}` },
+      { label: "Editar", path: `/staff/restaurant/${restaurantId}/edit` },
     ]);
-  }, [id, restaurant, setBreadcrumbs]);
+  }, [restaurantId, restaurant, setBreadcrumbs]);
 
   const fetchRestaurant = useCallback(async () => {
-    if (!id) return;
+    if (!restaurantId) return;
     try {
-      const response = await loadRestaurant(id);
+      const response = await loadRestaurant(restaurantId);
 
       setRestaurant(response.data);
     } catch (err) {
       console.error("Error loading restaurant: ", err);
       navigate("/staff/restaurants");
     }
-  }, [id, navigate]);
+  }, [restaurantId, navigate]);
 
   useEffect(() => {
     fetchRestaurant();

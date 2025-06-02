@@ -1,4 +1,4 @@
-import { IoCloseOutline, IoLogOutOutline, IoPeopleOutline, IoPersonOutline, IoRestaurantOutline } from "react-icons/io5";
+import { IoBookOutline, IoCloseOutline, IoLogOutOutline, IoMenuOutline, IoPeopleOutline, IoPersonOutline, IoRestaurantOutline } from "react-icons/io5";
 import { Link, NavLink } from "react-router-dom";
 import useAuth from "../hooks/useAuth";
 
@@ -24,14 +24,17 @@ export const NavMenu = ({ isOpen, setIsSidebarOpen }: { isOpen: boolean; setIsSi
         {
             access: "CUSTOMER",
             sections: [
-                { name: "Reservas", url: "/reservations", icon: <IoRestaurantOutline /> },
+                { name: "Mis Reservas", url: "/my-reservations", icon: <IoBookOutline /> },
+                { name: "Información", url: "/restaurant/info", icon: <IoRestaurantOutline /> },
+                { name: "Menú", url: "/restaurant/menu", icon: <IoMenuOutline /> },
+                { name: "Contacto", url: "/restaurant/contact", icon: <IoPeopleOutline /> },
                 // Secciones de customer
             ],
         },
         {
             access: "all",
             sections: [
-                { name: "Mi cuenta", url: "/account", icon: <IoPersonOutline /> },
+                { name: "Mi cuenta", url: "/my-account", icon: <IoPersonOutline /> },
                 {
                     name: "Desconectar",
                     url: "/",

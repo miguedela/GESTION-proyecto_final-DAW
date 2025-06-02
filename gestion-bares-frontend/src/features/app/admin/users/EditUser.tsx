@@ -54,6 +54,7 @@ export const EditUser = () => {
     const [, setBreadcrumbs] = useAtom(breadcrumbsAtom);
     useEffect(() => {
         setBreadcrumbs([
+            { label: "Inicio", path: "/main" },
             { label: "Usuarios", path: "/admin/users" },
             { label: "Editar usuario", path: `/admin/users/edit/${id}` }
         ])

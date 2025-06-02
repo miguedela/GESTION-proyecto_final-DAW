@@ -1,8 +1,8 @@
 import { useAtom } from "jotai";
 import { useEffect, useState } from "react";
 import { breadcrumbsAtom } from "../../../atoms/breadcrumbs.atom";
-import { Footer } from "../../../components/Footer";
-import { Header } from "../../../components/Header";
+import { Footer } from "../../../layouts/Footer";
+import { Header } from "../../../layouts/Header";
 import { Loader } from "../../../components/Loader";
 import { Paginator } from "../../../components/Paginator";
 import { RestaurantCard } from "../../../components/RestaurantCard";
@@ -11,10 +11,14 @@ import { RestaurantsFilters } from "../../../components/RestaurantsFilters";
 
 export const RestaurantsList = () => {
   const [, setBreadcrumbs] = useAtom(breadcrumbsAtom);
+
   useEffect(() => {
     setBreadcrumbs([
+      { label: "Inicio", path: "/main" },
       { label: "Restaurantes", path: "/admin/restaurants" }
-    ])
+    ]);
+
+    localStorage.removeItem("restaurantId");
   }, [setBreadcrumbs]);
 
   const { restaurants, handleGetRestaurants, handlePageChange } = useRestaurant();

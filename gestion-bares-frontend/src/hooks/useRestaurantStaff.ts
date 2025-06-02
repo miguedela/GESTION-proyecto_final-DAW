@@ -37,7 +37,6 @@ const useRestaurantStaff = () => {
                 content: data,
                 loading: false,
             }));
-            showSuccessToast("Restaurantes obtenidos exitosamente.");
             return data;
         } catch (err: unknown) {
             setMessageError(err, setError);

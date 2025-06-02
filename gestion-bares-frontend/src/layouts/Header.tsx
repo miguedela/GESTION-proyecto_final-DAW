@@ -1,8 +1,8 @@
 import { useAtom } from "jotai";
+import { IoCallOutline, IoInformationCircleOutline, IoPersonOutline } from "react-icons/io5";
 import { Link } from "react-router-dom";
 import { userAtom } from "../atoms/user.atom";
 import { Roles } from "../types/User";
-import { IoPersonOutline, IoRestaurantOutline, IoCallOutline, IoInformationCircleOutline } from "react-icons/io5";
 
 export const Header = () => {
     const [user] = useAtom(userAtom);
@@ -20,15 +20,10 @@ export const Header = () => {
                     <Link to="/about" className="flex items-center gap-1 text-neutral-700 dark:text-neutral-200 hover:text-amber-500 transition-colors">
                         <IoInformationCircleOutline size={22} className="text-amber-600" />
                     </Link>
-                    <Link to="/contact" className="flex items-center gap-1 text-neutral-700 dark:text-neutral-200 hover:text-amber-500 transition-colors">
+                    <Link to="/restaurant/contact" className="flex items-center gap-1 text-neutral-700 dark:text-neutral-200 hover:text-amber-500 transition-colors">
                         <IoCallOutline size={22} className="text-amber-600" />
                     </Link>
-                    {user?.role === Roles.CUSTOMER && (
-                        <Link to="/reservations" className="flex items-center gap-1 text-neutral-700 dark:text-neutral-200 hover:text-amber-500 transition-colors">
-                            <IoRestaurantOutline size={22} className="text-amber-600" />
-                        </Link>
-                    )}
-                    <Link to="/account" className="flex items-center gap-1 text-neutral-700 dark:text-neutral-200 hover:text-amber-500 transition-colors">
+                    <Link to={user?.role === Roles.CUSTOMER ? "/account" : "/my-account"} className="flex items-center gap-1 text-neutral-700 dark:text-neutral-200 hover:text-amber-500 transition-colors">
                         <IoPersonOutline size={24} className="text-amber-600" />
                     </Link>
                 </nav>

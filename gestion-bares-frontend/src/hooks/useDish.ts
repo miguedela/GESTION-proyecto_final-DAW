@@ -40,12 +40,12 @@ const useDish = () => {
         }
     }, []);
 
-    const handleDeleteDish = useCallback(async (dishId: string, restaurantId: string) => {
+    const handleDeleteDish = useCallback(async (dishId: string) => {
         setLoading(true);
         setError(null);
         try {
             await deleteDish(dishId);
-            navigate(`/staff/restaurant/${restaurantId}/menu`);
+            navigate(`/staff/restaurant/menu`);
             showSuccessToast("Plato eliminado exitosamente.");
         } catch (err) {
             setMessageError(err, setError);

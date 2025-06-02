@@ -48,13 +48,13 @@ export const LogIn = () => {
 
         const response = await login(user);
         if (response)
-            navigate('/account');
+            navigate('/main');
     };
 
     useEffect(() => {
         const user = localStorage.getItem('user');
         if (user) {
-            navigate('/account');
+            navigate('/main');
         }
     }, [navigate]);
 

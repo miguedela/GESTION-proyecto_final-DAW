@@ -33,7 +33,6 @@ const useRestaurant = () => {
                     },
                     loading: false,
                 }));
-                showSuccessToast("Restaurantes cargados exitosamente.");
             } catch (error) {
                 console.error(error)
                 setRestaurants((prev) => ({ ...prev, loading: false }));

@@ -19,6 +19,7 @@ export const CreateDishToMenu = () => {
   const [, setBreadcrumbs] = useAtom(breadcrumbsAtom);
   useEffect(() => {
     setBreadcrumbs([
+      { label: "Inicio", path: "/main" },
       { label: "Menú", path: `/staff/restaurant/${restaurantId}/menu` },
       { label: "Crear Plato", path: `/staff/restaurant/${restaurantId}/menu/${menuId}/create` },
     ]);

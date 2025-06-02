@@ -29,7 +29,6 @@ const useUser = () => {
                     },
                     loading: false,
                 }));
-                showSuccessToast("Usuarios cargados exitosamente.");
             } catch (error) {
                 console.error(error)
                 setUsers((prev) => ({ ...prev, loading: false }));

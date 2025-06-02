@@ -14,6 +14,7 @@ export const RestaurantsManagement = () => {
   const [, setBreadcrumbs] = useAtom(breadcrumbsAtom);
   useEffect(() => {
     setBreadcrumbs([
+      {label: "Inicio", path: "/main"},
       { label: "Restaurantes", path: "/admin/restaurants" }
     ])
   }, [setBreadcrumbs]);
