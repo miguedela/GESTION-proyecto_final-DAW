@@ -1,5 +1,5 @@
 package com.gestion.backend.enums;
 
-public enum Status {
+public enum ReservationStatus {
 	CONFIRMED, PENDING, CANCELED
 }

@@ -5,7 +5,7 @@ import java.time.LocalDateTime;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.gestion.backend.entity.OurUser;
 import com.gestion.backend.entity.Restaurant;
-import com.gestion.backend.enums.Status;
+import com.gestion.backend.enums.ReservationStatus;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -19,7 +19,7 @@ public class ReservationDTO {
 	private OurUser customer;
 	private Restaurant restaurant;
 	private int reservationNumber;
-	private Status status;
+	private ReservationStatus status;
 	private LocalDateTime reservationTime;
 
 }
