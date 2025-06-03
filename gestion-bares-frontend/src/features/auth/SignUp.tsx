@@ -6,8 +6,6 @@ import { Input } from "../../components/Forms";
 import useAuth from "../../hooks/useAuth";
 import { Loading } from "../../layouts/Loading";
 import { IRegisterUser, Roles } from "../../types/User";
-import { Header } from "../../layouts/Header";
-import { Footer } from "../../layouts/Footer";
 
 export const SignUp = () => {
     const [user, setUser] = useState<IRegisterUser>({
