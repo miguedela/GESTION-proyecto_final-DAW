@@ -58,50 +58,36 @@ export const LogIn = () => {
         }
     }, [navigate]);
 
-    return <div className="min-h-screen flex items-center justify-center bg-linear-to-br from-neutral-900  to-amber-950 text-neutral-100">
-        <div className="px-20 py-10 bg-neutral-800 rounded-lg shadow-lg">
-            <h1 className="text-4xl">Inicio de sesión</h1>
-
-            <div className="my-20 flex flex-col gap-5">
-                <form onSubmit={handleSubmit}>
-                    <Input label="Email"
-                        id="email"
-                        value={user.email}
-                        type="email"
-                        onChange={handleInputChange}
-                        fieldErrors={fieldErrors.email}
-                    />
-                    <Input
-                        label="Contraseña"
-                        id="password"
-                        type="password"
-                        value={user.password}
-                        onChange={handleInputChange}
-                        fieldErrors={fieldErrors.password}
-                    />
-
-                    {error && <p className="text-red-500">{error}</p>}
-                    {loading && <Loading />}
-
-                    <div className='mt-10 flex gap-5 items-center justify-between'>
-                        <MainButton text='Entrar' type='submit' />
-                        <div>
-                            <div className="flex flex-col items-end">
-                                <p className="text-sm text-neutral-400">¿Aún no tienes cuenta?</p>
-                                <Link to="/signup" className="text-amber-500 underline">Registrarme</Link>
-                            </div>
-                            <div className="flex flex-col items-end">
-                                <p className="text-sm text-neutral-400">¿Has olvidado tu contraseña?</p>
-                                <Link to="/account/reset-password" className="text-amber-500 underline">Recuperar contraseña</Link>
-                            </div>
-                        </div>
-                    </div>
-                </form>
+    return <div className="min-h-screen flex items-center justify-center bg-slate-50">
+        <div className="w-full max-w-md px-8 py-10 bg-white rounded-lg shadow-sm border border-slate-200 flex flex-col gap-8">
+            <h1 className="text-3xl font-extrabold text-center text-amber-700 drop-shadow-sm tracking-tight mb-2">Inicio de sesión</h1>
+            <form onSubmit={handleSubmit} className="flex flex-col gap-5">
+                <Input label="Email"
+                    id="email"
+                    value={user.email}
+                    type="email"
+                    onChange={handleInputChange}
+                    fieldErrors={fieldErrors.email}
+                />
+                <Input
+                    label="Contraseña"
+                    id="password"
+                    type="password"
+                    value={user.password}
+                    onChange={handleInputChange}
+                    fieldErrors={fieldErrors.password}
+                />
+                {error && <p className="text-red-500 text-sm text-center">{error}</p>}
+                {loading && <Loading />}
+                <MainButton text='Entrar' type='submit' className="w-full mt-2" />
+            </form>
+            <div className="flex flex-col gap-2 text-sm text-center text-slate-600">
+                <span>¿Aún no tienes cuenta? <Link to="/signup" className="text-amber-600 underline underline-offset-4 hover:text-amber-500">Registrarme</Link></span>
+                <span>¿Has olvidado tu contraseña? <Link to="/account/reset-password" className="text-amber-600 underline underline-offset-4 hover:text-amber-500">Recuperar contraseña</Link></span>
             </div>
-
-            <Link to="/" className="text-amber-500 underline text-sm">Volver a inicio</Link>
-            <Link to="/" className="text-amber-500 underline text-sm">Cambiar contraseña</Link>
-
+            <div className="flex justify-center gap-4 mt-2">
+                <Link to="/" className="text-amber-600 underline underline-offset-4 text-xs hover:text-amber-500">Volver a inicio</Link>
+            </div>
         </div>
     </div>
 }

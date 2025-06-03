@@ -1,6 +1,6 @@
 import { useAtom } from "jotai";
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { z } from "zod";
 import { breadcrumbsAtom } from "../../../atoms/breadcrumbs.atom";
 import { userAtom } from "../../../atoms/user.atom";
@@ -21,7 +21,6 @@ export const EditMyAccount = () => {
         telephone: '',
         password: '',
     });
-
 
     const { updateProfile, error } = useAuth();
     const updateSchema = z.object({
@@ -85,52 +84,63 @@ export const EditMyAccount = () => {
         }
     };
 
-    return <div className="w-1/2 bg-white text-dark rounded-md p-20">
-        <h1 className="text-5xl text-center mb-10">Editar Mi Cuenta</h1>
-
-        <Loader loading={loading}>
-            <form onSubmit={handleSubmit} className="flex gap-15">
-                <div className="">
-                    <Input label="Nombre"
+    return (
+        <main className="container mx-auto flex-1 flex flex-col gap-8 text-slate-800 rounded-xl p-8 bg-white shadow-sm border border-slate-200 max-w-2xl my-8">
+            <h1 className="mb-7 text-3xl font-extrabold text-center text-amber-700 tracking-tight border-b pb-2 border-slate-200">Editar cuenta</h1>
+            <Loader loading={loading}>
+                <form onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <Input
+                        label="Nombre"
                         id="name"
                         value={formData.name}
                         onChange={handleChange}
                         fieldErrors={fieldErrors.name}
                     />
-                    <Input label="Email"
+                    <Input
+                        label="Apellidos"
+                        id="surnames"
+                        value={formData.surnames}
+                        onChange={handleChange}
+                        fieldErrors={fieldErrors.surnames}
+                    />
+                    <Input
+                        label="Email"
                         id="email"
                         value={formData.email}
                         type="email"
                         onChange={handleChange}
                         fieldErrors={fieldErrors.email}
                     />
-                    <Input label="Teléfono"
+                    <Input
+                        label="Teléfono"
                         id="telephone"
                         value={formData.telephone}
                         type="tel"
                         onChange={handleChange}
                         fieldErrors={fieldErrors.telephone}
                     />
-                </div>
-                <div className="">
-                    <Input label="Apellidos"
-                        id="surnames"
-                        value={formData.surnames}
-                        onChange={handleChange}
-                        fieldErrors={fieldErrors.surnames}
-                    />
-                    <Input label="Contraseña actual"
+                    <Input
+                        label="Contraseña actual"
                         id="password"
                         value={formData.password}
                         type="password"
                         onChange={handleChange}
                         fieldErrors={fieldErrors.password}
                     />
-                    <MainButton className="mt-5 w-full" text='Guardar cambios' type='submit' />
-                </div>
-            </form>
-
-            {error && <p className="text-red-500">{error}</p>}
-        </Loader>
-    </div>
+                    <div className="hidden md:block" />
+                    <div className="md:col-span-2 flex flex-col gap-4">
+                        <MainButton className="w-full bg-amber-500 hover:bg-amber-600 text-white mt-2" text='Guardar cambios' type='submit' />
+                        <button
+                            type="button"
+                            onClick={() => navigate(-1)}
+                            className="text-amber-600 underline underline-offset-4 text-sm text-center hover:text-amber-500"
+                        >
+                            Volver atrás
+                        </button>
+                    </div>
+                </form>
+                {error && <p className="text-red-500 mt-4 text-center">{error}</p>}
+            </Loader>
+        </main>
+    );
 }

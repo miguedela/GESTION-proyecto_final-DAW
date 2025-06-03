@@ -88,7 +88,6 @@ export const RestaurantsManagement = () => {
       <ConfirmModal
         isOpen={!!restaurantToDelete}
         text={"Estás seguro de que quieres eliminar el usuario?"}
-        type="negative"
         onConfirm={() => {
           if (restaurantToDelete) handleDeleteRestaurant(restaurantToDelete)
           setRestaurantToDelete(null);

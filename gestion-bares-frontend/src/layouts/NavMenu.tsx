@@ -39,24 +39,23 @@ export const NavMenu = ({ isOpen, setIsSidebarOpen }: { isOpen: boolean; setIsSi
 
     return <aside
         id="default-sidebar"
-        className={`text-neutral-200 fixed top-0 left-0 z-40 w-64 h-screen transition-transform ${isOpen ? "translate-x-0" : "-translate-x-full"
-            } sm:translate-x-0 border-r border-neutral-600`}
+        className={`fixed top-0 left-0 z-40 w-64 h-screen transition-transform ${isOpen ? "translate-x-0" : "-translate-x-full"} lg:translate-x-0 bg-white border-r border-slate-200 shadow-sm text-slate-700`}
         aria-label="Sidebar"
     >
         <button
             onClick={() => setIsSidebarOpen(false)}
             type="button"
-            className="cursor-pointer absolute inline-flex items-center rounded-sm p-2 m-2 text-2xl hover:bg-neutral-100/20 transition-colors duration-200 sm:hidden focus:outline-none focus:ring-2 focus:ring-gray-200"
+            className="cursor-pointer absolute inline-flex items-center rounded-sm p-2 m-2 text-2xl hover:bg-slate-100 transition-colors duration-200 lg:hidden focus:outline-none focus:ring-2 focus:ring-amber-500"
         >
             <span className="sr-only">Close sidebar</span>
             <IoCloseOutline className="size-6" aria-hidden="true" />
         </button>
 
-        <div className="h-full pt-8 px-3 overflow-y-auto flex flex-col bg-white">
+        <div className="h-full pt-8 px-3 overflow-y-auto flex flex-col">
             <Link to="/main">
                 <div className="border-b pb-5 flex items-end">
                     <div className="ml-3 w-5 h-full bg-amber-600"></div>
-                    <h1 className="text-2xl font-semibold border-b-3 border-amber-600 pl-2 transition-transform hover:scale-105 active:scale-95">
+                    <h1 className="text-2xl font-semibold text-amber-600 border-b-3 border-amber-500 pl-2 transition-transform hover:scale-105 active:scale-95">
                         TapaTech
                     </h1>
                 </div>
@@ -64,42 +63,34 @@ export const NavMenu = ({ isOpen, setIsSidebarOpen }: { isOpen: boolean; setIsSi
             <div className="font-medium flex flex-col flex-1">
                 <div className="flex flex-col justify-between h-full">
                     {filteredLinks.map((linkGroup, index) => (
-                        <>
-                            <div key={index}>
-                                {linkGroup.sections.map((section, idx) => (
-                                    <NavLink
-                                        to={section.url}
-                                        key={idx}
-                                        className={({ isActive }) =>
-                                            `flex items-center gap-3 px-5 py-2 rounded-md my-3
-                                transition-all duration-200 
-                                ${isActive ? "bg-neutral-300 outline outline-neutral-400 text-black" : "hover:bg-neutral-700"}`
-                                        }
-                                    >
-                                        <span className="text-2xl">{section.icon}</span> {section.name}
-                                    </NavLink>
-                                ))}
-                            </div>
-                        </>
+                        <div key={index}>
+                            {linkGroup.sections.map((section, idx) => (
+                                <NavLink
+                                    to={section.url}
+                                    key={idx}
+                                    className={({ isActive }) =>
+                                        `flex items-center gap-3 px-5 py-2 rounded-md my-3 text-lg font-semibold transition-all duration-200 ${isActive ? "bg-amber-400 text-amber-900 shadow-md ring-2 ring-amber-500" : "text-slate-700 hover:bg-amber-200 hover:text-amber-600"}`
+                                    }
+                                >
+                                    <span className="text-2xl">{section.icon}</span> {section.name}
+                                </NavLink>
+                            ))}
+                        </div>
                     ))}
                     <div>
                         <NavLink
                             to="/my-notifications"
                             className={({ isActive }) =>
-                                `flex items-center gap-3 px-5 py-2 rounded-md my-3
-                                        transition-all duration-200 
-                                        ${isActive ? "bg-neutral-300 outline outline-neutral-400 text-black" : "hover:bg-neutral-700"}`
+                                `flex items-center gap-3 px-5 py-2 rounded-md my-3 text-lg font-semibold transition-all duration-200 ${isActive ? "bg-amber-400 text-amber-900 shadow-md ring-2 ring-amber-500" : "text-slate-700 hover:bg-amber-200 hover:text-amber-600"}`
                             }
                         >
                             <span className="text-2xl"><IoNotificationsOutline /></span> Notificaciónes
                         </NavLink>
-                        <hr className="last:hidden text-neutral-300 my-3" />
+                        <hr className="last:hidden text-neutral-900 my-3" />
                         <NavLink
                             to="/my-account"
                             className={({ isActive }) =>
-                                `flex items-center gap-3 px-5 py-2 rounded-md my-3
-                                        transition-all duration-200 
-                                        ${isActive ? " bg-neutral-300 outline outline-neutral-400 text-black" : "hover:bg-neutral-700"}`
+                                `flex items-center gap-3 px-5 py-2 rounded-md my-3 text-lg font-semibold transition-all duration-200 ${isActive ? "bg-amber-400 text-amber-900 shadow-md ring-2 ring-amber-500" : "text-slate-700 hover:bg-amber-200 hover:text-amber-600"}`
                             }
                         >
                             <span className="text-2xl"><IoPersonOutline /></span> Mi cuenta
@@ -107,9 +98,7 @@ export const NavMenu = ({ isOpen, setIsSidebarOpen }: { isOpen: boolean; setIsSi
                         <NavLink
                             to="/help"
                             className={({ isActive }) =>
-                                `flex items-center gap-3 px-5 py-2 rounded-md my-3
-                                        transition-all duration-200 
-                                        ${isActive ? "bg-neutral-300 outline outline-neutral-400 text-black" : "hover:bg-neutral-700"}`
+                                `flex items-center gap-3 px-5 py-2 rounded-md my-3 text-lg font-semibold transition-all duration-200 ${isActive ? "bg-amber-400 text-amber-900 shadow-md ring-2 ring-amber-500" : "text-slate-700 hover:bg-amber-200 hover:text-amber-600"}`
                             }
                         >
                             <span className="text-2xl"><IoHelpOutline /></span> Ayuda
@@ -118,9 +107,7 @@ export const NavMenu = ({ isOpen, setIsSidebarOpen }: { isOpen: boolean; setIsSi
                             to="/"
                             onClick={logout}
                             className={({ isActive }) =>
-                                `flex items-center gap-3 px-5 py-2 rounded-md my-3
-                                        transition-all duration-200 
-                                        ${isActive ? "g-neutral-300 outline outline-neutral-400 text-black" : "hover:bg-neutral-700"}`
+                                `flex items-center gap-3 px-5 py-2 rounded-md my-3 text-lg font-semibold transition-all duration-200 ${isActive ? "bg-amber-400 text-amber-900 shadow-md ring-2 ring-amber-500" : "text-slate-700 hover:bg-amber-200 hover:text-amber-600"}`
                             }
                         >
                             <span className="text-2xl"><IoLogOutOutline /></span> Desconectar

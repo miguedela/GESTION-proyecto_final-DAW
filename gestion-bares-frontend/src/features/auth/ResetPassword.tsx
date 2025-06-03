@@ -59,27 +59,25 @@ export const ResetPassword = () => {
     }
   }, [navigate]);
 
-  return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-neutral-900 to-amber-950 text-neutral-100">
-      <div className="px-8 py-10 bg-neutral-800 rounded-lg shadow-lg w-full max-w-md">
-        <h1 className="text-3xl font-bold mb-8 text-center">Recuperar contraseña</h1>
-        <form onSubmit={handleSubmit} className="flex flex-col gap-6">
-          <Input
-            label="Email"
-            id="email"
-            value={email}
-            type="email"
-            onChange={handleInputChange}
-            fieldErrors={fieldErrors.email}
-          />
-          {error && <p className="text-red-500">{error}</p>}
-          {loading && <Loading />}
-          <MainButton text='Cambiar contraseña' type='submit' />
-        </form>
-        <div className="mt-8 text-center">
-          <Link to="/" className="text-amber-500 underline text-sm">Volver a inicio</Link>
-        </div>
+  return <div className="min-h-screen flex items-center justify-center bg-slate-50">
+    <div className="w-full max-w-md px-8 py-10 bg-white rounded-lg shadow-sm border border-slate-200 flex flex-col gap-8">
+      <h1 className="text-3xl font-extrabold text-center text-amber-700 drop-shadow-sm tracking-tight mb-2">Recuperar contraseña</h1>
+      <form onSubmit={handleSubmit} className="flex flex-col gap-6">
+        <Input
+          label="Email"
+          id="email"
+          value={email}
+          type="email"
+          onChange={handleInputChange}
+          fieldErrors={fieldErrors.email}
+        />
+        {error && <p className="text-red-500 text-sm text-center">{error}</p>}
+        {loading && <Loading />}
+        <MainButton text='Cambiar contraseña' type='submit' className="w-full mt-2" />
+      </form>
+      <div className="mt-8 text-center text-slate-600">
+        <Link to="/" className="text-amber-600 underline underline-offset-4 text-xs hover:text-amber-500">Volver al inicio</Link>
       </div>
     </div>
-  );
+  </div>
 };

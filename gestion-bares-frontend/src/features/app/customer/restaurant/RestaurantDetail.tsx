@@ -51,62 +51,73 @@ export const RestaurantDetail = () => {
   }, [restaurantId, navigate, handleLoadRestaurant]);
 
   return (
-    <div className="w-full max-h-full flex flex-col gap-3">
-      <div className="container mx-auto flex flex-1 flex-col bg-white text-dark rounded-md p-10 shadow">
-        <h1 className="text-4xl font-bold mb-6">Detalles del restaurante</h1>
+    <div className="flex items-center justify-center">
+      <div className="w-full max-w-5xl mx-auto flex flex-1 flex-col text-slate-800 rounded-xl p-10 shadow-sm border border-slate-200">
+        <h1 className="text-3xl font-extrabold text-center text-amber-700 tracking-tight mb-8 border-b pb-4 border-slate-200">
+          {restaurant?.name || "Detalles del restaurante"}
+        </h1>
         <Loader loading={loading}>
-          <div className="flex flex-col gap-4">
-            <div>
-              <span className="text-xs text-neutral-400">Nombre</span>
-              <p className="ml-2 mt-1 text-lg font-semibold">{restaurant?.name}</p>
-            </div>
-            <div>
-              <span className="text-xs text-neutral-400">Descripción</span>
-              <p className="ml-2 mt-1">{restaurant?.description}</p>
-            </div>
-            <div>
-              <span className="text-xs text-neutral-400">Dirección</span>
-              <p className="ml-2 mt-1">{restaurant?.address}</p>
-            </div>
-            <div className="grid grid-cols-2 gap-4">
+          <div className="flex flex-col md:flex-row gap-6">
+            <div className="flex flex-col">
               <div>
-                <span className="text-xs text-neutral-400">Email</span>
+                <span className="text-xs text-slate-400">Descripción</span>
+                <p className="ml-2 mt-1">{restaurant?.description}</p>
+              </div>
+              <div>
+                <span className="text-xs text-slate-400">Dirección</span>
+                <p className="ml-2 mt-1">{restaurant?.address}</p>
+              </div>
+              <div>
+                <span className="text-xs text-slate-400">Email</span>
                 <p className="ml-2 mt-1">{restaurant?.email}</p>
               </div>
               <div>
-                <span className="text-xs text-neutral-400">Teléfono</span>
+                <span className="text-xs text-slate-400">Teléfono</span>
                 <p className="ml-2 mt-1">{restaurant?.phone}</p>
               </div>
             </div>
-            <div>
-              <span className="text-xs text-neutral-400">Horario de apertura</span>
-              {restaurant?.openingHours && restaurant.openingHours.split(';').map((schedule, index) => (
-                <p key={index} className="ml-2">{dias[index]}: {schedule.trim()}</p>
-              ))}
-            </div>
-            <div>
-              <span className="text-xs text-neutral-400">Ubicación</span>
-              <div className="ml-2 mt-2 rounded overflow-hidden border">
-                {restaurant?.address && (
-                  <iframe
-                    title="Mapa del restaurante"
-                    width="100%"
-                    height="300"
-                    style={{ border: 0 }}
-                    loading="lazy"
-                    allowFullScreen
-                    referrerPolicy="no-referrer-when-downgrade"
-                    src={`https://www.google.com/maps?q=${encodeURIComponent(restaurant.address)}&output=embed`}
-                  ></iframe>
-                )}
+            <div className="md:col-span-2 gap gap-col-2">
+              <span className="text-xs text-slate-400">Horario de apertura</span>
+              <div className="ml-2 mt-2 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2">
+                {restaurant?.openingHours && restaurant.openingHours.split(';').map((schedule, index) => (
+                  <div
+                    key={index}
+                    className="flex items-center gap-2 p-3 rounded-lg bg-slate-50 border border-slate-100 shadow-sm"
+                  >
+                    <span className="font-semibold text-amber-700">{dias[index]}:</span>
+                    <span className="text-slate-700">{schedule.trim()}</span>
+                  </div>
+                ))}
               </div>
             </div>
           </div>
-          {user?.role === Roles.CUSTOMER &&
-            <Link to={`/restaurant/${restaurantId}/reservation/new`} className="mt-6 inline-block bg-amber-500 text-neutral-800 px-4 py-2 rounded hover:bg-amber-600 transition text-center">
-              Realizar reserva
-            </Link>
-          }
+          <div className="md:col-span-2">
+            <span className="text-xs text-slate-400">Ubicación</span>
+            <div className="ml-2 mt-2 rounded-lg overflow-hidden border border-slate-200 shadow">
+              {restaurant?.address && (
+                <iframe
+                  title="Mapa del restaurante"
+                  width="100%"
+                  height="250"
+                  style={{ border: 0 }}
+                  loading="lazy"
+                  allowFullScreen
+                  referrerPolicy="no-referrer-when-downgrade"
+                  src={`https://www.google.com/maps?q=${encodeURIComponent(restaurant.address)}&output=embed`}
+                ></iframe>
+              )}
+            </div>
+          </div>
+          {user?.role === Roles.CUSTOMER && (
+            <div className="flex justify-end">
+              <Link
+                to={`/restaurant/${restaurantId}/reservation/new`}
+                className="mt-8 inline-block bg-amber-500 text-white px-6 py-3 rounded-lg font-semibold hover:bg-amber-600 transition-colors shadow"
+              >
+                Realizar reserva
+              </Link>
+            </div>
+          )}
         </Loader>
       </div>
     </div>

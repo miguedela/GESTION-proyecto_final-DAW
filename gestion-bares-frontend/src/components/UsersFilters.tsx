@@ -30,16 +30,18 @@ export const UsersFilters = () => {
   };
 
   return <>
-    <div className="flex justify-between">
-      <h1 className="text-5xl">Usuarios</h1>
+    <div className="flex justify-between items-center mb-6">
+      <h1 className="text-4xl font-bold text-slate-900">Usuarios</h1>
       <div className="flex flex-col justify-center gap-3">
         <form className="flex items-center gap-3" onSubmit={handleSearchSubmit}>
           <Input id="buscarUsuario" value={search} onChange={(e) => setSearch(e.target.value)} placeholder="Buscar usuario..." />
-          <button className="text-2xl" type="submit"><IoSearch /></button>
+          <button className="p-2 bg-amber-500 text-white rounded-md hover:bg-amber-600 transition-colors" type="submit">
+            <IoSearch size={20} />
+          </button>
         </form>
-        <div className="flex justify-around">
+        <div className="flex justify-around mt-4">
           {states.map((state) => (
-            <PillCheck key={state} text={state} active={selectedStates === state ? true : false} onClick={() => handleChangeState(state)} />
+            <PillCheck key={state} text={state} active={selectedStates === state} onClick={() => handleChangeState(state)} />
           ))}
         </div>
       </div>

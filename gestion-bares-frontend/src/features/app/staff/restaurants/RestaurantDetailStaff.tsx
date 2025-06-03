@@ -35,10 +35,10 @@ export const RestaurantDetailStaff = () => {
         const assignedRestaurants = await handleGetRestaurantsByStaff(user.id);
         const assigned = assignedRestaurants?.some((rest: IRestaurant) => String(rest.id) === String(id));
         if (!assigned)
-          navigate("/staff/restaurants");
+          navigate("/restaurant");
       } catch (error) {
         console.error("Error checking permissions: ", error);
-        navigate("/staff/restaurants")
+        navigate("/restaurant");
       }
     }
   }, [user?.id, id, navigate, handleGetRestaurantsByStaff]);
@@ -71,53 +71,63 @@ export const RestaurantDetailStaff = () => {
   }, [id, navigate, handleLoadRestaurant, checkPermissions]);
 
   return (
-    <div className="w-1/2 bg-white text-dark rounded-md p-20">
-      <Loader loading={loading}>
-        <div>
-          <h1 className="mb-7">Detalles del restaurante</h1>
-
-          <div className="border-b border-neutral-400">
-            <span className="text-xs text-neutral-400">Nombre</span>
-            <p className="ml-2 mt-1">{restaurant?.name}</p>
+    <div className="min-h-screen flex items-center justify-center">
+      <div className="w-full max-w-3xl mx-auto flex flex-col bg-white text-slate-800 rounded-xl p-10 shadow-sm border border-slate-200 my-10">
+        <Loader loading={loading}>
+          <h1 className="text-3xl font-extrabold text-center text-amber-700 tracking-tight mb-8 border-b pb-4 border-slate-200">
+            Detalles del restaurante
+          </h1>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div>
+              <span className="text-xs text-slate-400">Nombre</span>
+              <div className="ml-2 mt-1 p-3 rounded-lg bg-slate-50 border border-slate-100">{restaurant?.name}</div>
+            </div>
+            <div>
+              <span className="text-xs text-slate-400">Descripción</span>
+              <div className="ml-2 mt-1 p-3 rounded-lg bg-slate-50 border border-slate-100">{restaurant?.description}</div>
+            </div>
+            <div>
+              <span className="text-xs text-slate-400">Dirección</span>
+              <div className="ml-2 mt-1 p-3 rounded-lg bg-slate-50 border border-slate-100">{restaurant?.address}</div>
+            </div>
+            <div>
+              <span className="text-xs text-slate-400">Email</span>
+              <div className="ml-2 mt-1 p-3 rounded-lg bg-slate-50 border border-slate-100">{restaurant?.email}</div>
+            </div>
+            <div>
+              <span className="text-xs text-slate-400">Teléfono</span>
+              <div className="ml-2 mt-1 p-3 rounded-lg bg-slate-50 border border-slate-100">{restaurant?.phone}</div>
+            </div>
+            <div>
+              <span className="text-xs text-slate-400">Fecha de creación</span>
+              <div className="ml-2 mt-1 p-3 rounded-lg bg-slate-50 border border-slate-100">{restaurant?.creationDate && formatDate(restaurant?.creationDate)}</div>
+            </div>
+            <div className="md:col-span-2">
+              <span className="text-xs text-slate-400">Horario de apertura</span>
+              <div className="ml-2 mt-2 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2">
+                {restaurant?.openingHours && restaurant.openingHours.split(';').map((schedule, index) => (
+                  <div key={index} className="p-3 rounded-lg bg-slate-50 border border-slate-100 flex items-center gap-2">
+                    <span className="font-semibold text-amber-700">{dias[index]}:</span>
+                    <span className="text-slate-700">{schedule.trim()}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+            <div>
+              <span className="text-xs text-slate-400">Última modificación</span>
+              <div className="ml-2 mt-1 p-3 rounded-lg bg-slate-50 border border-slate-100">{restaurant?.lastModifiedDate && formatDate(restaurant?.lastModifiedDate)}</div>
+            </div>
           </div>
-          <div className="border-b border-neutral-400">
-            <span className="text-xs text-neutral-400">Descripcion</span>
-            <p className="ml-2 mt-1">{restaurant?.description}</p>
+          <div className="flex gap-4 justify-end mt-8">
+            <Link to={`/staff/restaurant/${restaurant?.id}/edit`} title="Editar restaurante">
+              <IoPencilOutline className="text-2xl text-amber-500 hover:text-amber-600 transition" />
+            </Link>
+            <Link to={`/staff/restaurant/${restaurant?.id}/menu`} title="Ver menú">
+              <IoMenu className="text-2xl text-amber-500 hover:text-amber-600 transition" />
+            </Link>
           </div>
-          <div className="border-b border-neutral-400">
-            <span className="text-xs text-neutral-400">Dirección</span>
-            <p className="ml-2 mt-1">{restaurant?.address}</p>
-          </div>
-          <div className="border-b border-neutral-400">
-            <span className="text-xs text-neutral-400">Email</span>
-            <p className="ml-2 mt-1">{restaurant?.email}</p>
-          </div>
-          <div className="border-b border-neutral-400">
-            <span className="text-xs text-neutral-400">Teléfono</span>
-            <p className="ml-2 mt-1">{restaurant?.phone}</p>
-          </div>
-          <div className="border-b border-neutral-400">
-            <span className="text-xs text-neutral-400">Fecha de creación</span>
-            <p className="ml-2 mt-1">{restaurant?.creationDate && formatDate(restaurant?.creationDate)}</p>
-          </div>
-          <div className="border-b border-neutral-400">
-            <span className="text-xs text-neutral-400">Horas abierto</span>
-            {restaurant?.openingHours && restaurant.openingHours.split(';').map((schedule, index) => (
-              <p key={index} className="ml-2">{dias[index]}: {schedule.trim()}</p>
-            ))}
-          </div>
-          <div className="border-b border-neutral-400">
-            <span className="text-xs text-neutral-400">Última modificación</span>
-            <p className="ml-2 mt-1">{restaurant?.lastModifiedDate && formatDate(restaurant?.lastModifiedDate)}</p>
-          </div>
-          <Link to={`/staff/restaurant/${restaurant?.id}/edit`}>
-            <IoPencilOutline className="text-xl text-amber-500 hover:text-amber-600" />
-          </Link>
-          <Link to={`/staff/restaurant/${restaurant?.id}/menu`}>
-            <IoMenu className="text-xl text-amber-500 hover:text-amber-600" />
-          </Link>
-        </div>
-      </Loader>
+        </Loader>
+      </div>
     </div>
-  )
+  );
 }

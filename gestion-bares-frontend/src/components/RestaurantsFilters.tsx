@@ -14,14 +14,14 @@ export const RestaurantsFilters = () => {
     };
 
     return <>
-        <div className="flex justify-between">
-            <h1 className="text-5xl">Restaurantes</h1>
-            <div className="flex flex-col justify-center gap-3">
-                <form className="flex items-center gap-3" onSubmit={handleSearchSubmit}>
-                    <Input id="buscarRestaurantes" value={search} onChange={(e) => setSearch(e.target.value)} placeholder="Buscar restaurantes..." />
-                    <button className="text-2xl" type="submit"><IoSearch /></button>
-                </form>
-            </div>
+        <div className="flex justify-between items-center mb-6">
+            <h1 className="text-4xl font-bold text-slate-900">Restaurantes</h1>
+            <form className="flex items-center gap-3" onSubmit={handleSearchSubmit}>
+                <Input id="buscarRestaurantes" value={search} onChange={(e) => setSearch(e.target.value)} placeholder="Buscar restaurantes..." />
+                <button className="p-3.5 bg-amber-500 text-white rounded-md hover:bg-amber-600 transition-colors" type="submit">
+                    <IoSearch size={20} />
+                </button>
+            </form>
         </div>
     </>
 }

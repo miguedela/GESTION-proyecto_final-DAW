@@ -6,6 +6,8 @@ import { Input } from "../../components/Forms";
 import useAuth from "../../hooks/useAuth";
 import { Loading } from "../../layouts/Loading";
 import { IRegisterUser, Roles } from "../../types/User";
+import { Header } from "../../layouts/Header";
+import { Footer } from "../../layouts/Footer";
 
 export const SignUp = () => {
     const [user, setUser] = useState<IRegisterUser>({
@@ -74,69 +76,96 @@ export const SignUp = () => {
     }, [navigate]);
 
 
-    return <div className="min-h-screen flex items-center justify-center bg-linear-to-br from-neutral-900  to-amber-950 text-neutral-100">
-        <div className="px-20 py-10 bg-neutral-800 rounded-lg shadow-lg">
-            <h1 className="text-4xl">Nueva Cuenta</h1>
+    return <div className="min-h-screen flex items-center justify-center bg-slate-50">
+        <div className="w-full max-w-4xl px-8 py-10 bg-white rounded-lg shadow-sm border border-slate-200 flex flex-col">
+            <h1 className="text-3xl font-extrabold text-center text-amber-700 drop-shadow-sm tracking-tight mb-6">
+                Nueva Cuenta
+            </h1>
+            <form onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-2 gap-0 md:gap-4">
+                <Input
+                    label="Nombre"
+                    id="name"
+                    value={user.name}
+                    onChange={handleInputChange}
+                    fieldErrors={fieldErrors.name}
+                />
+                <Input
+                    label="Apellidos"
+                    id="surnames"
+                    value={user.surnames}
+                    onChange={handleInputChange}
+                    fieldErrors={fieldErrors.surnames}
+                />
+                <Input
+                    label="Email"
+                    id="email"
+                    type="email"
+                    value={user.email}
+                    onChange={handleInputChange}
+                    fieldErrors={fieldErrors.email}
+                />
+                <Input
+                    label="Teléfono"
+                    id="telephone"
+                    type="tel"
+                    value={user.telephone}
+                    onChange={handleInputChange}
+                    fieldErrors={fieldErrors.telephone}
+                />
+                <Input
+                    label="Contraseña"
+                    id="password"
+                    type="password"
+                    value={user.password}
+                    onChange={handleInputChange}
+                    fieldErrors={fieldErrors.password}
+                />
+                <Input
+                    label="Repetir contraseña"
+                    id="confirmPassword"
+                    type="password"
+                    value={confirmPassword}
+                    onChange={(e) => setConfirmPassword(e.target.value)}
+                    fieldErrors={fieldErrors.confirmPassword}
+                />
 
-            <div className="my-20 flex flex-col gap-5">
-                <form onSubmit={handleSubmit}>
-                    <Input label="Nombre"
-                        id="name"
-                        value={user.name}
-                        onChange={handleInputChange}
-                        fieldErrors={fieldErrors.name}
-                    />
-                    <Input label="Apellidos"
-                        id="surnames"
-                        value={user.surnames}
-                        onChange={handleInputChange}
-                        fieldErrors={fieldErrors.surnames}
-                    />
-                    <Input label="Email"
-                        id="email"
-                        value={user.email}
-                        type="email"
-                        onChange={handleInputChange}
-                        fieldErrors={fieldErrors.email}
-                    />
-                    <Input label="Teléfono"
-                        id="telephone"
-                        value={user.telephone}
-                        type="tel"
-                        onChange={handleInputChange}
-                        fieldErrors={fieldErrors.telephone}
-                    />
-                    <Input
-                        label="Contraseña"
-                        id="password"
-                        type="password"
-                        value={user.password}
-                        onChange={handleInputChange}
-                        fieldErrors={fieldErrors.password}
-                    />
-                    <Input
-                        label="Repetir contraseña"
-                        id="confirmPassword"
-                        type="password"
-                        value={confirmPassword}
-                        onChange={(e) => setConfirmPassword(e.target.value)}
-                        fieldErrors={fieldErrors.confirmPassword}
-                    />
-
-                    {error && <p className="text-red-500">{error}</p>}
-                    {loading && <Loading />}
-
-                    <div className='mt-10 flex gap-5 items-center justify-between'>
-                        <MainButton text='Crear' type='submit' />
-                        <div className="flex flex-col items-end">
-                            <p className="text-sm text-neutral-400">¿Ya tienes una cuenta?</p>
-                            <Link to="/login" className="text-amber-500 underline">Iniciar sesión</Link>
-                        </div>
+                {error && (
+                    <p className="md:col-span-2 text-red-500 text-sm text-center">
+                        {error}
+                    </p>
+                )}
+                {loading && (
+                    <div className="md:col-span-2 flex justify-center">
+                        <Loading />
                     </div>
-                </form>
-            </div>
+                )}
 
-            <Link to="/" className="text-amber-500 underline text-sm">Volver a inicio</Link>
+                <div className="md:col-span-2">
+                    <MainButton
+                        text="Crear"
+                        type="submit"
+                        className="w-full"
+                    />
+                </div>
+            </form>
+
+            <div className="flex flex-col gap-2 text-sm text-center text-slate-600 mt-6">
+                <span>
+                    ¿Ya tienes una cuenta?{" "}
+                    <Link
+                        to="/login"
+                        className="text-amber-600 underline underline-offset-4 hover:text-amber-500"
+                    >
+                        Iniciar sesión
+                    </Link>
+                </span>
+                <Link
+                    to="/"
+                    className="text-amber-600 underline underline-offset-4 text-xs hover:text-amber-500"
+                >
+                    Volver al inicio
+                </Link>
+            </div>
         </div>
     </div>
 }

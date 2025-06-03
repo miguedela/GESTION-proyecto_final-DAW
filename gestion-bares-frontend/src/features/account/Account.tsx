@@ -6,9 +6,9 @@ import { MyAccount } from '../app/my-account/MyAccount';
 export const Account = () => {
 
     return <>
-        <div className="min-h-screen flex flex-col bg-white">
+        <div className="min-h-screen flex flex-col bg-slate-50">
             <Header />
-            <main className="container mx-auto flex-1 flex flex-col gap-6 bg-white text-dark rounded-md p-8">
+            <main className="container mx-auto flex-1 flex flex-col gap-6 text-slate-700 rounded-lg p-8">
                 <MyAccount />
             </main>
             <Footer />

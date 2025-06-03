@@ -6,9 +6,9 @@ const commonOptions: ToastOptions = {
     autoClose: 4000,
     hideProgressBar: false,
     closeOnClick: true,
-    pauseOnHover: true,
+    pauseOnHover: false,
     draggable: true,
-    theme: "dark",
+    theme: "light",
 };
 
 export const showSuccessToast = (message: string, options?: ToastOptions) => {

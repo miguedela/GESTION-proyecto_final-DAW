@@ -4,12 +4,10 @@ import { EditMyAccount } from "../app/my-account/EditMyAccount";
 
 export const EditAccount = () => {
 
-
     return <>
-        <div className="min-h-screen flex flex-col bg-white">
+        <div className="min-h-screen flex flex-col bg-slate-50">
             <Header />
-            <main className="container mx-auto flex-1 flex flex-col gap-6 bg-white text-dark rounded-md p-8">
-                <h1 className="text-2xl font-bold mb-4">Editar Cuenta</h1>
+            <main className="container mx-auto flex-1 flex flex-col gap-6 text-slate-700 rounded-lg p-8">
                 <EditMyAccount />
             </main>
             <Footer />

@@ -1,6 +1,6 @@
 import { useAtom } from "jotai";
 import { useCallback, useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { z } from "zod";
 import { loadRestaurant } from "../../../../api/restaurants.api";
 import { breadcrumbsAtom } from "../../../../atoms/breadcrumbs.atom";
@@ -12,7 +12,7 @@ import { Loading } from "../../../../layouts/Loading";
 import { IRestaurant } from "../../../../types/Restaurants";
 
 export const RestaurantEdit = () => {
-  const [restaurantId] = useState(localStorage.getItem("restaurantId"));
+  const { id } = useParams<{ id: string }>();
   const [user] = useAtom(userAtom);
   const navigate = useNavigate();
   const [, setBreadcrumbs] = useAtom(breadcrumbsAtom);
@@ -25,22 +25,22 @@ export const RestaurantEdit = () => {
     setBreadcrumbs([
       { label: "Inicio", path: "/main" },
       { label: "Restaurantes", path: "/staff/restaurants" },
-      { label: `${restaurant?.name}`, path: `/staff/restaurant/${restaurantId}` },
-      { label: "Editar", path: `/staff/restaurant/${restaurantId}/edit` },
+      { label: `${restaurant?.name}`, path: `/staff/restaurant/${id}` },
+      { label: "Editar", path: `/staff/restaurant/${id}/edit` },
     ]);
-  }, [restaurantId, restaurant, setBreadcrumbs]);
+  }, [id, restaurant, setBreadcrumbs]);
 
   const fetchRestaurant = useCallback(async () => {
-    if (!restaurantId) return;
+    if (!id) return;
     try {
-      const response = await loadRestaurant(restaurantId);
+      const response = await loadRestaurant(id);
 
       setRestaurant(response.data);
     } catch (err) {
       console.error("Error loading restaurant: ", err);
       navigate("/staff/restaurants");
     }
-  }, [restaurantId, navigate]);
+  }, [id, navigate]);
 
   useEffect(() => {
     fetchRestaurant();

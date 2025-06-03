@@ -32,62 +32,62 @@ export const Paginator: React.FC<PaginatorProps> = ({
     };
 
     return (
-        <div className="flex flex-col lg:flex-row gap-6 lg:gap-0 lg:justify-between lg:items-center mt-4">
+        <div className="flex flex-col lg:flex-row gap-6 lg:gap-0 lg:justify-between lg:items-center mt-4 text-slate-700">
             <div>
                 <span>Elementos totales: {totalElements}</span>
             </div>
             <div className="flex gap-2 items-center">
                 <button
-                    className="cursor-pointer p-2 hover:bg-gray-300 rounded"
+                    className="cursor-pointer p-2 bg-white border border-slate-300 rounded-md hover:bg-slate-50 transition-colors disabled:opacity-50"
                     onClick={() => handlePageChange(0)}
                     disabled={page <= 0}
                 >
-                    <IoPlayBackOutline className='text-amber-500' />
+                    <IoPlayBackOutline className='text-amber-600' />
                 </button>
 
                 <button
-                    className="cursor-pointer p-2 hover:bg-gray-300 rounded"
+                    className="cursor-pointer p-2 bg-white border border-slate-300 rounded-md hover:bg-slate-50 transition-colors disabled:opacity-50"
                     onClick={() => handlePageChange(page - 1)}
                     disabled={page <= 0}
                 >
-                    <IoPlayOutline className="rotate-180 text-amber-500" />
+                    <IoPlayOutline className="rotate-180 text-amber-600" />
                 </button>
 
-                <span className='px-3 py-1 rounded bg-amber-500 text-neutral-800'>{page + 1}</span>
+                <span className='px-3 py-1 rounded-md bg-amber-500 text-white font-bold shadow-sm'>
+                    {page + 1}
+                </span>
 
                 <button
-                    className="cursor-pointer p-2 hover:bg-gray-300 rounded"
+                    className="cursor-pointer p-2 bg-white border border-slate-300 rounded-md hover:bg-slate-50 transition-colors disabled:opacity-50"
                     onClick={() => handlePageChange(page + 1)}
                     disabled={page >= pageCount - 1}
                 >
-                    <IoPlayOutline className='text-amber-500' />
+                    <IoPlayOutline className='text-amber-600' />
                 </button>
 
                 <button
-                    className="cursor-pointer p-2 hover:bg-gray-300 rounded"
+                    className="cursor-pointer p-2 bg-white border border-slate-300 rounded-md hover:bg-slate-50 transition-colors disabled:opacity-50"
                     onClick={() => handlePageChange(pageCount - 1)}
                     disabled={page >= pageCount - 1}
                 >
-                    <IoPlayForwardOutline className='text-amber-500' />
+                    <IoPlayForwardOutline className='text-amber-600' />
                 </button>
             </div>
 
-            {showSizes && <>
-                <div className="flex gap-2 items-center">
-                    <span>Mostrar:</span>
-                    <select
-                        value={pageSize}
-                        onChange={(e) => handleSizeChange(Number(e.target.value))}
-                        className="p-2 border-2 border-gray-300 rounded"
-                    >
-                        {availableSizes.map((size) => (
-                            <option key={size} value={size}>
-                                {size}
-                            </option>
-                        ))}
-                    </select>
-                </div>
-            </>}
+            {showSizes && <div className="flex gap-2 items-center">
+                <span className="text-slate-700">Mostrar:</span>
+                <select
+                    value={pageSize}
+                    onChange={(e) => handleSizeChange(Number(e.target.value))}
+                    className="p-2 border border-slate-300 rounded-md bg-white text-slate-900 focus:border-amber-500 transition-colors"
+                >
+                    {availableSizes.map((size) => (
+                        <option key={size} value={size} className="bg-white">
+                            {size}
+                        </option>
+                    ))}
+                </select>
+            </div>}
         </div>
     );
 };

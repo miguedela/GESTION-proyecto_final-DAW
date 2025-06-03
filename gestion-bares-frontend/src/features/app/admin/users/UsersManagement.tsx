@@ -101,7 +101,6 @@ export const UsersManagement = () => {
             <ConfirmModal
                 isOpen={!!userToDelete}
                 text={"Estás seguro de que quieres eliminar el usuario?"}
-                type="negative"
                 onConfirm={() => {
                     if (userToDelete) handleDeleteUser(userToDelete)
                     setUserToDelete(null);
