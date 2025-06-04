@@ -14,8 +14,8 @@ public interface NotificationService {
 
 	public NotificationDTO getNotificationById(Long id);
 
-	public List<NotificationDTO> getNotificationsByUserId(Long userId);
+	public List<NotificationDTO> getNotificationsBySenderId(Long userId);
 
-	public List<NotificationDTO> getNotificationsByRestaurantId(Long restaurantId);
+	public List<NotificationDTO> getNotificationsByReceiverId(Long restaurantId);
 
 }

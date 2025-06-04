@@ -15,38 +15,39 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class NotificationController {
 
-    private final NotificationService notificationService;
+	private final NotificationService notificationService;
 
-    @PostMapping
-    public ResponseEntity<Void> createNotification(@RequestBody NotificationDTO notification) {
-        notificationService.createNotification(notification);
-        return ResponseEntity.ok().build();
-    }
+	@PostMapping
+	public ResponseEntity<Void> createNotification(@RequestBody NotificationDTO notification) {
+		notificationService.createNotification(notification);
+		return ResponseEntity.ok().build();
+	}
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteNotification(@PathVariable Long id) {
-        notificationService.deleteNotification(id);
-        return ResponseEntity.ok().build();
-    }
+	@DeleteMapping("/{id}")
+	public ResponseEntity<Void> deleteNotification(@PathVariable Long id) {
+		notificationService.deleteNotification(id);
+		return ResponseEntity.ok().build();
+	}
 
-    @PutMapping("/{id}")
-    public ResponseEntity<NotificationDTO> updateNotification(@PathVariable Long id, @RequestBody NotificationDTO notification) {
-        notification.setId(id);
-        return ResponseEntity.ok(notificationService.updateNotification(notification));
-    }
+	@PutMapping("/{id}")
+	public ResponseEntity<NotificationDTO> updateNotification(@PathVariable Long id,
+			@RequestBody NotificationDTO notification) {
+		notification.setId(id);
+		return ResponseEntity.ok(notificationService.updateNotification(notification));
+	}
 
-    @GetMapping("/{id}")
-    public ResponseEntity<NotificationDTO> getNotificationById(@PathVariable Long id) {
-        return ResponseEntity.ok(notificationService.getNotificationById(id));
-    }
+	@GetMapping("/{id}")
+	public ResponseEntity<NotificationDTO> getNotificationById(@PathVariable Long id) {
+		return ResponseEntity.ok(notificationService.getNotificationById(id));
+	}
 
-    @GetMapping("/user/{userId}")
-    public ResponseEntity<List<NotificationDTO>> getNotificationsByUserId(@PathVariable Long userId) {
-        return ResponseEntity.ok(notificationService.getNotificationsByUserId(userId));
-    }
+	@GetMapping("/user/{userId}")
+	public ResponseEntity<List<NotificationDTO>> getNotificationsByUserId(@PathVariable Long userId) {
+		return ResponseEntity.ok(notificationService.getNotificationsBySenderId(userId));
+	}
 
-    @GetMapping("/restaurant/{restaurantId}")
-    public ResponseEntity<List<NotificationDTO>> getNotificationsByRestaurantId(@PathVariable Long restaurantId) {
-        return ResponseEntity.ok(notificationService.getNotificationsByRestaurantId(restaurantId));
-    }
+	@GetMapping("/restaurant/{restaurantId}")
+	public ResponseEntity<List<NotificationDTO>> getNotificationsByRestaurantId(@PathVariable Long restaurantId) {
+		return ResponseEntity.ok(notificationService.getNotificationsByReceiverId(restaurantId));
+	}
 }

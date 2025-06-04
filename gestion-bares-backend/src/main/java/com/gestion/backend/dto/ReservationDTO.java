@@ -2,15 +2,11 @@ package com.gestion.backend.dto;
 
 import java.time.LocalDateTime;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.gestion.backend.entity.OurUser;
 import com.gestion.backend.entity.Restaurant;
 import com.gestion.backend.enums.ReservationStatus;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 @Data
 public class ReservationDTO {

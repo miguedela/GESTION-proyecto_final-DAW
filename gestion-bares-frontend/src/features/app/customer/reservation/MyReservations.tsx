@@ -52,28 +52,27 @@ export const MyReservations = () => {
             </thead>
             <tbody>
               {reservations.map((r) => {
-                if (r.status === Status.CONFIRMED) {
-
+                // if (r.status === Status.CONFIRMED) {
                   const dateObj = new Date(r.reservationTime);
                   const date = dateObj.toLocaleDateString();
                   const hour = dateObj.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
                   return (
                     <tr key={r.id} className="hover:bg-amber-50">
-                      <Link
-                        to={`/reservation/${r.id}/update`}
-                        className="text-amber-600 hover:underline"
-                      >
-                        <td className="px-4 py-2">
+                      <td className="px-4 py-2">
+                        <Link
+                          to={`/reservation/${r.id}/update`}
+                          className="text-amber-600 hover:underline"
+                        >
                           {r.restaurant?.name || '-'}
-                        </td>
-                      </Link>
+                        </Link>
+                      </td>
                       <td className="px-4 py-2">{date}</td>
                       <td className="px-4 py-2">{hour}</td>
                       <td className="px-4 py-2">{r.reservationNumber}</td>
                       <td className="px-4 py-2">{r.status}</td>
                     </tr>
                   );
-                }
+                // }
               })}
             </tbody>
           </table>

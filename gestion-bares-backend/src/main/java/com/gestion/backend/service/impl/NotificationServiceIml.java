@@ -53,7 +53,7 @@ public class NotificationServiceIml implements NotificationService {
 	}
 
 	@Override
-	public List<NotificationDTO> getNotificationsByUserId(Long userId) {
+	public List<NotificationDTO> getNotificationsBySenderId(Long userId) {
 		List<Notification> notifications = notificationRepository.findByReceiverId(userId)
 				.orElseThrow(() -> new IllegalArgumentException("No notifications found for user with ID " + userId));
 		if (notifications.isEmpty()) {
@@ -63,7 +63,7 @@ public class NotificationServiceIml implements NotificationService {
 	}
 
 	@Override
-	public List<NotificationDTO> getNotificationsByRestaurantId(Long restaurantId) {
+	public List<NotificationDTO> getNotificationsByReceiverId(Long restaurantId) {
 		List<Notification> notifications = notificationRepository.findBySenderId(restaurantId).orElseThrow(
 				() -> new IllegalArgumentException("No notifications found for restaurant with ID " + restaurantId));
 		if (notifications.isEmpty()) {
@@ -75,8 +75,8 @@ public class NotificationServiceIml implements NotificationService {
 	private Notification convertToEntity(NotificationDTO notificationDTO) {
 		Notification notification = new Notification();
 		notification.setId(notificationDTO.getId());
-		notification.setSender(notificationDTO.getSender());
-		notification.setReceiver(notificationDTO.getReceiver());
+		notification.setSenderId(notificationDTO.getSenderId());
+		notification.setReceiverId(notificationDTO.getReceiverId());
 		notification.setStatus(notificationDTO.getStatus());
 
 		return notification;
@@ -85,8 +85,8 @@ public class NotificationServiceIml implements NotificationService {
 	private NotificationDTO convertToDTO(Notification notification) {
 		NotificationDTO notificationDTO = new NotificationDTO();
 		notificationDTO.setId(notification.getId());
-		notificationDTO.setSender(notification.getSender());
-		notificationDTO.setReceiver(notification.getReceiver());
+		notificationDTO.setSenderId(notification.getSenderId());
+		notificationDTO.setReceiverId(notification.getReceiverId());
 		notificationDTO.setStatus(notification.getStatus());
 
 		return notificationDTO;

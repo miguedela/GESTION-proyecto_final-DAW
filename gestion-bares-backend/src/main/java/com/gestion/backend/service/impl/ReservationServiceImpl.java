@@ -6,8 +6,11 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import com.gestion.backend.dto.ReservationDTO;
+import com.gestion.backend.entity.Notification;
 import com.gestion.backend.entity.Reservation;
+import com.gestion.backend.enums.NotificationStatus;
 import com.gestion.backend.exception.ResourceNotFoundException;
+import com.gestion.backend.repository.NotificationRepository;
 import com.gestion.backend.repository.ReservationRepository;
 import com.gestion.backend.repository.RestaurantRepository;
 import com.gestion.backend.repository.UserRepository;
@@ -22,6 +25,7 @@ public class ReservationServiceImpl implements ReservationService {
 	private final ReservationRepository reservationRepository;
 	private final RestaurantRepository restaurantRepository;
 	private final UserRepository customerRepository;
+	private final NotificationRepository notificationRepository;
 
 	@Override
 	public ReservationDTO createReservation(ReservationDTO reservationDTO) {
@@ -51,7 +55,16 @@ public class ReservationServiceImpl implements ReservationService {
 			throw new IllegalArgumentException("No hay disponibilidad para la hora seleccionada.");
 		}
 
-		return convertToDTO(reservationRepository.save(new Reservation(reservationDTO)));
+		Reservation createdReservation = reservationRepository.save(new Reservation(reservationDTO));
+
+		Notification notification = new Notification();
+		notification.setSenderId(createdReservation.getRestaurant().getId());
+		notification.setReceiverId(createdReservation.getCustomer().getId());
+		notification.setReservationId(createdReservation.getId());
+		notification.setStatus(NotificationStatus.UNREAD);
+		notificationRepository.save(notification);
+
+		return convertToDTO(createdReservation);
 	}
 
 	@Override
@@ -95,7 +108,16 @@ public class ReservationServiceImpl implements ReservationService {
 			throw new IllegalArgumentException("No hay disponibilidad para la hora seleccionada.");
 		}
 
-		return convertToDTO(reservationRepository.save(new Reservation(reservationDTO)));
+		Reservation createdReservation = reservationRepository.save(new Reservation(reservationDTO));
+
+		Notification notification = new Notification();
+		notification.setSenderId(createdReservation.getRestaurant().getId());
+		notification.setReceiverId(createdReservation.getCustomer().getId());
+		notification.setReservationId(createdReservation.getId());
+		notification.setStatus(NotificationStatus.UNREAD);
+		notificationRepository.save(notification);
+
+		return convertToDTO(createdReservation);
 	}
 
 	@Override
