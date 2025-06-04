@@ -39,7 +39,7 @@ export const MyAccount = () => {
                         <p className="ml-2 mt-1 font-medium">{user.telephone}</p>
                     </div>
                     <Link
-                        to={localStorage.getItem("restaurantId") || user?.role !== Roles.CUSTOMER ? "/my-account/edit" : "/account/edit"}
+                        to={localStorage.getItem("restaurantId") || user?.role == Roles.ADMIN ? "/my-account/edit" : "/account/edit"}
                         className='text-center text-white px-4 py-2 bg-amber-500 hover:bg-amber-600 rounded transition font-semibold shadow'
                     >
                         Editar

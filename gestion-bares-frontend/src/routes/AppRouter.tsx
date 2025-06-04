@@ -36,6 +36,9 @@ import { Menu } from '../features/restaurants/Menu';
 import { Restaurant } from '../features/restaurants/Resaturant';
 import { RestaurantsList } from '../features/restaurants/RestaurantsList';
 import { ProtectedRoute } from './ProtectedRoute';
+import { RestaurantReservations } from '../features/app/staff/restaurants/RestaurantReservations';
+import { Privacy } from '../features/Privacy';
+import { Terms } from '../features/Terms';
 
 export const AppRouter = () => {
 
@@ -58,6 +61,8 @@ export const AppRouter = () => {
         { path: '/restaurant', element: <Restaurant /> },
         { path: '/menu', element: <Menu /> },
         { path: "/help", element: <Help /> },
+        { path: "/privacy", element: <Privacy /> },
+        { path: "/terms", element: <Terms /> },
         { path: '*', element: <NotFound /> },
 
         {
@@ -81,7 +86,7 @@ export const AppRouter = () => {
             ]
         },
         {
-            element: <ProtectedRoute allowedRoles={["CUSTOMER"]} />,
+            element: <ProtectedRoute allowedRoles={["STAFF", "CUSTOMER"]} />,
             children: [
                 { path: "/account", element: <Account /> },
                 { path: "/account/edit", element: <EditAccount /> },
@@ -112,6 +117,7 @@ export const AppRouter = () => {
                 {
                     element: <App />,
                     children: [
+                        { path: "/staff/restaurant/reservations", element: <RestaurantReservations /> },
                         { path: "/staff/restaurant/info", element: <RestaurantDetailStaff /> },
                         { path: "/staff/restaurant/edit", element: <RestaurantEdit /> },
                         { path: "/staff/restaurant/menu", element: <StaffRestaurantMenu /> },
