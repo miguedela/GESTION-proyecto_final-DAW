@@ -15,7 +15,6 @@ export const RestaurantsList = () => {
   useEffect(() => {
     setBreadcrumbs([
       { label: "Inicio", path: "/main" },
-      { label: "Restaurantes", path: "/admin/restaurants" }
     ]);
 
     localStorage.removeItem("restaurantId");

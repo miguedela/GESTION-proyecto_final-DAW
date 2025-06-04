@@ -12,7 +12,7 @@ export const RestaurantCard = ({ restaurant }: { restaurant: IRestaurant }) => {
             if (user.role === Roles.CUSTOMER)
                 window.location.href = "/restaurant/info";
             else if (user.role === Roles.STAFF)
-                window.location.href = `/staff/restaurant/${restaurant.id}`;
+                window.location.href = `/staff/restaurant/info`;
         } else {
             window.location.href = "/restaurant";
         }

@@ -1,7 +1,7 @@
 import { useAtom } from "jotai";
 import { useCallback, useEffect, useState } from "react";
 import { IoMenu, IoPencilOutline } from "react-icons/io5";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { loadRestaurant } from "../../../../api/restaurants.api";
 import { breadcrumbsAtom } from "../../../../atoms/breadcrumbs.atom";
 import { userAtom } from "../../../../atoms/user.atom";
@@ -11,8 +11,8 @@ import { IRestaurant } from "../../../../types/Restaurants";
 import { formatDate } from "../../../../utils/dateUtils";
 
 export const RestaurantDetailStaff = () => {
+  const id = localStorage.getItem("restaurantId");
   const dias = ["Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado", "Domingo"];
-  const { id } = useParams();
   const navigate = useNavigate();
   const [user] = useAtom(userAtom);
   const [loading, setLoading] = useState(false);
@@ -22,8 +22,7 @@ export const RestaurantDetailStaff = () => {
   useEffect(() => {
     setBreadcrumbs([
       { label: "Inicio", path: "/main" },
-      { label: 'Restaurantes asignados', path: "/staff/restaurants" },
-      { label: `${restaurant?.name}`, path: `/staff/restaurant/${id}` },
+      { label: `${restaurant?.name}`, path: `/staff/restaurant` },
     ]);
   }, [id, restaurant, setBreadcrumbs])
 
@@ -119,11 +118,8 @@ export const RestaurantDetailStaff = () => {
             </div>
           </div>
           <div className="flex gap-4 justify-end mt-8">
-            <Link to={`/staff/restaurant/${restaurant?.id}/edit`} title="Editar restaurante">
+            <Link to={`/staff/restaurant/edit`} title="Editar restaurante">
               <IoPencilOutline className="text-2xl text-amber-500 hover:text-amber-600 transition" />
-            </Link>
-            <Link to={`/staff/restaurant/${restaurant?.id}/menu`} title="Ver menú">
-              <IoMenu className="text-2xl text-amber-500 hover:text-amber-600 transition" />
             </Link>
           </div>
         </Loader>

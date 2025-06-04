@@ -25,18 +25,17 @@ import { EditDish } from '../features/app/staff/restaurants/menu/EditDish';
 import { StaffRestaurantMenu } from '../features/app/staff/restaurants/menu/RestaurantMenu';
 import { RestaurantDetailStaff } from '../features/app/staff/restaurants/RestaurantDetailStaff';
 import { RestaurantEdit } from '../features/app/staff/restaurants/RestaurantEdit';
-import { RestaurantManagement } from '../features/app/staff/restaurants/RestaurantManagement';
 import { ChangePassword } from '../features/auth/ChangePassword';
 import { LogIn } from '../features/auth/LogIn';
 import { ResetPassword } from '../features/auth/ResetPassword';
 import { SignUp } from '../features/auth/SignUp';
 import { Home } from '../features/home/Home';
 import { NotFound } from '../features/not-found/NotFound';
+import { Notifications } from '../features/Notifications';
 import { Menu } from '../features/restaurants/Menu';
 import { Restaurant } from '../features/restaurants/Resaturant';
 import { RestaurantsList } from '../features/restaurants/RestaurantsList';
 import { ProtectedRoute } from './ProtectedRoute';
-import { Notifications } from '../features/Notifications';
 
 export const AppRouter = () => {
 
@@ -113,12 +112,11 @@ export const AppRouter = () => {
                 {
                     element: <App />,
                     children: [
-                        { path: "/staff/restaurants", element: <RestaurantManagement /> },
-                        { path: "/staff/restaurant/:id", element: <RestaurantDetailStaff /> },
-                        { path: "/staff/restaurant/:id/edit", element: <RestaurantEdit /> },
-                        { path: "/staff/restaurant/:id/menu", element: <StaffRestaurantMenu /> },
-                        { path: "/staff/restaurant/:restaurantId/menu/:menuId/create", element: <CreateDishToMenu /> },
-                        { path: "/staff/restaurant/menu/:restaurantId/dish/:id/edit", element: <EditDish /> },
+                        { path: "/staff/restaurant/info", element: <RestaurantDetailStaff /> },
+                        { path: "/staff/restaurant/edit", element: <RestaurantEdit /> },
+                        { path: "/staff/restaurant/menu", element: <StaffRestaurantMenu /> },
+                        { path: "/staff/restaurant/menu/:menuId/create", element: <CreateDishToMenu /> },
+                        { path: "/staff/restaurant/menu/dish/:id/edit", element: <EditDish /> },
                         // Rutas para staffs
                     ]
                 }

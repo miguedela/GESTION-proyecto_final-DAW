@@ -1,6 +1,6 @@
 import { useAtom } from "jotai";
 import { useCallback, useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { z } from "zod";
 import { loadRestaurant } from "../../../../api/restaurants.api";
 import { breadcrumbsAtom } from "../../../../atoms/breadcrumbs.atom";
@@ -12,7 +12,7 @@ import { Loading } from "../../../../layouts/Loading";
 import { IRestaurant } from "../../../../types/Restaurants";
 
 export const RestaurantEdit = () => {
-  const { id } = useParams<{ id: string }>();
+  const id = localStorage.getItem("restaurantId");
   const [user] = useAtom(userAtom);
   const navigate = useNavigate();
   const [, setBreadcrumbs] = useAtom(breadcrumbsAtom);
@@ -24,9 +24,8 @@ export const RestaurantEdit = () => {
   useEffect(() => {
     setBreadcrumbs([
       { label: "Inicio", path: "/main" },
-      { label: "Restaurantes", path: "/staff/restaurants" },
-      { label: `${restaurant?.name}`, path: `/staff/restaurant/${id}` },
-      { label: "Editar", path: `/staff/restaurant/${id}/edit` },
+      { label: `${restaurant?.name}`, path: `/staff/restaurant/info` },
+      { label: "Editar", path: `/staff/restaurant/edit` },
     ]);
   }, [id, restaurant, setBreadcrumbs]);
 

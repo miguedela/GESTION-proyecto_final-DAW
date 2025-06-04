@@ -12,7 +12,7 @@ import { loadRestaurant } from "../../../../../api/restaurants.api";
 import { IRestaurant } from "../../../../../types/Restaurants";
 
 export const StaffRestaurantMenu = () => {
-  const { id } = useParams();
+  const id = localStorage.getItem("restaurantId");
   const navigate = useNavigate();
   const [menu, setMenu] = useState<IMenu | null>(null);
   const [loading, setLoading] = useState(true);
@@ -49,9 +49,9 @@ export const StaffRestaurantMenu = () => {
   const [, setBreadcrumbs] = useAtom(breadcrumbsAtom);
   useEffect(() => {
     setBreadcrumbs([
-      { label: 'Restaurantes asignados', path: "/staff/restaurants" },
-      { label: `${restaurant?.name}`, path: `/staff/restaurant/${id}` },
-      { label: 'Menú', path: `/staff/restaurant/${id}/menu` },
+      { label: "Inicio", path: "/main" },
+      { label: `${restaurant?.name}`, path: `/staff/restaurant/info` },
+      { label: 'Menú', path: `/staff/restaurant/menu` },
     ]);
   }, [id, setBreadcrumbs, restaurant]);
 
@@ -98,7 +98,7 @@ export const StaffRestaurantMenu = () => {
                 <td className="px-6 py-4">{dish.price}</td>
                 <td className="px-6 py-4">{dish.available ? <IoEyeOutline /> : <IoEyeOffOutline />}</td>
                 <td>
-                  <Link to={`/staff/restaurant/menu/${id}/dish/${dish.id}/edit`}>
+                  <Link to={`/staff/restaurant/menu/dish/${dish.id}/edit`}>
                     <IoPencilOutline className="text-xl text-amber-500 hover:text-amber-600" />
                   </Link>
                   <button onClick={() => setDishToDelete(dish.id)} className="cursor-pointer">
@@ -109,14 +109,13 @@ export const StaffRestaurantMenu = () => {
             ))}
           </tbody>
         </table>
-        <Link to={`/staff/restaurant/${id}/menu/${menu?.id}/create`}>
+        <Link to={`/staff/restaurant/menu/${menu?.id}/create`}>
           <IoAddOutline className="text-xl text-amber-500 hover:text-amber-600" />
         </Link>
 
         <ConfirmModal
           isOpen={!!dishToDelete}
           text={"Estás seguro de que quieres eliminar el plato?"}
-          type="negative"
           onConfirm={async () => {
             if (dishToDelete && id) {
               try {
