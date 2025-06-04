@@ -58,8 +58,8 @@ public class ReservationServiceImpl implements ReservationService {
 		Reservation createdReservation = reservationRepository.save(new Reservation(reservationDTO));
 
 		Notification notification = new Notification();
-		notification.setSenderId(createdReservation.getRestaurant().getId());
-		notification.setReceiverId(createdReservation.getCustomer().getId());
+		notification.setSenderId(createdReservation.getCustomer().getId());
+		notification.setReceiverId(createdReservation.getRestaurant().getId());
 		notification.setReservationId(createdReservation.getId());
 		notification.setStatus(NotificationStatus.UNREAD);
 		notificationRepository.save(notification);
@@ -110,12 +110,12 @@ public class ReservationServiceImpl implements ReservationService {
 
 		Reservation createdReservation = reservationRepository.save(new Reservation(reservationDTO));
 
-		Notification notification = new Notification();
-		notification.setSenderId(createdReservation.getRestaurant().getId());
-		notification.setReceiverId(createdReservation.getCustomer().getId());
-		notification.setReservationId(createdReservation.getId());
-		notification.setStatus(NotificationStatus.UNREAD);
-		notificationRepository.save(notification);
+//		Notification notification = new Notification();
+//		notification.setSenderId(createdReservation.getCustomer().getId());
+//		notification.setReceiverId(createdReservation.getRestaurant().getId());
+//		notification.setReservationId(createdReservation.getId());
+//		notification.setStatus(NotificationStatus.UNREAD);
+//		notificationRepository.save(notification);
 
 		return convertToDTO(createdReservation);
 	}

@@ -1,5 +1,5 @@
 import { useAtom } from "jotai";
-import { IoCallOutline, IoInformationCircleOutline, IoPersonOutline, IoRestaurantOutline } from "react-icons/io5";
+import { IoCallOutline, IoInformationCircleOutline, IoNotificationsOutline, IoPersonOutline, IoRestaurantOutline } from "react-icons/io5";
 import { Link } from "react-router-dom";
 import { userAtom } from "../atoms/user.atom";
 import { Roles } from "../types/User";
@@ -29,6 +29,9 @@ export const Header = () => {
                             <IoRestaurantOutline size={26} className="transition-transform hover:scale-125 active:scale-95" />
                         </Link>
                     )}
+                    <Link to={user.role === Roles.CUSTOMER ? "/notifications" : "/my-notifications"} className="flex items-center gap-1 text-slate-700 hover:text-amber-500 transition-colors duration-200">
+                        <IoNotificationsOutline size={26} className="transition-transform hover:scale-125 active:scale-95" />
+                    </Link>
                     <Link to={user?.role === Roles.CUSTOMER ? "/account" : "/my-account"} className="flex items-center gap-1 text-slate-700 hover:text-amber-500 transition-colors duration-200">
                         <IoPersonOutline size={26} className="transition-transform hover:scale-125 active:scale-95" />
                     </Link>

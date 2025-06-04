@@ -4,7 +4,7 @@ import { IUser } from "./User";
 export enum Status {
     PENDING = 'PENDING',
     CONFIRMED = 'CONFIRMED',
-    CANCELLED = 'CANCELLED',
+    CANCELED = 'CANCELED',
 }
 
 export interface IReservation {

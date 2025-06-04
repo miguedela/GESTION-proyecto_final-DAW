@@ -36,6 +36,7 @@ import { Menu } from '../features/restaurants/Menu';
 import { Restaurant } from '../features/restaurants/Resaturant';
 import { RestaurantsList } from '../features/restaurants/RestaurantsList';
 import { ProtectedRoute } from './ProtectedRoute';
+import { Notifications } from '../features/Notifications';
 
 export const AppRouter = () => {
 
@@ -57,6 +58,7 @@ export const AppRouter = () => {
         { path: '/contact', element: <Contact /> },
         { path: '/restaurant', element: <Restaurant /> },
         { path: '/menu', element: <Menu /> },
+        { path: "/help", element: <Help /> },
         { path: '*', element: <NotFound /> },
 
         {
@@ -67,12 +69,19 @@ export const AppRouter = () => {
                     children: [
                         { path: "/my-account", element: <MyAccount /> },
                         { path: "/my-account/edit", element: <EditMyAccount /> },
-                        { path: "/help", element: <Help /> },
+                        { path: '/my-notifications', element: <MyNotifications /> },
                         // Rutas para todos los usuarios
                     ]
                 }
             ]
-        }, {
+        },
+        {
+            element: <ProtectedRoute allowedRoles={["ADMIN", "STAFF", "CUSTOMER"]} />,
+            children: [
+                { path: "/notifications", element: <Notifications /> },
+            ]
+        },
+        {
             element: <ProtectedRoute allowedRoles={["CUSTOMER"]} />,
             children: [
                 { path: "/account", element: <Account /> },
@@ -130,7 +139,6 @@ export const AppRouter = () => {
                         { path: '/restaurant/info', element: <RestaurantDetail /> },
                         { path: "/restaurant/menu", element: <RestaurantMenu /> },
                         { path: '/restaurant/contact', element: <RestaurantContact /> },
-                        { path: '/my-notifications', element: <MyNotifications /> },
                         // Rutas para customers
                     ]
                 }

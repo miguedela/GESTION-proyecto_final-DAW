@@ -52,7 +52,7 @@ export const MyReservations = () => {
             </thead>
             <tbody>
               {reservations.map((r) => {
-                // if (r.status === Status.CONFIRMED) {
+                if (r.status === Status.CONFIRMED) {
                   const dateObj = new Date(r.reservationTime);
                   const date = dateObj.toLocaleDateString();
                   const hour = dateObj.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
@@ -72,7 +72,7 @@ export const MyReservations = () => {
                       <td className="px-4 py-2">{r.status}</td>
                     </tr>
                   );
-                // }
+                }
               })}
             </tbody>
           </table>

@@ -78,7 +78,9 @@ public class NotificationServiceIml implements NotificationService {
 		notification.setSenderId(notificationDTO.getSenderId());
 		notification.setReceiverId(notificationDTO.getReceiverId());
 		notification.setStatus(notificationDTO.getStatus());
-
+		if (notificationDTO.getReservationId() != null) {
+			notification.setReservationId(notificationDTO.getReservationId());
+		}
 		return notification;
 	}
 
@@ -88,7 +90,9 @@ public class NotificationServiceIml implements NotificationService {
 		notificationDTO.setSenderId(notification.getSenderId());
 		notificationDTO.setReceiverId(notification.getReceiverId());
 		notificationDTO.setStatus(notification.getStatus());
-
+		if (notification.getReservationId() != null) {
+			notificationDTO.setReservationId(notification.getReservationId());
+		}
 		return notificationDTO;
 	}
 

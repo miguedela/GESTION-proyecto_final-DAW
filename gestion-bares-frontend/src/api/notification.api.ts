@@ -13,7 +13,7 @@ export const createNotification = async (notification: INotification) => {
 };
 
 // Eliminar una notificación
-export const deleteNotification = async (notificationId: number) => {
+export const deleteNotification = async (notificationId: string) => {
     return await httpClient({
         url: `${urlBase}/${notificationId}`,
         method: "DELETE",
@@ -30,7 +30,7 @@ export const updateNotification = async (notification: INotification) => {
 };
 
 // Obtener una notificación por ID
-export const getNotificationById = async (notificationId: number) => {
+export const getNotificationById = async (notificationId: string) => {
     return await httpClient({
         url: `${urlBase}/${notificationId}`,
         method: "GET",
@@ -38,7 +38,7 @@ export const getNotificationById = async (notificationId: number) => {
 };
 
 // Cargar notificaciones de un usuario específico
-export const loadNotificationsByUser = async (userId: number) => {
+export const loadNotificationsByReceiver = async (userId: string) => {
     return await httpClient({
         url: `${urlBase}/user/${userId}`,
         method: "GET",
@@ -46,7 +46,7 @@ export const loadNotificationsByUser = async (userId: number) => {
 };
 
 // Cargar notificaciones de un restaurante específico
-export const loadNotificationsByRestaurant = async (restaurantId: number) => {
+export const loadNotificationsBySender = async (restaurantId: string) => {
     return await httpClient({
         url: `${urlBase}/restaurant/${restaurantId}`,
         method: "GET",
