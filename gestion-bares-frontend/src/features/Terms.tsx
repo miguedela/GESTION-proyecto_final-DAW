@@ -3,9 +3,9 @@ import { Header } from "../layouts/Header"
 
 export const Terms = () => {
   return <>
-    <div className="min-h-screen flex flex-col bg-slate-50">
+    <div className="min-h-screen flex flex-col">
       <Header />
-      <main className="container mx-auto flex-1 flex flex-col gap-6 text-slate-700 rounded-lg p-8">
+      <main className="container mx-auto flex-1 flex flex-col gap-6 text-slate-50 rounded-lg p-8">
       </main>
       <Footer />
     </div>

@@ -52,7 +52,7 @@ export const RestaurantDetail = () => {
 
   return (
     <div className="flex items-center justify-center">
-      <div className="w-full max-w-5xl mx-auto flex flex-1 flex-col text-slate-800 rounded-xl p-10 shadow-sm border border-slate-200">
+      <div className="w-full max-w-5xl mx-auto flex flex-1 flex-col text-slate-800 rounded-xl p-10 shadow-sm bg-slate-50">
         <h1 className="text-3xl font-extrabold text-center text-amber-700 tracking-tight mb-8 border-b pb-4 border-slate-200">
           {restaurant?.name || "Detalles del restaurante"}
         </h1>
@@ -82,7 +82,7 @@ export const RestaurantDetail = () => {
                 {restaurant?.openingHours && restaurant.openingHours.split(';').map((schedule, index) => (
                   <div
                     key={index}
-                    className="flex items-center gap-2 p-3 rounded-lg bg-slate-50 border border-slate-100 shadow-sm"
+                    className="flex items-center gap-2 p-3 rounded-lg bg-slate-100 border border-slate-300 shadow-sm"
                   >
                     <span className="font-semibold text-amber-700">{dias[index]}:</span>
                     <span className="text-slate-700">{schedule.trim()}</span>

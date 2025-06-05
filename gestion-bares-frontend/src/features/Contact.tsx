@@ -13,11 +13,11 @@ export const Contact = () => {
     };
 
     return (
-        <div className="min-h-screen flex flex-col bg-white">
+        <div className="min-h-screen flex flex-col">
             <Header />
             <main className="flex-1 container mx-auto px-4 py-12 flex flex-col items-center justify-center">
-                <h1 className="text-3xl font-bold mb-4 text-amber-600">Contacto</h1>
-                <p className="mb-6 text-neutral-700 text-center">
+                <h1 className="text-3xl font-bold mb-4 text-amber-400">Contacto</h1>
+                <p className="mb-6 text-neutral-50 text-center">
                     ¿Tienes alguna pregunta o sugerencia? ¡Escríbenos!
                 </p>
                 <form onSubmit={handleSubmit} className="w-full max-w-lg bg-white rounded-lg shadow p-6 flex flex-col gap-4">

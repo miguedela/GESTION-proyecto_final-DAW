@@ -3,7 +3,7 @@
 @custom-variant dark (&:where(.dark, .dark *));
 
 body {
-  @apply bg-neutral-50 text-white;
+  @apply bg-gradient-to-br bg-linear-to-br from-neutral-800  to-amber-600 text-slate-900;
   font-family: "Inter Variable", sans-serif;
 }
 

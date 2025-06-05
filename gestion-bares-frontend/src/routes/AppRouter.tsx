@@ -11,8 +11,7 @@ import { App } from '../features/app/App';
 import { MyNotifications } from '../features/app/customer/MyNotifications';
 import { MyReservations } from '../features/app/customer/reservation/MyReservations';
 import { NewReservation } from '../features/app/customer/reservation/NewReservation';
-import { Reservations } from '../features/app/customer/reservation/Reservations';
-import { UpdateReservation } from '../features/app/customer/reservation/UpdateReservation';
+import { Reservations } from '../features/restaurants/reservations/Reservations';
 import { RestaurantContact } from '../features/app/customer/restaurant/RestaurantContact';
 import { RestaurantDetail } from '../features/app/customer/restaurant/RestaurantDetail';
 import { RestaurantMenu } from '../features/app/customer/restaurant/RestaurantMenu';
@@ -39,6 +38,8 @@ import { Restaurant } from '../features/restaurants/Resaturant';
 import { RestaurantsList } from '../features/restaurants/RestaurantsList';
 import { Terms } from '../features/Terms';
 import { ProtectedRoute } from './ProtectedRoute';
+import { UpdateMyReservation } from '../features/app/customer/reservation/UpdateMyReservation';
+import { UpdateReservation } from '../features/restaurants/reservations/UpdateReservation';
 
 export const AppRouter = () => {
 
@@ -50,12 +51,12 @@ export const AppRouter = () => {
     });
 
     const router = createBrowserRouter([
-        ...renderMultiRoutes({ paths: ['/home', '/'], element: <Home /> }),
+        ...renderMultiRoutes({ paths: ['/main', '/'], element: <Home /> }),
         { path: '/login', element: <LogIn /> },
         { path: '/signup', element: <SignUp /> },
         { path: "/account/reset-password", element: <ResetPassword /> },
         { path: "/account/change-password", element: <ChangePassword /> },
-        { path: '/main', element: <RestaurantsList /> },
+        { path: '/restaurants', element: <RestaurantsList /> },
         { path: '/about', element: <About /> },
         { path: '/restaurant', element: <Restaurant /> },
         { path: '/menu', element: <Menu /> },
@@ -83,6 +84,12 @@ export const AppRouter = () => {
             element: <ProtectedRoute allowedRoles={["ADMIN", "STAFF", "CUSTOMER"]} />,
             children: [
                 { path: "/notifications", element: <Notifications /> },
+            ]
+        },
+        {
+            element: <ProtectedRoute allowedRoles={["CUSTOMER"]} />,
+            children: [
+                { path: "/reservation/:reservationId/update", element: <UpdateReservation /> },
             ]
         },
         {
@@ -134,7 +141,7 @@ export const AppRouter = () => {
                 {
                     element: <App />,
                     children: [
-                        { path: "/reservation/:reservationId/update", element: <UpdateReservation /> },
+                        { path: "/my-reservation/:reservationId/update", element: <UpdateMyReservation /> },
                         {
                             path: "/restaurant/:restaurantId/reservation/new", element:
                                 <NewReservation />

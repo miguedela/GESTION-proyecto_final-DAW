@@ -13,15 +13,16 @@ export const RestaurantsFilters = () => {
         handleSearch(search);
     };
 
-    return <>
-        <div className="flex justify-between items-center mb-6">
-            <h1 className="text-4xl font-bold text-slate-900">Restaurantes</h1>
+    return (
+        <div className="flex justify-end items-end gap-4 rounded-xl w-full">
             <form className="flex items-center gap-3" onSubmit={handleSearchSubmit}>
-                <Input id="buscarRestaurantes" value={search} onChange={(e) => setSearch(e.target.value)} placeholder="Buscar restaurantes..." />
-                <button className="p-3.5 bg-amber-500 text-white rounded-md hover:bg-amber-600 transition-colors" type="submit">
+                <div className="w-64">
+                    <Input id="buscarRestaurantes" value={search} onChange={(e) => setSearch(e.target.value)} placeholder="Buscar restaurantes..." />
+                </div>
+                <button className="p-3.5 bg-amber-500 text-white rounded-lg hover:bg-amber-600 transition shadow font-bold hover:scale-105 active:scale-95" type="submit">
                     <IoSearch size={20} />
                 </button>
             </form>
         </div>
-    </>
+    )
 }

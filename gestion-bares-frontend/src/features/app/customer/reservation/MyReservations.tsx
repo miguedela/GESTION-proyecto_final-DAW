@@ -60,7 +60,7 @@ export const MyReservations = () => {
                     <tr key={r.id} className="hover:bg-amber-50">
                       <td className="px-4 py-2">
                         <Link
-                          to={`/reservation/${r.id}/update`}
+                          to={localStorage.getItem("restaurantId") ? `/my-reservation/${r.id}/update` : `/reservation/${r.id}/update`}
                           className="text-amber-600 hover:underline"
                         >
                           {r.restaurant?.name || '-'}

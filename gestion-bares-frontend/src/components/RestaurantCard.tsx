@@ -23,7 +23,7 @@ export const RestaurantCard = ({ restaurant }: { restaurant: IRestaurant }) => {
             onClick={handleClick}
             className="block cursor-pointer"
         >
-            <div className="rounded-xl shadow-sm p-6 bg-white mb-6 border border-slate-200 transition-transform transform hover:scale-105 hover:shadow-md duration-200">
+            <div className="rounded-xl shadow-sm p-6 bg-white mb-6 border border-slate-200 transition-transform transform hover:scale-105 hover:shadow-md duration-200 active:scale-95">
                 <div className="flex items-center gap-4 mb-3">
                     <div className="flex-1">
                         <h2 className="text-2xl font-bold text-amber-600 hover:text-amber-500 transition-colors">{restaurant.name}</h2>
