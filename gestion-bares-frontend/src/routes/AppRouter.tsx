@@ -1,14 +1,13 @@
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import { About } from '../features/About';
 import { Account } from '../features/account/Account';
 import { EditAccount } from '../features/account/EditAccount';
-import { About } from '../features/app/About';
 import { CreateRestaurant } from '../features/app/admin/restaurants/CreateRestaurant';
 import { RestaurantsManagement } from '../features/app/admin/restaurants/RestaurantsManagement';
 import { EditUser } from '../features/app/admin/users/EditUser';
 import { UserDetails } from '../features/app/admin/users/UserDetails';
 import { UsersManagement } from '../features/app/admin/users/UsersManagement';
 import { App } from '../features/app/App';
-import { Contact } from '../features/app/Contact';
 import { MyNotifications } from '../features/app/customer/MyNotifications';
 import { MyReservations } from '../features/app/customer/reservation/MyReservations';
 import { NewReservation } from '../features/app/customer/reservation/NewReservation';
@@ -17,7 +16,6 @@ import { UpdateReservation } from '../features/app/customer/reservation/UpdateRe
 import { RestaurantContact } from '../features/app/customer/restaurant/RestaurantContact';
 import { RestaurantDetail } from '../features/app/customer/restaurant/RestaurantDetail';
 import { RestaurantMenu } from '../features/app/customer/restaurant/RestaurantMenu';
-import { Help } from '../features/app/Help';
 import { EditMyAccount } from '../features/app/my-account/EditMyAccount';
 import { MyAccount } from '../features/app/my-account/MyAccount';
 import { CreateDishToMenu } from '../features/app/staff/restaurants/menu/CreateDishToMenu';
@@ -25,20 +23,22 @@ import { EditDish } from '../features/app/staff/restaurants/menu/EditDish';
 import { StaffRestaurantMenu } from '../features/app/staff/restaurants/menu/RestaurantMenu';
 import { RestaurantDetailStaff } from '../features/app/staff/restaurants/RestaurantDetailStaff';
 import { RestaurantEdit } from '../features/app/staff/restaurants/RestaurantEdit';
+import { RestaurantReservations } from '../features/app/staff/restaurants/RestaurantReservations';
 import { ChangePassword } from '../features/auth/ChangePassword';
 import { LogIn } from '../features/auth/LogIn';
 import { ResetPassword } from '../features/auth/ResetPassword';
 import { SignUp } from '../features/auth/SignUp';
+import { Contact } from '../features/Contact';
+import { Help } from '../features/Help';
 import { Home } from '../features/home/Home';
 import { NotFound } from '../features/not-found/NotFound';
 import { Notifications } from '../features/Notifications';
+import { Privacy } from '../features/Privacy';
 import { Menu } from '../features/restaurants/Menu';
 import { Restaurant } from '../features/restaurants/Resaturant';
 import { RestaurantsList } from '../features/restaurants/RestaurantsList';
-import { ProtectedRoute } from './ProtectedRoute';
-import { RestaurantReservations } from '../features/app/staff/restaurants/RestaurantReservations';
-import { Privacy } from '../features/Privacy';
 import { Terms } from '../features/Terms';
+import { ProtectedRoute } from './ProtectedRoute';
 
 export const AppRouter = () => {
 
@@ -57,9 +57,9 @@ export const AppRouter = () => {
         { path: "/account/change-password", element: <ChangePassword /> },
         { path: '/main', element: <RestaurantsList /> },
         { path: '/about', element: <About /> },
-        { path: '/contact', element: <Contact /> },
         { path: '/restaurant', element: <Restaurant /> },
         { path: '/menu', element: <Menu /> },
+        { path: '/contact', element: <Contact /> },
         { path: "/help", element: <Help /> },
         { path: "/privacy", element: <Privacy /> },
         { path: "/terms", element: <Terms /> },

@@ -33,9 +33,9 @@ public class SecurityConfig {
 	public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
 		httpSecurity.csrf(AbstractHttpConfigurer::disable).cors(Customizer.withDefaults())
 				.authorizeHttpRequests(request -> request
-						.requestMatchers("/api/users/auth/**", "/public/**", "/api/email/**", "/v3/**", "/swagger-ui/**", "/api/users/profile/update-password", "/api/restaurants", "/api/restaurants/{id}").permitAll()
+						.requestMatchers("/api/users/auth/**", "/public/**", "/api/email/**", "/v3/**", "/swagger-ui/**", "/api/users/profile/update-password", "/api/restaurants/**").permitAll()
 						.requestMatchers("/api/users/admin/**").hasAnyAuthority(Roles.ADMIN.name())
-						.requestMatchers("/api/dishes/**", "/api/restaurants/**").hasAnyAuthority(Roles.STAFF.name())
+						.requestMatchers("/api/dishes/**").hasAnyAuthority(Roles.STAFF.name())
 						.requestMatchers("/api/users/**", "/api/notifications/**")
 						.hasAnyAuthority(Roles.ADMIN.name(), Roles.STAFF.name(), Roles.CUSTOMER.name())
 

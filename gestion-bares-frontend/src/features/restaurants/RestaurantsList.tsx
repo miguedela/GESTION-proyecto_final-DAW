@@ -10,8 +10,10 @@ import useRestaurant from "../../hooks/useRestaurant";
 import { RestaurantsFilters } from "../../components/RestaurantsFilters";
 
 export const RestaurantsList = () => {
+  const { restaurants, handleGetRestaurants, handlePageChange } = useRestaurant();
+  const [loading, setLoading] = useState(false);
+  
   const [, setBreadcrumbs] = useAtom(breadcrumbsAtom);
-
   useEffect(() => {
     setBreadcrumbs([
       { label: "Inicio", path: "/main" },
@@ -19,9 +21,6 @@ export const RestaurantsList = () => {
 
     localStorage.removeItem("restaurantId");
   }, [setBreadcrumbs]);
-
-  const { restaurants, handleGetRestaurants, handlePageChange } = useRestaurant();
-  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     const fetchRestaurants = async () => {

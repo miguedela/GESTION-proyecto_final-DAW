@@ -1,5 +1,5 @@
-import { Footer } from "../../layouts/Footer";
-import { Header } from "../../layouts/Header";
+import { Footer } from "../layouts/Footer";
+import { Header } from "../layouts/Header";
 
 export const About = () => (
     <div className="min-h-screen flex flex-col bg-white">

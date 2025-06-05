@@ -1,6 +1,6 @@
 import { useState } from "react";
-import { Footer } from "../../layouts/Footer";
-import { Header } from "../../layouts/Header";
+import { Footer } from "../layouts/Footer";
+import { Header } from "../layouts/Header";
 
 export const Contact = () => {
     const [message, setMessage] = useState("");
