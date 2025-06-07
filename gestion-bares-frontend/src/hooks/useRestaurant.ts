@@ -33,6 +33,8 @@ const useRestaurant = () => {
                     },
                     loading: false,
                 }));
+
+                return data;
             } catch (error) {
                 console.error(error)
                 setRestaurants((prev) => ({ ...prev, loading: false }));

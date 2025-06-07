@@ -183,7 +183,7 @@ export const NewReservation = () => {
   const isClosed = reservationDate && availableHours.length === 0;
 
   return (
-    <div className="max-w-md mx-auto mt-8 p-6 bg-white rounded shadow">
+    <div className="max-w-md mx-auto p-6 bg-white rounded shadow">
       <h2 className="text-2xl font-bold mb-4 text-amber-600">
         Nueva Reserva en {restaurant?.name || "..."}
       </h2>

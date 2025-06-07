@@ -103,7 +103,7 @@ export const MyNotifications = () => {
   }, [user]);
 
   return (
-    <div className="max-w-2xl mx-auto mt-10 p-6 bg-white rounded-2xl shadow-lg border border-gray-100">
+    <div className="max-w-2xl mx-auto p-6 bg-white rounded-2xl shadow-lg border border-gray-100">
       <h2 className="text-3xl font-extrabold mb-6 text-amber-600 tracking-tight">Mis Notificaciones</h2>
       {loading && <div className="text-amber-600 text-center py-4">Cargando notificaciones...</div>}
 

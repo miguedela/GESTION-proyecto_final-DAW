@@ -38,7 +38,7 @@ export const Paginator: React.FC<PaginatorProps> = ({
             </div>
             <div className="flex gap-2 items-center">
                 <button
-                    className="cursor-pointer p-2 bg-white border border-slate-200 rounded-lg hover:bg-amber-50 transition-colors disabled:opacity-50 shadow"
+                    className="cursor-pointer p-2 bg-white border border-slate-200 rounded-lg hover:bg-amber-50 transition-colors disabled:opacity-50 shadow available:hover:scale-105 available:active:scale-95"
                     onClick={() => handlePageChange(0)}
                     disabled={page <= 0}
                 >
@@ -46,7 +46,7 @@ export const Paginator: React.FC<PaginatorProps> = ({
                 </button>
 
                 <button
-                    className="cursor-pointer p-2 bg-white border border-slate-200 rounded-lg hover:bg-amber-50 transition-colors disabled:opacity-50 shadow"
+                    className="cursor-pointer p-2 bg-white border border-slate-200 rounded-lg hover:bg-amber-50 transition-colors disabled:opacity-50 shadow available:hover:scale-105 available:active:scale-95"
                     onClick={() => handlePageChange(page - 1)}
                     disabled={page <= 0}
                 >
@@ -58,7 +58,7 @@ export const Paginator: React.FC<PaginatorProps> = ({
                 </span>
 
                 <button
-                    className="cursor-pointer p-2 bg-white border border-slate-200 rounded-lg hover:bg-amber-50 transition-colors disabled:opacity-50 shadow"
+                    className="cursor-pointer p-2 bg-white border border-slate-200 rounded-lg hover:bg-amber-50 transition-colors disabled:opacity-50 shadow available:hover:scale-105 available:active:scale-95"
                     onClick={() => handlePageChange(page + 1)}
                     disabled={page >= pageCount - 1}
                 >
@@ -66,7 +66,7 @@ export const Paginator: React.FC<PaginatorProps> = ({
                 </button>
 
                 <button
-                    className="cursor-pointer p-2 bg-white border border-slate-200 rounded-lg hover:bg-amber-50 transition-colors disabled:opacity-50 shadow"
+                    className="cursor-pointer p-2 bg-white border border-slate-200 rounded-lg hover:bg-amber-50 transition-colors disabled:opacity-50 shadow available:hover:scale-105 available:active:scale-95"
                     onClick={() => handlePageChange(pageCount - 1)}
                     disabled={page >= pageCount - 1}
                 >

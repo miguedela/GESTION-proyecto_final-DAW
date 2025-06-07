@@ -59,7 +59,7 @@ export const ResetPassword = () => {
     }
   }, [navigate]);
 
-  return <div className="min-h-screen flex items-center justify-center bg-slate-50">
+  return <div className="min-h-screen flex items-center justify-center">
     <div className="w-full max-w-md px-8 py-10 bg-white rounded-lg shadow-sm border border-slate-200 flex flex-col gap-8">
       <h1 className="text-3xl font-extrabold text-center text-amber-700 drop-shadow-sm tracking-tight mb-2">Recuperar contraseña</h1>
       <form onSubmit={handleSubmit} className="flex flex-col gap-6">

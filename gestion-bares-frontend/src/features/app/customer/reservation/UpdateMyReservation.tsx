@@ -204,7 +204,7 @@ export const UpdateMyReservation = () => {
   }
 
   return (
-    <div className="max-w-md mx-auto mt-8 p-6 rounded shadow bg-white">
+    <div className="max-w-md mx-auto p-6 rounded shadow bg-white">
       <h2 className="text-2xl font-bold mb-4 text-amber-600">
         Editar Reserva en {restaurant?.name || "..."}
       </h2>
