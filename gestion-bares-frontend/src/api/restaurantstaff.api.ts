@@ -29,7 +29,7 @@ export const deleteRestaurantStaff = async (restaurantStaffId: string) => {
 // Obtener todos los restaurantes de un staff
 export const getRestaurantsByStaff = async (staffId: string) => {
     return await httpClient({
-        url: `${urlBase}`,
+        url: `${urlBase}/staff/${staffId}`,
         method: "GET",
         params: {
             staffId,
