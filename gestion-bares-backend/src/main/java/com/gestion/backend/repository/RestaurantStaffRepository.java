@@ -21,4 +21,6 @@ public interface RestaurantStaffRepository extends JpaRepository<RestaurantStaff
 
 	Streamable<RestaurantStaff> findAllByStaffId(Long id);
 
+	Streamable<RestaurantStaff> findAllByRestaurantId(Long restaurantId);
+
 }

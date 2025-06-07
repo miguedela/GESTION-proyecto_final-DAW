@@ -40,6 +40,7 @@ import { Terms } from '../features/Terms';
 import { ProtectedRoute } from './ProtectedRoute';
 import { UpdateMyReservation } from '../features/app/customer/reservation/UpdateMyReservation';
 import { UpdateReservation } from '../features/restaurants/reservations/UpdateReservation';
+import { Asignations } from '../features/app/admin/Asignations';
 
 export const AppRouter = () => {
 
@@ -113,6 +114,8 @@ export const AppRouter = () => {
                         { path: "/admin/restaurants", element: <RestaurantsManagement /> },
                         { path: "/admin/restaurants/create", element: <CreateRestaurant /> },
                         { path: "/admin/restaurants/:id", element: <RestaurantDetail /> },
+
+                        { path: "/admin/asignations", element: <Asignations /> },
                         // Rutas para administradores
                     ]
                 }

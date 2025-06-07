@@ -18,6 +18,7 @@ export const MyReservations = () => {
   const [, setBreadcrumbs] = useAtom(breadcrumbsAtom);
   useEffect(() => {
     setBreadcrumbs([
+      { label: "Inicio", path: "/main" },
       { label: "Reservas", path: "/reservations" },
     ]);
   }, [setBreadcrumbs]);

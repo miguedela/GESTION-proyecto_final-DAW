@@ -25,12 +25,6 @@ public class RestaurantStaffController {
 
 	private RestaurantStaffService restaurantStaffService;
 
-	@GetMapping
-	public ResponseEntity<List<RestaurantDTO>> getRestaurantsByStaff(@RequestParam Long staffId) {
-		List<RestaurantDTO> restaurantStaffList = restaurantStaffService.getRestaurantsByStaff(staffId);
-		return new ResponseEntity<>(restaurantStaffList, HttpStatus.OK);
-	}
-
 	@PostMapping
 	public ResponseEntity<RestaurantStaff> createRestaurantStaff(@RequestParam Long restaurantId,
 			@RequestParam Long staffId) {
@@ -42,5 +36,23 @@ public class RestaurantStaffController {
 	public ResponseEntity<RestaurantStaff> deleteRestaurantStaff(@PathVariable Long id) {
 		restaurantStaffService.deleteRestaurantStaff(id);
 		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+	}
+
+	@GetMapping("/all")
+	public ResponseEntity<List<RestaurantDTO>> getRestaurantsStaff() {
+		List<RestaurantDTO> restaurantStaffList = restaurantStaffService.getRestaurantsStaff();
+		return new ResponseEntity<>(restaurantStaffList, HttpStatus.OK);
+	}
+
+	@GetMapping("/staff/{staffId}")
+	public ResponseEntity<List<RestaurantDTO>> getRestaurantsByStaff(@PathVariable Long staffId) {
+		List<RestaurantDTO> restaurantStaffList = restaurantStaffService.getRestaurantsByStaff(staffId);
+		return new ResponseEntity<>(restaurantStaffList, HttpStatus.OK);
+	}
+
+	@GetMapping("/restaurant/{restaurantId}")
+	public ResponseEntity<List<RestaurantDTO>> getStaffByRestaurant(@PathVariable Long restaurantId) {
+		List<RestaurantDTO> restaurantStaffList = restaurantStaffService.getStaffByRestaurant(restaurantId);
+		return new ResponseEntity<>(restaurantStaffList, HttpStatus.OK);
 	}
 }

@@ -10,7 +10,8 @@ export const NavMenu = ({ isOpen, setIsSidebarOpen }: { isOpen: boolean; setIsSi
             access: "ADMIN",
             sections: [
                 { name: "Usuarios", url: "/admin/users", icon: <IoPeopleOutline /> },
-                { name: "Restaurantes", url: "/admin/restaurants", icon: <IoRestaurantOutline /> }
+                { name: "Restaurantes", url: "/admin/restaurants", icon: <IoRestaurantOutline /> },
+                { name: "Asignaciones", url: "/admin/asignations", icon: <IoPeopleOutline /> },
                 // Secciones de administradores
             ],
         },
@@ -48,7 +49,7 @@ export const NavMenu = ({ isOpen, setIsSidebarOpen }: { isOpen: boolean; setIsSi
         <button
             onClick={() => setIsSidebarOpen(false)}
             type="button"
-            className="cursor-pointer absolute inline-flex items-center rounded-sm p-2 m-2 text-2xl hover:bg-slate-100 transition-colors duration-200 lg:hidden focus:outline-none focus:ring-2 focus:ring-amber-500"
+            className="cursor-pointer absolute inline-flex items-center rounded-full p-2 m-2 text-2xl text-slate-700 transition hover:bg-amber-500 duration-200 lg:hidden focus:outline-none focus:ring-2 focus:ring-amber-500"
         >
             <span className="sr-only">Close sidebar</span>
             <IoCloseOutline className="size-6" aria-hidden="true" />
@@ -56,11 +57,8 @@ export const NavMenu = ({ isOpen, setIsSidebarOpen }: { isOpen: boolean; setIsSi
 
         <div className="h-full pt-8 px-3 overflow-y-auto flex flex-col">
             <Link to="/main">
-                <div className="border-b pb-5 flex items-end">
-                    <div className="ml-3 w-5 h-full bg-amber-600"></div>
-                    <h1 className="text-2xl font-semibold text-amber-600 border-b-3 border-amber-500 pl-2 transition-transform hover:scale-105 active:scale-95">
-                        TapaTech
-                    </h1>
+                <div className="border-b pb-5 flex items-center justify-center">
+                    <img className="h-20 transition hover:scale-110 active:scale-95" src="/img/logopng.png" alt="logo" />
                 </div>
             </Link>
             <div className="font-medium flex flex-col flex-1">
@@ -72,7 +70,7 @@ export const NavMenu = ({ isOpen, setIsSidebarOpen }: { isOpen: boolean; setIsSi
                                     to={section.url}
                                     key={idx}
                                     className={({ isActive }) =>
-                                        `flex items-center gap-3 px-5 py-2 rounded-md my-3 text-lg font-semibold transition-all duration-200 ${isActive ? "bg-amber-400 text-amber-900 shadow-md ring-2 ring-amber-500" : "text-slate-700 hover:bg-amber-200 hover:text-amber-600"}`
+                                        `flex items-center gap-3 px-5 py-2 rounded-md my-3 text-lg font-semibold transition-all duration-200 ${isActive ? "bg-amber-400 text-amber-900 shadow-md ring-2 ring-amber-500" : "text-slate-700 hover:bg-amber-200 hover:text-neutral-600"}`
                                     }
                                 >
                                     <span className="text-2xl">{section.icon}</span> {section.name}
@@ -84,7 +82,7 @@ export const NavMenu = ({ isOpen, setIsSidebarOpen }: { isOpen: boolean; setIsSi
                         <NavLink
                             to="/my-notifications"
                             className={({ isActive }) =>
-                                `flex items-center gap-3 px-5 py-2 rounded-md my-3 text-lg font-semibold transition-all duration-200 ${isActive ? "bg-amber-400 text-amber-900 shadow-md ring-2 ring-amber-500" : "text-slate-700 hover:bg-amber-200 hover:text-amber-600"}`
+                                `flex items-center gap-3 px-5 py-2 rounded-md my-3 text-lg font-semibold transition-all duration-200 ${isActive ? "bg-amber-400 text-amber-900 shadow-md ring-2 ring-amber-500" : "text-slate-700 hover:bg-amber-200 hover:text-neutral-600"}`
                             }
                         >
                             <span className="text-2xl"><IoNotificationsOutline /></span> Notificaciónes
@@ -93,15 +91,15 @@ export const NavMenu = ({ isOpen, setIsSidebarOpen }: { isOpen: boolean; setIsSi
                         <NavLink
                             to="/my-account"
                             className={({ isActive }) =>
-                                `flex items-center gap-3 px-5 py-2 rounded-md my-3 text-lg font-semibold transition-all duration-200 ${isActive ? "bg-amber-400 text-amber-900 shadow-md ring-2 ring-amber-500" : "text-slate-700 hover:bg-amber-200 hover:text-amber-600"}`
+                                `flex items-center gap-3 px-5 py-2 rounded-md my-3 text-lg font-semibold transition-all duration-200 ${isActive ? "bg-amber-400 text-amber-900 shadow-md ring-2 ring-amber-500" : "text-slate-700 hover:bg-amber-200 hover:text-neutral-600"}`
                             }
                         >
-                            <span className="text-2xl"><IoPersonOutline /></span> Mi cuenta
+                            <span className="text-2xl"><IoPersonOutline /></span> Cuenta - {user?.role || "Invitado"}
                         </NavLink>
                         <NavLink
                             to="/help"
                             className={({ isActive }) =>
-                                `flex items-center gap-3 px-5 py-2 rounded-md my-3 text-lg font-semibold transition-all duration-200 ${isActive ? "bg-amber-400 text-amber-900 shadow-md ring-2 ring-amber-500" : "text-slate-700 hover:bg-amber-200 hover:text-amber-600"}`
+                                `flex items-center gap-3 px-5 py-2 rounded-md my-3 text-lg font-semibold transition-all duration-200 ${isActive ? "bg-amber-400 text-amber-900 shadow-md ring-2 ring-amber-500" : "text-slate-700 hover:bg-amber-200 hover:text-neutral-600"}`
                             }
                         >
                             <span className="text-2xl"><IoHelpOutline /></span> Ayuda
@@ -110,7 +108,7 @@ export const NavMenu = ({ isOpen, setIsSidebarOpen }: { isOpen: boolean; setIsSi
                             to="/"
                             onClick={logout}
                             className={({ isActive }) =>
-                                `flex items-center gap-3 px-5 py-2 rounded-md my-3 text-lg font-semibold transition-all duration-200 ${isActive ? "bg-amber-400 text-amber-900 shadow-md ring-2 ring-amber-500" : "text-slate-700 hover:bg-amber-200 hover:text-amber-600"}`
+                                `flex items-center gap-3 px-5 py-2 rounded-md my-3 text-lg font-semibold transition-all duration-200 ${isActive ? "bg-amber-400 text-amber-900 shadow-md ring-2 ring-amber-500" : "text-slate-700 hover:bg-amber-200 hover:text-neutral-600"}`
                             }
                         >
                             <span className="text-2xl"><IoLogOutOutline /></span> Desconectar

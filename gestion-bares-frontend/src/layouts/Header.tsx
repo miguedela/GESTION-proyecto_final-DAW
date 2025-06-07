@@ -12,7 +12,7 @@ export const Header = () => {
             <div className="mx-auto flex items-center justify-between py-4 px-6 md:px-12">
                 <Link to="/main">
                     <div className="flex items-end gap-2 transition-transform hover:scale-110 active:scale-95">
-                        <img className="h-15" src="/img/logopng.png" alt="TapaTech" />
+                        <img className="h-15" src="/img/logopng.png" alt="logo" />
                     </div>
                 </Link>
                 <nav className="flex gap-6 items-center">

@@ -12,13 +12,13 @@ export const App = () => {
       <button
         onClick={() => setIsSidebarOpen(!isSidebarOpen)}
         type="button"
-        className="cursor-pointer inline-flex items-center p-2 mt-2 ms-3 text-sm text-gray-600 rounded-lg lg:hidden hover:bg-amber-100 focus:outline-none focus:ring-2 focus:ring-amber-300"
+        className="cursor-pointer inline-flex items-center p-2 mt-2 ms-3 text-sm rounded-full lg:hidden transition hover:bg-amber-700 focus:outline-none focus:ring-2 focus:ring-amber-300 text-slate-50"
       >
         <span className="sr-only">Open sidebar</span>
         <IoMenuOutline className="size-6" aria-hidden="true" />
       </button>
 
-      <div className="min-h-screen flex bg-linear-to-br from-neutral-800  to-amber-600 text-neutral-900">
+      <div className="min-h-screen flex text-neutral-900">
         <NavMenu isOpen={isSidebarOpen} setIsSidebarOpen={setIsSidebarOpen} />
         <div className="flex-1 md:p-4 lg:ml-64">
           <Breadcrumbs />

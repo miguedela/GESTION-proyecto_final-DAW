@@ -13,4 +13,8 @@ public interface RestaurantStaffService {
 
 	public List<RestaurantDTO> getRestaurantsByStaff(Long id);
 
+	public List<RestaurantDTO> getStaffByRestaurant(Long restaurantId);
+
+	public List<RestaurantDTO> getRestaurantsStaff();
+
 }

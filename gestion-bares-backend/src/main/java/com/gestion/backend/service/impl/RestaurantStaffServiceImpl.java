@@ -30,18 +30,6 @@ public class RestaurantStaffServiceImpl implements RestaurantStaffService {
 	private final UserRepository userRepository;
 
 	@Override
-	public List<RestaurantDTO> getRestaurantsByStaff(Long staffId) {
-		Streamable<RestaurantStaff> restaurantStaffList = restaurantStaffRepository.findAllByStaffId(staffId);
-		List<RestaurantDTO> restaurantsDTO = new ArrayList<>();
-
-		for (RestaurantStaff restaurantStaff : restaurantStaffList) {
-			restaurantsDTO.add(convertToDTO(restaurantStaff.getRestaurant()));
-		}
-
-		return restaurantsDTO;
-	}
-
-	@Override
 	public RestaurantStaff addStaffToRestaurant(Long restaurantId, Long staffId) {
 		OurUser user = userRepository.findByIdAndRole(staffId, Roles.STAFF)
 				.orElseThrow(() -> new ResourceNotFoundException(
@@ -70,6 +58,51 @@ public class RestaurantStaffServiceImpl implements RestaurantStaffService {
 			throw new ResourceNotFoundException("RestaurantStaff no encontrado con ID: " + id);
 		}
 		restaurantStaffRepository.deleteById(id);
+	}
+
+	@Override
+	public List<RestaurantDTO> getRestaurantsByStaff(Long staffId) {
+		Streamable<RestaurantStaff> restaurantStaffList = restaurantStaffRepository.findAllByStaffId(staffId);
+		if (restaurantStaffList.isEmpty()) {
+			throw new ResourceNotFoundException("Este usuario no tiene restaurantes.");
+		}
+		List<RestaurantDTO> restaurantsDTO = new ArrayList<>();
+
+		for (RestaurantStaff restaurantStaff : restaurantStaffList) {
+			restaurantsDTO.add(convertToDTO(restaurantStaff.getRestaurant()));
+		}
+
+		return restaurantsDTO;
+	}
+
+	@Override
+	public List<RestaurantDTO> getStaffByRestaurant(Long restaurantId) {
+		Streamable<RestaurantStaff> restaurantStaffList = restaurantStaffRepository.findAllByRestaurantId(restaurantId);
+		if (restaurantStaffList.isEmpty()) {
+			throw new ResourceNotFoundException("No se han encontrado asignaciones.");
+		}
+		List<RestaurantDTO> restaurantsDTO = new ArrayList<>();
+
+		for (RestaurantStaff restaurantStaff : restaurantStaffList) {
+			restaurantsDTO.add(convertToDTO(restaurantStaff.getRestaurant()));
+		}
+
+		return restaurantsDTO;
+	}
+
+	@Override
+	public List<RestaurantDTO> getRestaurantsStaff() {
+		List<RestaurantStaff> restaurantStaffList = restaurantStaffRepository.findAll();
+		if (restaurantStaffList.isEmpty()) {
+			throw new ResourceNotFoundException("Es restaurante no tiene staff asociados.");
+		}
+		List<RestaurantDTO> restaurantsDTO = new ArrayList<>();
+
+		for (RestaurantStaff restaurantStaff : restaurantStaffList) {
+			restaurantsDTO.add(convertToDTO(restaurantStaff.getRestaurant()));
+		}
+
+		return restaurantsDTO;
 	}
 
 	private RestaurantDTO convertToDTO(Restaurant restaurant) {
