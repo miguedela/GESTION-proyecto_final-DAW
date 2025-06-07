@@ -3,6 +3,7 @@ package com.gestion.backend.service;
 import java.util.List;
 
 import com.gestion.backend.dto.RestaurantDTO;
+import com.gestion.backend.dto.RestaurantStaffDTO;
 import com.gestion.backend.entity.relation.RestaurantStaff;
 
 public interface RestaurantStaffService {
@@ -15,6 +16,6 @@ public interface RestaurantStaffService {
 
 	public List<RestaurantDTO> getStaffByRestaurant(Long restaurantId);
 
-	public List<RestaurantDTO> getRestaurantsStaff();
+	public List<RestaurantStaffDTO> getRestaurantsStaff();
 
 }

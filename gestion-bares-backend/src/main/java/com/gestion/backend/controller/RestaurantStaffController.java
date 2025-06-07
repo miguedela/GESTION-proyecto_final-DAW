@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.gestion.backend.dto.RestaurantDTO;
+import com.gestion.backend.dto.RestaurantStaffDTO;
 import com.gestion.backend.entity.relation.RestaurantStaff;
 import com.gestion.backend.service.RestaurantStaffService;
 
@@ -39,8 +40,8 @@ public class RestaurantStaffController {
 	}
 
 	@GetMapping("/all")
-	public ResponseEntity<List<RestaurantDTO>> getRestaurantsStaff() {
-		List<RestaurantDTO> restaurantStaffList = restaurantStaffService.getRestaurantsStaff();
+	public ResponseEntity<List<RestaurantStaffDTO>> getRestaurantsStaff() {
+		List<RestaurantStaffDTO> restaurantStaffList = restaurantStaffService.getRestaurantsStaff();
 		return new ResponseEntity<>(restaurantStaffList, HttpStatus.OK);
 	}
 

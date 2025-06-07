@@ -8,6 +8,8 @@ import org.springframework.data.util.Streamable;
 import org.springframework.stereotype.Service;
 
 import com.gestion.backend.dto.RestaurantDTO;
+import com.gestion.backend.dto.RestaurantStaffDTO;
+import com.gestion.backend.dto.UserDTO;
 import com.gestion.backend.entity.OurUser;
 import com.gestion.backend.entity.Restaurant;
 import com.gestion.backend.entity.relation.RestaurantStaff;
@@ -91,18 +93,16 @@ public class RestaurantStaffServiceImpl implements RestaurantStaffService {
 	}
 
 	@Override
-	public List<RestaurantDTO> getRestaurantsStaff() {
+	public List<RestaurantStaffDTO> getRestaurantsStaff() {
 		List<RestaurantStaff> restaurantStaffList = restaurantStaffRepository.findAll();
 		if (restaurantStaffList.isEmpty()) {
-			throw new ResourceNotFoundException("Es restaurante no tiene staff asociados.");
+			throw new ResourceNotFoundException("No hay relaciones staff-restaurante.");
 		}
-		List<RestaurantDTO> restaurantsDTO = new ArrayList<>();
-
-		for (RestaurantStaff restaurantStaff : restaurantStaffList) {
-			restaurantsDTO.add(convertToDTO(restaurantStaff.getRestaurant()));
+		List<RestaurantStaffDTO> dtos = new ArrayList<>();
+		for (RestaurantStaff rs : restaurantStaffList) {
+			dtos.add(convertToRestaurantStaffDTO(rs));
 		}
-
-		return restaurantsDTO;
+		return dtos;
 	}
 
 	private RestaurantDTO convertToDTO(Restaurant restaurant) {
@@ -110,5 +110,26 @@ public class RestaurantStaffServiceImpl implements RestaurantStaffService {
 				.description(restaurant.getDescription()).address(restaurant.getAddress()).email(restaurant.getEmail())
 				.phone(restaurant.getPhone()).openingHours(restaurant.getOpeningHours())
 				.creationDate(restaurant.getCreationDate()).lastModifiedDate(restaurant.getLastModifiedDate()).build();
+	}
+
+	private UserDTO convertToUserDTO(OurUser user) {
+		UserDTO dto = new UserDTO();
+		dto.setName(user.getName());
+		dto.setSurnames(user.getSurnames());
+		dto.setTelephone(user.getTelephone());
+		dto.setEmail(user.getEmail());
+		dto.setRole(user.getRole().name());
+		dto.setCreationDate(user.getCreationDate());
+		dto.setLastModifiedDate(user.getLastModifiedDate());
+		return dto;
+	}
+
+	private RestaurantStaffDTO convertToRestaurantStaffDTO(RestaurantStaff rs) {
+		RestaurantStaffDTO dto = new RestaurantStaffDTO();
+		dto.setId(rs.getId());
+		dto.setRestaurant(convertToDTO(rs.getRestaurant()));
+		dto.setStaff(convertToUserDTO(rs.getStaff()));
+		dto.setAssignedAt(rs.getAssignedAt());
+		return dto;
 	}
 }
