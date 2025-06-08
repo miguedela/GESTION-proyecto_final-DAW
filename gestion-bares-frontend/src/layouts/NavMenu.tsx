@@ -21,7 +21,6 @@ export const NavMenu = ({ isOpen, setIsSidebarOpen }: { isOpen: boolean; setIsSi
                 { name: "Reservas", url: "/staff/restaurant/reservations", icon: <IoBookOutline /> },
                 { name: "Información", url: "/staff/restaurant/info", icon: <IoRestaurantOutline /> },
                 { name: "Menú", url: "/staff/restaurant/menu", icon: <IoMenuOutline /> },
-                // { name: "Contacto", url: "/staff/restaurant/contact", icon: <IoPeopleOutline /> },
                 // Secciones de staff
             ],
         },
@@ -31,7 +30,6 @@ export const NavMenu = ({ isOpen, setIsSidebarOpen }: { isOpen: boolean; setIsSi
                 { name: "Mis Reservas", url: "/my-reservations", icon: <IoBookOutline /> },
                 { name: "Información", url: "/restaurant/info", icon: <IoRestaurantOutline /> },
                 { name: "Menú", url: "/restaurant/menu", icon: <IoMenuOutline /> },
-                // { name: "Contacto", url: "/restaurant/contact", icon: <IoPeopleOutline /> },
                 // Secciones de customer
             ],
         },

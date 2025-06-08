@@ -11,14 +11,13 @@ export const Contact = () => {
     const [message, setMessage] = useState("");
     const [email, setEmail] = useState("");
     const [subject, setSubject] = useState("");
-    const [sent, setSent] = useState(false);
     const [loading, setLoading] = useState(false);
     const [user] = useAtom(userAtom);
 
     useEffect(() => {
         if (user && user.email) {
             setEmail(user.email);
-        } 
+        }
     }, [user]);
 
     const handleSubmit = async (e: React.FormEvent) => {
@@ -28,11 +27,9 @@ export const Contact = () => {
             return;
         }
         setLoading(true);
-        setSent(false);
         try {
             await sendEmailContact(email, subject, message);
             showSuccessToast("¡Mensaje enviado correctamente!");
-            setSent(true);
             setEmail("");
             setSubject("");
             setMessage("");
