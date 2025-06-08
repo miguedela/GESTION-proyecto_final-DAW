@@ -2,6 +2,7 @@ package com.gestion.backend.controller;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -33,5 +34,12 @@ public class EmailController {
 		} catch (Exception e) {
 			return ResponseEntity.internalServerError().body("Error al procesar el correo electrónico");
 		}
+	}
+
+	@PostMapping("/contact")
+	public ResponseEntity<String> sendContactEmail(@RequestParam String userEmail, @RequestParam String subject,
+			@RequestParam String message) {
+		emailService.sendContactEmail(userEmail, subject, message);
+		return ResponseEntity.ok("Correo procesado correctamente");
 	}
 }

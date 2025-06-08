@@ -16,3 +16,19 @@ export const sendEmailChangePassword = async (emailTo: string) => {
         },
     });
 }
+
+//Enviar correo de contacto
+export const sendEmailContact = async (userEmail: string, subject: string, message: string) => {
+    return await httpClient<string>({
+        url: `${urlBase}/contact`,
+        method: "POST",
+        params: {
+            userEmail,
+            subject,
+            message
+        },
+        paramsSerializer: (params: Record<string, unknown>): string => {
+            return queryString.stringify(params, { arrayFormat: "comma" });
+        },
+    });
+}

@@ -114,6 +114,7 @@ public class RestaurantStaffServiceImpl implements RestaurantStaffService {
 
 	private UserDTO convertToUserDTO(OurUser user) {
 		UserDTO dto = new UserDTO();
+		dto.setId(user.getId());
 		dto.setName(user.getName());
 		dto.setSurnames(user.getSurnames());
 		dto.setTelephone(user.getTelephone());

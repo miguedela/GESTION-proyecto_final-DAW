@@ -12,5 +12,7 @@ public interface EmailService {
 //	public void sendEmailWithATttachment(EmailDTO emailDTO);
 
 	void sendResetPasswordEmail(String emailTo);
-
+	
+	void sendContactEmail(String userEmail, String subject, String message);
+	
 }

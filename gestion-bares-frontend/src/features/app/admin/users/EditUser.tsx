@@ -2,15 +2,17 @@ import { useAtom } from "jotai";
 import { useCallback, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { z } from "zod";
+import { getRestaurantsByStaff } from "../../../../api/restaurantstaff.api";
 import { loadUser, updateUser } from "../../../../api/users.api";
 import { breadcrumbsAtom } from "../../../../atoms/breadcrumbs.atom";
 import { MainButton } from "../../../../components/Buttons";
 import { Input, Select } from "../../../../components/Forms";
 import { Loader } from "../../../../components/Loader";
+import { showErrorToast } from "../../../../components/ToastUtils";
 import useRestaurant from "../../../../hooks/useRestaurant";
-import { IUser, Roles } from "../../../../types/User";
-import { setMessageError } from "../../../../utils/utilsFunctions";
 import useRestaurantStaff from "../../../../hooks/useRestaurantStaff";
+import { IRestaurant } from "../../../../types/Restaurants";
+import { IUser, Roles } from "../../../../types/User";
 
 const editScheme = z.object({
     name: z.string().min(1, "El nombre es obligatorio"),
@@ -27,8 +29,8 @@ export const EditUser = () => {
     const [fieldErrors, setFieldErrors] = useState<Record<string, string>>({});
     const { restaurants, handleGetRestaurants } = useRestaurant();
     const [selectedRestaurant, setSelectedRestaurant] = useState<string>("");
+    const [restaurantsAssigned, setRestaurantsAssigned] = useState<IRestaurant[]>([]);
 
-    const [error, setError] = useState<string | null>(null);
     const { id } = useParams();
 
     const { handleAddStaffToRestaurant } = useRestaurantStaff();
@@ -85,20 +87,28 @@ export const EditUser = () => {
                 });
                 setFieldErrors(errors);
             } else {
-                setMessageError(err, setError);
+                console.error("Error updating user: ", err);
+                showErrorToast("Error al actualizar el usuario. Por favor, inténtalo de nuevo.");
             }
         } finally {
             setLoading(false);
         }
 
     };
-
+    user
     const handleAsignRestaurant = async (e: React.FormEvent) => {
         e.preventDefault();
 
         const response = await handleAddStaffToRestaurant(id!, selectedRestaurant);
         if (response) {
             navigate(`/admin/users`);
+        }
+    };
+
+    const fetchRestaurants = async () => {
+        if (user?.role === Roles.STAFF) {
+            const response = await getRestaurantsByStaff(user?.id);
+            setRestaurantsAssigned(response.data);
         }
     };
 
@@ -109,6 +119,7 @@ export const EditUser = () => {
             handleLoadUser();
 
         handleGetRestaurants({ page: 0, size: 999 });
+        fetchRestaurants();
     }, [id, navigate, handleLoadUser, handleGetRestaurants]);
 
     return <div className="w-1/2 bg-white  text-dark rounded-md p-20">
@@ -161,28 +172,47 @@ export const EditUser = () => {
                     </form>
                 }
 
-                {user?.role.toString() === Roles.STAFF &&
-                    <form onSubmit={handleAsignRestaurant} className="flex flex-col">
-                        <Select label="Restaurante"
-                            id="restaurant"
-                            value={selectedRestaurant}
-                            onChange={(e) => setSelectedRestaurant(e.target.value)}
-                            options={
-                                restaurants.content.map((restaurant) => ({
-                                    label: restaurant.name,
-                                    value: restaurant.id,
-                                }))
-                            }
-                            fieldErrors={fieldErrors.role}
-                            placeholderOption="Seleccione un restaurante..."
-                        />
+                {user?.role === Roles.STAFF &&
+                    <div className="flex flex-col gap">
+                        <div className="mb-5">
+                            <h2 className="mt-5 mb-3">Asignaciones</h2>
+                            {restaurantsAssigned.length > 0 ? (
+                                <ul>
+                                    {restaurantsAssigned.map((restaurant) => (
+                                        <li key={restaurant.id} className="mb-2">
+                                            {restaurant.name}
+                                        </li>
+                                    ))}
+                                </ul>
+                            ) : (
+                                <p>Este staff aún no tiene restaurantes asignados.</p>
+                            )}
+                        </div>
+                        <form onSubmit={handleAsignRestaurant} className="flex flex-col">
+                            <Select label="Restaurante"
+                                id="restaurant"
+                                value={selectedRestaurant}
+                                onChange={(e) => setSelectedRestaurant(e.target.value)}
+                                options={
+                                    restaurants.content
+                                        .filter(restaurant =>
+                                            !restaurantsAssigned.some(assignedRestaurant => assignedRestaurant.id === restaurant.id)
+                                        )
+                                        .map((restaurant) => ({
+                                            label: restaurant.name,
+                                            value: restaurant.id,
+                                        }))
+                                }
+                                fieldErrors={fieldErrors.role}
+                                placeholderOption="Seleccione un restaurante..."
+                            />
 
-                        <MainButton text='Asignar restaurante' type='submit' />
-                    </form>
+                            <MainButton text='Asignar restaurante' type='submit' />
+                        </form>
+                    </div>
                 }
             </div>
 
-            {error && <p className="text-red-500">{error}</p>}
         </Loader>
     </div>
 }

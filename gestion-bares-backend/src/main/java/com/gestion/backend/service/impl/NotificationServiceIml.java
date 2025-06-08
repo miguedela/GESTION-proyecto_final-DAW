@@ -15,7 +15,7 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class NotificationServiceIml implements NotificationService {
 
-	NotificationRepository notificationRepository;
+	private final NotificationRepository notificationRepository;
 
 	@Override
 	public void createNotification(NotificationDTO notification) {

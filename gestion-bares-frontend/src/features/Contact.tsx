@@ -1,15 +1,47 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Footer } from "../layouts/Footer";
 import { Header } from "../layouts/Header";
+import { Input } from "../components/Forms";
+import { sendEmailContact } from "../api/email.api";
+import { showErrorToast, showSuccessToast } from "../components/ToastUtils";
+import { useAtom } from "jotai";
+import { userAtom } from "../atoms/user.atom";
 
 export const Contact = () => {
     const [message, setMessage] = useState("");
     const [email, setEmail] = useState("");
+    const [subject, setSubject] = useState("");
     const [sent, setSent] = useState(false);
+    const [loading, setLoading] = useState(false);
+    const [user] = useAtom(userAtom);
 
-    const handleSubmit = (e: React.FormEvent) => {
+    useEffect(() => {
+        if (user && user.email) {
+            setEmail(user.email);
+        } 
+    }, [user]);
+
+    const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        setSent(true);
+        if (!email || !subject || !message) {
+            showErrorToast("Por favor, completa todos los campos.");
+            return;
+        }
+        setLoading(true);
+        setSent(false);
+        try {
+            await sendEmailContact(email, subject, message);
+            showSuccessToast("¡Mensaje enviado correctamente!");
+            setSent(true);
+            setEmail("");
+            setSubject("");
+            setMessage("");
+        } catch (error) {
+            console.error("Error sending contact email:", error);
+            showErrorToast("Error al enviar el mensaje. Inténtalo de nuevo.");
+        } finally {
+            setLoading(false);
+        }
     };
 
     return (
@@ -21,34 +53,37 @@ export const Contact = () => {
                     ¿Tienes alguna pregunta o sugerencia? ¡Escríbenos!
                 </p>
                 <form onSubmit={handleSubmit} className="w-full max-w-lg bg-white rounded-lg shadow p-6 flex flex-col gap-4">
-                    <label className="font-semibold text-neutral-700">
-                        Tu email
-                        <input
-                            type="email"
-                            className="mt-1 w-full rounded border border-neutral-300 px-3 py-2 bg-neutral-50 text-neutral-900"
-                            value={email}
-                            onChange={e => setEmail(e.target.value)}
-                            required
-                        />
-                    </label>
-                    <label className="font-semibold text-neutral-700">
-                        Mensaje
-                        <textarea
-                            className="mt-1 w-full rounded border border-neutral-300 px-3 py-2 bg-neutral-50 text-neutral-900 min-h-[100px]"
-                            value={message}
-                            onChange={e => setMessage(e.target.value)}
-                            required
-                        />
-                    </label>
+                    <Input
+                        label="Tu email"
+                        id="email"
+                        type="email"
+                        value={email}
+                        onChange={e => setEmail(e.target.value)}
+                        placeholder="tu@email.com"
+                    />
+                    <Input
+                        label="Asunto"
+                        id="subject"
+                        type="text"
+                        value={subject}
+                        onChange={e => setSubject(e.target.value)}
+                        placeholder="Asunto de tu mensaje"
+                    />
+                    <Input
+                        label="Mensaje"
+                        id="message"
+                        type="textarea"
+                        value={message}
+                        onChange={e => setMessage(e.target.value)}
+                        placeholder="Escribe tu mensaje aquí..."
+                    />
                     <button
                         type="submit"
-                        className="bg-amber-600 hover:bg-amber-500 text-white font-semibold py-2 px-4 rounded transition-colors"
+                        className="bg-amber-600 hover:bg-amber-500 text-white font-semibold py-2 px-4 rounded transition-colors disabled:opacity-50"
+                        disabled={loading}
                     >
-                        Enviar
+                        {loading ? "Enviando..." : "Enviar"}
                     </button>
-                    {sent && (
-                        <p className="text-green-600">¡Mensaje enviado correctamente!</p>
-                    )}
                 </form>
             </main>
             <Footer />

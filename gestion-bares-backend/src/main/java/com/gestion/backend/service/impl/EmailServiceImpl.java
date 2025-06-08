@@ -13,6 +13,7 @@ import org.thymeleaf.context.Context;
 import org.thymeleaf.spring6.SpringTemplateEngine;
 
 import com.gestion.backend.dto.EmailDTO;
+import com.gestion.backend.repository.UserRepository;
 import com.gestion.backend.service.EmailService;
 import com.gestion.backend.utility.JWTUtils;
 
@@ -26,6 +27,8 @@ public class EmailServiceImpl implements EmailService {
 
 	@Autowired
 	private final JavaMailSender mailSender;
+
+	private final UserRepository userRepository;
 
 	@Autowired
 	private final SpringTemplateEngine templateEngine;
@@ -91,6 +94,37 @@ public class EmailServiceImpl implements EmailService {
 		emailDTO.setVariables(variables);
 
 		sendEmail(emailDTO);
+	}
+
+	@Override
+	public void sendContactEmail(String userEmail, String subject, String message) {
+		if (userRepository.existsByEmail(userEmail)) {
+			Map<String, Object> variables = new HashMap<>();
+			variables.put("userEmail", userEmail);
+			variables.put("subject", subject);
+			variables.put("message", message);
+
+			EmailDTO emailDTO = new EmailDTO();
+			emailDTO.setTo(emailUsername);
+			emailDTO.setSubject("Contacto desde la web - TapaTech");
+			emailDTO.setTemplateName("contact-email");
+			emailDTO.setVariables(variables);
+
+			sendEmail(emailDTO);
+		} else {
+			Map<String, Object> variables = new HashMap<>();
+			variables.put("userEmail", userEmail);
+			variables.put("temporalUrl", frontendUrl + "/signup");
+
+			EmailDTO emailDTO = new EmailDTO();
+			emailDTO.setTo(userEmail);
+			emailDTO.setSubject("Registro requerido - TapaTech");
+			emailDTO.setTemplateName("register-required");
+			emailDTO.setVariables(variables);
+
+			sendEmail(emailDTO);
+		}
+
 	}
 
 }

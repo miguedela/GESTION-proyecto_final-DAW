@@ -40,6 +40,6 @@ export const Header = () => {
                 </nav>
             </div>
         </header>
-        <div style={{ marginBottom: '7rem' }}></div>
+        <div style={{ marginBottom: '6.5rem' }}></div>
     </>
 };

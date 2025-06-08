@@ -1,0 +1,24 @@
+<!-- contact-email.html -->
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+<meta charset="UTF-8">
+<title>New Contact Message</title>
+</head>
+
+<body>
+	<h2>Nuevo mensaje - TapaTech</h2>
+	<p>
+		<strong>From:</strong> <span th:text="${userEmail}"></span>
+	</p>
+	<p>
+		<strong>Subject:</strong> <span th:text="${subject}"></span>
+	</p>
+	<p>
+		<strong>Message:</strong>
+	</p>
+	<p th:text="${message}"></p>
+</body>
+
+</html>
