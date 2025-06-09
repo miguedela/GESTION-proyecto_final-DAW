@@ -77,14 +77,16 @@ export const NavMenu = ({ isOpen, setIsSidebarOpen }: { isOpen: boolean; setIsSi
                         </div>
                     ))}
                     <div>
-                        <NavLink
-                            to="/my-notifications"
-                            className={({ isActive }) =>
-                                `flex items-center gap-3 px-5 py-2 rounded-md my-3 text-lg font-semibold transition-all duration-200 ${isActive ? "bg-amber-400 text-amber-900 shadow-md ring-2 ring-amber-500" : "text-slate-700 hover:bg-amber-200 hover:text-neutral-600"}`
-                            }
-                        >
-                            <span className="text-2xl"><IoNotificationsOutline /></span> Notificaciónes
-                        </NavLink>
+                        {user && user.role !== "ADMIN" && (
+                            <NavLink
+                                to="/my-notifications"
+                                className={({ isActive }) =>
+                                    `flex items-center gap-3 px-5 py-2 rounded-md my-3 text-lg font-semibold transition-all duration-200 ${isActive ? "bg-amber-400 text-amber-900 shadow-md ring-2 ring-amber-500" : "text-slate-700 hover:bg-amber-200 hover:text-neutral-600"}`
+                                }
+                            >
+                                <span className="text-2xl"><IoNotificationsOutline /></span> Notificaciónes
+                            </NavLink>
+                        )}
                         <hr className="last:hidden text-neutral-900 my-3" />
                         <NavLink
                             to="/help"

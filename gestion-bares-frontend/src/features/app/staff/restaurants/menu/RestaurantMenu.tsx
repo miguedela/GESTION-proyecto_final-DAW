@@ -1,6 +1,6 @@
 import { useAtom } from "jotai";
 import { useCallback, useEffect, useState } from "react";
-import { IoAddOutline, IoEyeOffOutline, IoEyeOutline, IoPencilOutline, IoRemoveOutline } from "react-icons/io5";
+import { IoAddOutline, IoEyeOffOutline, IoEyeOutline, IoPencilOutline, IoTrashOutline } from "react-icons/io5";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { loadMenu } from "../../../../../api/menu.api";
 import { breadcrumbsAtom } from "../../../../../atoms/breadcrumbs.atom";
@@ -102,7 +102,7 @@ export const StaffRestaurantMenu = () => {
                     <IoPencilOutline className="text-xl text-amber-500 hover:text-amber-600" />
                   </Link>
                   <button onClick={() => setDishToDelete(dish.id)} className="cursor-pointer">
-                    <IoRemoveOutline className="text-xl text-red-500 hover:text-red-600" />
+                    <IoTrashOutline className="text-xl text-red-500 hover:text-red-600" />
                   </button>
                 </td>
               </tr>

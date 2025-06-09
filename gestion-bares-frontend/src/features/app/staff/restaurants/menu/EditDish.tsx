@@ -45,7 +45,7 @@ export const EditDish = () => {
     } else {
       console.error("Plato no encontrado o error al cargar");
       if (restaurantId) {
-        navigate(`/staff/restaurant/${restaurantId}/menu`);
+        navigate(`/staff/restaurant/menu`);
       } else {
         navigate('/staff/restaurants');
       }

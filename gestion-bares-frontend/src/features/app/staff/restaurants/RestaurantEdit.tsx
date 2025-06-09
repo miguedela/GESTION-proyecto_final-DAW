@@ -80,7 +80,7 @@ export const RestaurantEdit = () => {
 
     const response = await handleUpdateRestaurant(user, restaurant);
     if (response)
-      navigate(`/staff/restaurant/${restaurant.id}`);
+      navigate(`/staff/restaurant`);
   };
 
   if (!restaurant) {

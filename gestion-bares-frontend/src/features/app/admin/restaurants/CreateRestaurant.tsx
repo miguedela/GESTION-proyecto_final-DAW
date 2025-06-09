@@ -37,9 +37,9 @@ export const CreateRestaurant = () => {
   const navigate = useNavigate();
 
   const registrationSchema = z.object({
-    name: z.string().min(1, "El nombre es obligatorio"),
+    name: z.string().min(5, "El nombre es obligatorio"),
     email: z.string().email("El correo electrónico no es válido"),
-    phone: z.string().min(1, "El teléfono no es válido"),
+    phone: z.number().min(100000000, "El teléfono no es válido").max(999999999, "El teléfono no es válido"),
   });
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {

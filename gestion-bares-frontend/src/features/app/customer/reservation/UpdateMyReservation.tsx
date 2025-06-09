@@ -186,7 +186,7 @@ export const UpdateMyReservation = () => {
     const res = await handleUpdateReservation(updatedReservation);
     if (res && !error) {
       setSuccess(true);
-      navigate(`/restaurant/${restaurant.id}`);
+      navigate(`/restaurant`);
     }
   };
 

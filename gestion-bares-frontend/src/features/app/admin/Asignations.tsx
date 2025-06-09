@@ -1,12 +1,13 @@
 import { useAtom } from "jotai";
 import { useEffect, useState } from "react";
-import { IoRemoveOutline } from "react-icons/io5";
+import { IoTrashOutline } from "react-icons/io5";
 import { Link, useNavigate } from "react-router-dom";
 import { deleteRestaurantStaff, getAllRestaurantStaff } from "../../../api/restaurantstaff.api";
 import { userAtom } from "../../../atoms/user.atom";
 import ConfirmModal from "../../../components/ConfirmModal";
 import { showErrorToast, showSuccessToast } from "../../../components/ToastUtils";
 import { IRestaurantStaff } from "../../../types/RestaurantStaff";
+import { breadcrumbsAtom } from "../../../atoms/breadcrumbs.atom";
 
 export const Asignations = () => {
     const [user] = useAtom(userAtom);
@@ -14,6 +15,14 @@ export const Asignations = () => {
     const [assignments, setAssignments] = useState<IRestaurantStaff[]>([]);
     const [loading, setLoading] = useState<boolean>(true);
     const [assignmentToDelete, setAssignmentToDelete] = useState<string | null>(null);
+
+    const [, setBreadcrumbs] = useAtom(breadcrumbsAtom);
+    useEffect(() => {
+        setBreadcrumbs([
+            { label: "Inicio", path: "/main" },
+            { label: "Asignaciones", path: "/admin/asignations" }
+        ])
+    }, [setBreadcrumbs]);
 
     useEffect(() => {
         if (user && user.role === "ADMIN") {
@@ -57,16 +66,16 @@ export const Asignations = () => {
 
     return (
         <div className="container mx-auto p-6">
-            <h1 className="text-3xl font-bold mb-6 text-gray-800">Restaurant Staff Assignments</h1>
+            <h1 className="text-3xl font-bold mb-6 text-gray-800">Asignaciones</h1>
             {loading && (
                 <div className="flex justify-center items-center h-32">
-                    <p className="text-lg text-gray-600">Loading assignments...</p>
+                    <p className="text-lg text-gray-600">Cargando asignaciones...</p>
                 </div>
             )}
             {!loading && (
                 <>
                     {assignments.length === 0 ? (
-                        <p className="text-lg text-gray-600">No assignments found.</p>
+                        <p className="text-lg text-gray-600">No se encontraron asignaciones.</p>
                     ) : (
                         <div className="overflow-x-auto shadow-lg rounded-lg">
                             <table className="min-w-full bg-white">
@@ -108,7 +117,7 @@ export const Asignations = () => {
                                                     className="cursor-pointer text-red-500 hover:text-red-700 transition-colors duration-150"
                                                     title="Eliminar asignación"
                                                 >
-                                                    <IoRemoveOutline size={20} />
+                                                    <IoTrashOutline size={20} />
                                                 </button>
                                             </td>
                                         </tr>

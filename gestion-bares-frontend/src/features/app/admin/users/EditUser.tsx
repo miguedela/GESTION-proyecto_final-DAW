@@ -106,10 +106,8 @@ export const EditUser = () => {
     };
 
     const fetchRestaurants = async () => {
-        if (user?.role === Roles.STAFF) {
-            const response = await getRestaurantsByStaff(user?.id);
-            setRestaurantsAssigned(response.data);
-        }
+        const response = await getRestaurantsByStaff(id!);
+        setRestaurantsAssigned(response.data);
     };
 
     useEffect(() => {
@@ -166,7 +164,7 @@ export const EditUser = () => {
                             ]}
                             fieldErrors={fieldErrors.role}
                             placeholderOption="Seleccione un rol..."
-                        />
+                        />ste staff aún no tiene restaurantes asignados.
 
                         <MainButton text='Guardar cambios' type='submit' />
                     </form>

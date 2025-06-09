@@ -1,6 +1,6 @@
 import { useAtom } from "jotai";
 import { useEffect, useState } from "react";
-import { IoArrowDownOutline, IoArrowUpOutline, IoEyeOutline, IoRemoveOutline } from "react-icons/io5";
+import { IoArrowDownOutline, IoArrowUpOutline, IoEyeOutline, IoTrashOutline } from "react-icons/io5";
 import { Link } from "react-router-dom";
 import { breadcrumbsAtom } from "../../../../atoms/breadcrumbs.atom";
 import ConfirmModal from "../../../../components/ConfirmModal";
@@ -73,7 +73,7 @@ export const RestaurantsManagement = () => {
               <td className="py-4 flex items-center gap-3">
                 <Link to={`/admin/restaurants/${restaurant.id}`}><IoEyeOutline className="text-xl text-amber-500 hover:text-amber-600" /></Link>
                 <button onClick={() => setRestaurantToDelete(restaurant.id)} className="cursor-pointer">
-                  <IoRemoveOutline className="text-xl text-red-500 hover:text-red-600" />
+                  <IoTrashOutline className="text-xl text-red-500 hover:text-red-600" />
                 </button>
               </td>
             </tr>

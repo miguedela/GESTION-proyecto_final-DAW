@@ -25,7 +25,7 @@ export const SignUp = () => {
         name: z.string().min(1, "El nombre es obligatorio"),
         surnames: z.string().min(1, "Los apellidos son obligatorios"),
         email: z.string().email("El correo electrónico no es válido"),
-        telephone: z.string().min(1, "El teléfono no es válido"),
+        phone: z.number().min(100000000, "El teléfono no es válido").max(999999999, "El teléfono no es válido"),
         password: z.string().min(1, "La contraseña debe tener al menos 6 caracteres"),
         confirmPassword: z.string().min(1, "La contraseña debe tener al menos 6 caracteres"),
     }).refine((data) => data.password === data.confirmPassword, {

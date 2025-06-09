@@ -58,9 +58,9 @@ public class ReservationServiceImpl implements ReservationService {
 		Reservation createdReservation = reservationRepository.save(new Reservation(reservationDTO));
 
 		Notification notification = new Notification();
+		notification.setReservationId(createdReservation.getId());
 		notification.setSenderId(createdReservation.getCustomer().getId());
 		notification.setReceiverId(createdReservation.getRestaurant().getId());
-		notification.setReservationId(createdReservation.getId());
 		notification.setStatus(NotificationStatus.UNREAD);
 		notificationRepository.save(notification);
 

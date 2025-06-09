@@ -73,7 +73,7 @@ export const CreateDishToMenu = () => {
 
     const response = await handleCreateDish(menuId, { ...dish, menuId });
     if (response)
-      navigate(`/staff/restaurant/${restaurantId}/menu`);
+      navigate(`/staff/restaurant/menu`);
   };
 
   return (

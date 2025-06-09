@@ -8,7 +8,12 @@ export const UsersFilters = () => {
   const [selectedStates, setSelectedStates] = useState<string>("");
   const [search, setSearch] = useState("");
 
-  const states = ["ADMIN", "STAFF", "CUSTOMER"];
+  const states = ["Administradores", "Personal", "Clientes"];
+  const roleMap: { [key: string]: string } = {
+    "Administradores": "ADMIN",
+    "Personal": "STAFF",
+    "Clientes": "CUSTOMER"
+  };
 
   const { handleSearch, handleStateFilter } = useUser();
 
@@ -17,16 +22,20 @@ export const UsersFilters = () => {
     handleSearch(search);
   };
 
-  const handleChangeState = (state: string) => {
-    let newSelection: string;
+  const handleChangeState = (descriptiveState: string) => {
+    let newSelectedDescriptiveState: string;
+    let roleValueToFilter: string;
 
-    if (selectedStates.includes(state))
-      newSelection = "";
-    else
-      newSelection = state;
+    if (selectedStates === descriptiveState) {
+      newSelectedDescriptiveState = "";
+      roleValueToFilter = "";
+    } else {
+      newSelectedDescriptiveState = descriptiveState;
+      roleValueToFilter = roleMap[descriptiveState];
+    }
 
-    setSelectedStates(newSelection);
-    handleStateFilter(newSelection);
+    setSelectedStates(newSelectedDescriptiveState);
+    handleStateFilter(roleValueToFilter);
   };
 
   return <>

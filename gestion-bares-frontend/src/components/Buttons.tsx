@@ -27,7 +27,10 @@ export const Pill = ({ text, color = 'amber' }: { text: string, color?: string }
 
     return (
         <span className={clsx('px-3 py-1 font-semibold rounded-full border', classes)}>
-            {text}
+            {text === 'ADMIN' && "Administrador"}
+            {text === 'STAFF' && "Personal"}
+            {text === 'CUSTOMER' && "Cliente"}
+            {text !== 'ADMIN' && text !== 'STAFF' && text !== 'CUSTOMER' && <span className="ml-1 text-xs text-gray-500">{text}</span>}
         </span >
     );
 };

@@ -174,8 +174,8 @@ export const NewReservation = () => {
     };
 
     const res = await handleCreateReservation(newReservation);
-    if (res && !error) {
-      navigate(`/restaurant`);
+    if (res) {
+      navigate(`/reservations`);
     }
   };
 
