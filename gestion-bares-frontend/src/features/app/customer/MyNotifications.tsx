@@ -23,22 +23,25 @@ export const MyNotifications = () => {
     setLoading(true);
     try {
       if (user?.role === "STAFF") {
-        const restaurantsResponse = await getRestaurantsByStaff(user.id.toString());
-        const restaurants = restaurantsResponse.data || [];
+        const restaurantsResponse = await getRestaurantsByStaff(user.id);
+        const restaurants = restaurantsResponse.data;
         const grouped: RestaurantNotifications[] = [];
         for (const restaurant of restaurants) {
-          const restaurantId = restaurant.restaurantId || restaurant.id;
           const restaurantName = restaurant.restaurantName || restaurant.name || "Restaurante";
-          if (restaurantId) {
-            const notifResponse = await loadNotificationsByReceiver(restaurantId);
-            const unreadNotifications = (notifResponse.data || []).filter(
-              (n: INotification) => n.status === StatusNotification.UNREAD
-            );
-            if (unreadNotifications.length > 0) {
-              grouped.push({
-                restaurantName,
-                notifications: unreadNotifications,
-              });
+          if (restaurant?.id) {
+            try {
+              const notifResponse = await loadNotificationsByReceiver(restaurant.id);
+              const unreadNotifications = (notifResponse.data || []).filter(
+                (n: INotification) => n.status === StatusNotification.UNREAD
+              );
+              if (unreadNotifications.length > 0) {
+                grouped.push({
+                  restaurantName,
+                  notifications: unreadNotifications,
+                });
+              }
+            } catch (err) {
+              console.error(`Error loading notifications for restaurant ${restaurantName}:`, err);
             }
           }
         }
@@ -50,7 +53,6 @@ export const MyNotifications = () => {
         ));
       }
     } catch (err) {
-      showErrorToast("Error al cargar las notificaciones");
     } finally {
       setLoading(false);
     }
@@ -65,7 +67,6 @@ export const MyNotifications = () => {
       const res = await getReservationById(reservationId);
       const reservation = res.data;
       if (!reservation) {
-        showErrorToast("No se encontró la reserva.");
         return;
       }
       const updatedReservation = {
@@ -160,7 +161,6 @@ export const MyNotifications = () => {
   );
 };
 
-// Componente auxiliar para mostrar la notificación del cliente
 const CustomerNotificationItem = ({ notification, onRead }: { notification: INotification; onRead: () => void }) => {
   const [reservationStatus, setReservationStatus] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);

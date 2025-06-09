@@ -37,7 +37,7 @@ export const getNotificationById = async (notificationId: string) => {
     });
 };
 
-// Cargar notificaciones de un usuario específico
+// Cargar notificaciones del receptor
 export const loadNotificationsByReceiver = async (userId: string) => {
     return await httpClient({
         url: `${urlBase}/user/${userId}`,

@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { deleteReservation, getReservationById, loadReservations, loadReservationsByRestaurant, registerReservation, updateReservation } from "../api/reservations.api";
 import { showErrorToast, showSuccessToast } from "../components/ToastUtils";
-import { IReservation } from "../types/Reservation";
+import { IReservation, Status } from "../types/Reservation";
 import { setMessageError } from "../utils/utilsFunctions";
 
 const useReservation = () => {
@@ -22,6 +22,32 @@ const useReservation = () => {
         } catch (err: unknown) {
             setMessageError(err, setError);
             showErrorToast("No hay disponible para la fecha y hora seleccionadas. Por favor, elige otra.");
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    // Cancelar reserva (actualizar estado a CANCELED)
+    const handleCancelReservation = async (reservationId: string) => {
+        setLoading(true);
+        setError(null);
+        try {
+            // First, get the reservation to update its status
+            const reservationToCancel = reservations.find(r => r.id === reservationId);
+            if (!reservationToCancel) {
+                showErrorToast("Reserva no encontrada.");
+                setError("Reserva no encontrada.");
+                return;
+            }
+
+            const updatedReservation = { ...reservationToCancel, status: Status.CANCELED };
+            const { data } = await updateReservation(updatedReservation);
+            setReservations(prev => prev.map(r => r.id === data.id ? data : r));
+            showSuccessToast("Reserva cancelada exitosamente.");
+            return data;
+        } catch (err: unknown) {
+            setMessageError(err, setError);
+            showErrorToast("Error al cancelar la reserva. Por favor, inténtalo de nuevo.");
         } finally {
             setLoading(false);
         }
@@ -120,6 +146,7 @@ const useReservation = () => {
         handleGetReservationById,
         handleLoadReservationsByCustomer,
         handleLoadReservationsByRestaurant,
+        handleCancelReservation,
     };
 };
 

@@ -13,6 +13,7 @@ export const MyReservations = () => {
     loading,
     error,
     handleLoadReservationsByCustomer,
+    handleCancelReservation,
   } = useReservation();
 
   const [, setBreadcrumbs] = useAtom(breadcrumbsAtom);
@@ -49,11 +50,12 @@ export const MyReservations = () => {
                 <th className="px-4 py-2 text-left">Hora</th>
                 <th className="px-4 py-2 text-left">Personas</th>
                 <th className="px-4 py-2 text-left">Estado</th>
+                <th className="px-4 py-2 text-left">Acciones</th>
               </tr>
             </thead>
             <tbody>
               {reservations.map((r) => {
-                if (r.status === Status.CONFIRMED) {
+                if (r.status === Status.CONFIRMED || r.status === Status.PENDING) {
                   const dateObj = new Date(r.reservationTime);
                   const date = dateObj.toLocaleDateString();
                   const hour = dateObj.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
@@ -71,9 +73,22 @@ export const MyReservations = () => {
                       <td className="px-4 py-2">{hour}</td>
                       <td className="px-4 py-2">{r.reservationNumber}</td>
                       <td className="px-4 py-2">{r.status}</td>
+                      {r.status === Status.CONFIRMED && (
+                        <td className="px-4 py-2">
+                          {r.id && (
+                            <button
+                              onClick={() => handleCancelReservation(r.id!)}
+                              className="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 rounded text-xs"
+                            >
+                              Cancelar
+                            </button>
+                          )}
+                        </td>
+                      )}
                     </tr>
                   );
                 }
+                return null;
               })}
             </tbody>
           </table>
