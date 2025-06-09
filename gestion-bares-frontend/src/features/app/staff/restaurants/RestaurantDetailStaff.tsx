@@ -1,6 +1,6 @@
 import { useAtom } from "jotai";
 import { useCallback, useEffect, useState } from "react";
-import { IoMenu, IoPencilOutline } from "react-icons/io5";
+import { IoPencilOutline } from "react-icons/io5";
 import { Link, useNavigate } from "react-router-dom";
 import { loadRestaurant } from "../../../../api/restaurants.api";
 import { breadcrumbsAtom } from "../../../../atoms/breadcrumbs.atom";

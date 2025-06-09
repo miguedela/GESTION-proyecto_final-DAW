@@ -13,12 +13,8 @@ import { IRestaurant } from '../../../../types/Restaurants';
 
 const reservationSchema = z.object({
   reservationDate: z.string().min(1, "La fecha es obligatoria"),
-  reservationHour: z.string()
-    .min(1, "La hora es obligatoria")
-    .regex(/^([01]\d|2[0-3]):00$/, "Solo puedes seleccionar horas en punto (ej: 20:00, 21:00)"),
-  reservationNumber: z.string()
-    .min(1, "El número de personas es obligatorio")
-    .refine(val => Number(val) > 0, "Debe ser al menos 1 persona"),
+  reservationHour: z.string().min(1, "La hora es obligatoria"),
+  reservationNumber: z.string().min(1, "El número de personas es obligatorio").refine(val => Number(val) > 0, "Debe ser al menos 1 persona"),
 });
 
 function parseOpeningHours(openingHours: string) {

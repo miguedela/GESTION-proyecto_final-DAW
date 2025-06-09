@@ -120,10 +120,9 @@ export const MyNotifications = () => {
                 {group.notifications.map((n) => (
                   <li key={n.id} className="bg-gray-50 rounded-xl px-5 py-4 flex flex-col md:flex-row md:items-center md:justify-between shadow-sm border border-gray-100 hover:shadow-md transition-shadow">
                     <div className="flex items-center gap-2">
-                      <span className="inline-block w-2 h-2 rounded-full bg-amber-400 mr-2"></span>
                       <span className="font-medium text-gray-700">Nueva reserva</span>
                     </div>
-                    <div className="mt-3 md:mt-0 flex gap-2">
+                    <div className="mt-3 md:mt-0 md:ml-4 flex gap-2">
                       <button
                         className="bg-green-500 hover:bg-green-600 text-white px-4 py-1.5 rounded-lg font-medium shadow-sm transition-colors"
                         onClick={() => handleReservationAction(n, "ACCEPTED")}
