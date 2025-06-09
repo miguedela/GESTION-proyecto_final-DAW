@@ -8,4 +8,5 @@ export interface IRestaurant {
     description: string;
     lastModifiedDate: Date;
     openingHours: string;
+    customerAmmount: number;
 }

@@ -19,7 +19,7 @@ export const RestaurantEdit = () => {
 
   const [restaurant, setRestaurant] = useState<IRestaurant | null>(null);
   const [fieldErrors, setFieldErrors] = useState<Record<string, string>>({});
-  const { handleUpdateRestaurant, loading, error } = useRestaurant();
+  const { handleUpdateRestaurant, loading } = useRestaurant();
 
   useEffect(() => {
     setBreadcrumbs([
@@ -49,6 +49,9 @@ export const RestaurantEdit = () => {
     name: z.string().min(1, "El nombre es obligatorio"),
     email: z.string().email("El correo electrónico no es válido"),
     phone: z.string().min(1, "El teléfono no es válido"),
+    customerAmmount: z.string().min(1, "La capacidad del restaurante es obligatoria")
+      .regex(/^\d+$/, "La capacidad del restaurante debe ser un número válido")
+      .transform((val) => parseInt(val, 10))
   });
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -66,6 +69,7 @@ export const RestaurantEdit = () => {
         name: restaurant.name,
         email: restaurant.email,
         phone: restaurant.phone,
+        customerAmmount: restaurant.customerAmmount,
       });
     } catch (err) {
       if (err instanceof z.ZodError) {
@@ -80,7 +84,7 @@ export const RestaurantEdit = () => {
 
     const response = await handleUpdateRestaurant(user, restaurant);
     if (response)
-      navigate(`/staff/restaurant`);
+      navigate(`/staff/restaurant/info`);
   };
 
   if (!restaurant) {
@@ -136,11 +140,16 @@ export const RestaurantEdit = () => {
             type="text"
             onChange={handleInputChange}
           />
-
-          {error && <p className="text-red-500">{error}</p>}
+          <Input
+            label="Capacidad del restaurante"
+            id="customerAmmount"
+            value={restaurant.customerAmmount}
+            type="number"
+            onChange={handleInputChange}
+            fieldErrors={fieldErrors.customerAmmount}
+          />
           {loading && <Loading />}
-
-          <MainButton text='Guardar cambios' type='submit' className="mt-10" />
+          <MainButton text='Guardar cambios' type='submit' className="mt-10 transition-scale hover:scale-105 active:scale-95" />
         </form>
       </div>
     </div>

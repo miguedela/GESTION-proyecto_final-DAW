@@ -5,7 +5,7 @@ import { IoAlertCircleOutline, IoEyeOffOutline, IoEyeOutline } from 'react-icons
 interface InputProps {
     label?: string;
     id: string;
-    value: string;
+    value: string | number;
     placeholder?: string;
     type?: string;
     onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
@@ -28,7 +28,7 @@ export const Input = ({ label, id, value, placeholder, type = 'text', onChange, 
                 <input
                     type={inputType}
                     id={id}
-                    value={value}
+                    value={value.toString()}
                     placeholder={placeholder}
                     onChange={onChange}
                     min={min}

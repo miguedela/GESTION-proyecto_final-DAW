@@ -49,8 +49,9 @@ public class RestaurantServiceImpl implements RestaurantService {
 
 	@Override
 	public RestaurantDTO getRestaurantById(Long id) {
-		return restaurantRepository.findById(id).map(this::convertToDTO)
+		Restaurant restaurant = restaurantRepository.findById(id)
 				.orElseThrow(() -> new RuntimeException("Restaurante no econtrado con ID: " + id));
+		return convertToDTO(restaurant);
 	}
 
 	@Override
@@ -100,6 +101,7 @@ public class RestaurantServiceImpl implements RestaurantService {
 		restaurant.setPhone(updateRequest.getPhone());
 		restaurant.setOpeningHours(updateRequest.getOpeningHours());
 		restaurant.setLastModifiedDate(LocalDateTime.now());
+		restaurant.setCustomerAmmount(updateRequest.getCustomerAmmount());
 
 		OurUser user = userRepository.findById(userId)
 				.orElseThrow(() -> new ResourceNotFoundException("Usuario no encontrado con ID: " + userId));
@@ -130,7 +132,8 @@ public class RestaurantServiceImpl implements RestaurantService {
 		return RestaurantDTO.builder().id(restaurant.getId()).name(restaurant.getName())
 				.description(restaurant.getDescription()).address(restaurant.getAddress()).email(restaurant.getEmail())
 				.phone(restaurant.getPhone()).openingHours(restaurant.getOpeningHours())
-				.creationDate(restaurant.getCreationDate()).lastModifiedDate(restaurant.getLastModifiedDate()).build();
+				.creationDate(restaurant.getCreationDate()).customerAmmount(restaurant.getCustomerAmmount())
+				.lastModifiedDate(restaurant.getLastModifiedDate()).build();
 	}
 
 }

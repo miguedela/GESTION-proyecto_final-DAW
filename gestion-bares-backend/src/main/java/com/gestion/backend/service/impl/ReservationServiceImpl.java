@@ -43,7 +43,7 @@ public class ReservationServiceImpl implements ReservationService {
 		}
 		// Devolver la capacidad del restaurante
 		int capacity = restaurantRepository.findById(reservationDTO.getRestaurant().getId())
-				.orElseThrow(() -> new ResourceNotFoundException("Restaurante no encontrado.")).getCustomerAmount();
+				.orElseThrow(() -> new ResourceNotFoundException("Restaurante no encontrado.")).getCustomerAmmount();
 
 		// Calcular una hora de inicio y fin para la reserva
 		LocalDateTime start = reservationDTO.getReservationTime().withMinute(0).withSecond(0).withNano(0);
@@ -96,7 +96,7 @@ public class ReservationServiceImpl implements ReservationService {
 		}
 		// Obtener la capacidad del restaurante
 		int capacity = restaurantRepository.findById(reservationDTO.getRestaurant().getId())
-				.orElseThrow(() -> new ResourceNotFoundException("Restaurante no encontrado.")).getCustomerAmount();
+				.orElseThrow(() -> new ResourceNotFoundException("Restaurante no encontrado.")).getCustomerAmmount();
 
 		// Calcular una hora de inicio y fin para la reserva
 		LocalDateTime start = reservationDTO.getReservationTime().withMinute(0).withSecond(0).withNano(0);

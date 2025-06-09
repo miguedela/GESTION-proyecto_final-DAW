@@ -32,15 +32,24 @@ function generateHourOptions(franjas: string[][]) {
   franjas.forEach(franja => {
     if (!franja || franja.length < 2) return;
     const [start, end] = franja;
-    if (!start || !end) return;
-    const [startH] = start.split(":").map(Number);
-    let [endH] = end.split(":").map(Number);
-    if (isNaN(startH) || isNaN(endH)) return;
+    const [startH, startM] = start.split(":").map(Number);
+    let [endH, endM] = end.split(":").map(Number);
+
+    if (isNaN(startH) || isNaN(startM) || isNaN(endH) || isNaN(endM)) return;
+
     if (endH === 0 || endH === 24) endH = 24;
-    for (let h = startH; h < endH; h++) {
-      options.push(`${h.toString().padStart(2, '0')}:00`);
+
+    let currentH = startH;
+    let currentM = startM;
+
+    while (currentH < endH || (currentH === endH && currentM < endM)) {
+      options.push(`${currentH.toString().padStart(2, '0')}:${currentM.toString().padStart(2, '0')}`);
+
+      currentH += 1;
+      if (currentH === endH && currentM === 30) break;
     }
   });
+
   return Array.from(new Set(options)).sort();
 }
 

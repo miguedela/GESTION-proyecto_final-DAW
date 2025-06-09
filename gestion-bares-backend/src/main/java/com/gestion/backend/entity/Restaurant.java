@@ -61,6 +61,6 @@ public class Restaurant {
 	private Menu menu;
 
 	@Column(name = "customer_amount", nullable = false)
-	private int customerAmount;
+	private int customerAmmount;
 
 }
