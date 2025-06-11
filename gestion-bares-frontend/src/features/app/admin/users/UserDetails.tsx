@@ -85,7 +85,6 @@ export const UserDetails = () => {
         <ConfirmModal
           isOpen={modalOpen}
           text={"Estás seguro de que quieres eliminar el usuario?"}
-          type="negative"
           onConfirm={() => handleDeleteUser(id!)}
           onCancel={() => setModalOpen(false)}
         />

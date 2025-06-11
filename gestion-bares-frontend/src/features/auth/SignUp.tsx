@@ -25,7 +25,7 @@ export const SignUp = () => {
         name: z.string().min(1, "El nombre es obligatorio"),
         surnames: z.string().min(1, "Los apellidos son obligatorios"),
         email: z.string().email("El correo electrónico no es válido"),
-        phone: z.number().min(100000000, "El teléfono no es válido").max(999999999, "El teléfono no es válido"),
+        telephone: z.string().regex(/^\d{9}$/, "El teléfono debe contener exactamente 9 dígitos"),
         password: z.string().min(1, "La contraseña debe tener al menos 6 caracteres"),
         confirmPassword: z.string().min(1, "La contraseña debe tener al menos 6 caracteres"),
     }).refine((data) => data.password === data.confirmPassword, {
@@ -107,7 +107,13 @@ export const SignUp = () => {
                     id="telephone"
                     type="tel"
                     value={user.telephone}
-                    onChange={handleInputChange}
+                    onChange={(e) => {
+                        const value = e.target.value.replace(/\D/g, "");
+                        setUser((prevUser) => ({
+                            ...prevUser,
+                            telephone: value,
+                        }));
+                    }}
                     fieldErrors={fieldErrors.telephone}
                 />
                 <Input
@@ -127,11 +133,6 @@ export const SignUp = () => {
                     fieldErrors={fieldErrors.confirmPassword}
                 />
 
-                {error && (
-                    <p className="md:col-span-2 text-red-500 text-sm text-center">
-                        {error}
-                    </p>
-                )}
                 {loading && (
                     <div className="md:col-span-2 flex justify-center">
                         <Loading />
@@ -140,7 +141,7 @@ export const SignUp = () => {
 
                 <div className="md:col-span-2">
                     <MainButton
-                        text="Crear"
+                        text="Crear cuenta"
                         type="submit"
                         className="w-full"
                     />

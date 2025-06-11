@@ -1,14 +1,14 @@
 import { useAtom } from "jotai";
 import { useCallback, useEffect, useState } from "react";
 import { IoAddOutline, IoEyeOffOutline, IoEyeOutline, IoPencilOutline, IoTrashOutline } from "react-icons/io5";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { loadMenu } from "../../../../../api/menu.api";
+import { loadRestaurant } from "../../../../../api/restaurants.api";
 import { breadcrumbsAtom } from "../../../../../atoms/breadcrumbs.atom";
 import ConfirmModal from "../../../../../components/ConfirmModal";
 import { Loader } from "../../../../../components/Loader";
 import useDish from "../../../../../hooks/useDish";
 import { IMenu } from "../../../../../types/Menu";
-import { loadRestaurant } from "../../../../../api/restaurants.api";
 import { IRestaurant } from "../../../../../types/Restaurants";
 
 export const StaffRestaurantMenu = () => {

@@ -1,6 +1,6 @@
 import { useAtom } from "jotai";
 import { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { z } from "zod";
 import { breadcrumbsAtom } from "../../../atoms/breadcrumbs.atom";
 import { userAtom } from "../../../atoms/user.atom";
