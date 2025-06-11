@@ -19,7 +19,8 @@ export const CreateRestaurant = () => {
     creationDate: new Date(),
     description: '',
     lastModifiedDate: new Date(),
-    openingHours: ''
+    openingHours: '',
+    customerAmmount: 0,
   });
 
   const [, setBreadcrumbs] = useAtom(breadcrumbsAtom);

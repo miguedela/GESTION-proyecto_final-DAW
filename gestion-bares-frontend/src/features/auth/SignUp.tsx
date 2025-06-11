@@ -18,7 +18,7 @@ export const SignUp = () => {
     });
     const [confirmPassword, setConfirmPassword] = useState('');
     const [fieldErrors, setFieldErrors] = useState<Record<string, string>>({});
-    const { register, loading, error } = useAuth();
+    const { register, loading } = useAuth();
     const navigate = useNavigate();
 
     const registrationSchema = z.object({
