@@ -1,9 +1,18 @@
 import axios from "axios";
 import queryString from "query-string";
 
+// const httpClient = axios.create({
+//   // baseURL: "http://localhost:8080/api",
+//   baseURL: "http://ruizgijon.ddns.net:8080/api",
+//   paramsSerializer: (params) =>
+//     queryString.stringify(params, { arrayFormat: "comma" }),
+//   headers: {
+//     "Content-Type": "application/json",
+//   },
+// });
+
 const httpClient = axios.create({
-  // baseURL: "http://localhost:8080/api",
-  baseURL: "http://ruizgijon.ddns.net:8080/api",
+  baseURL: "/api",
   paramsSerializer: (params) =>
     queryString.stringify(params, { arrayFormat: "comma" }),
   headers: {
@@ -23,5 +32,6 @@ httpClient.interceptors.request.use((config) => {
 
   return config;
 });
+
 
 export default httpClient;
