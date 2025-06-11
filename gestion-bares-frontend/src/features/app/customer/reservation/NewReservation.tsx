@@ -171,7 +171,7 @@ export const NewReservation = () => {
       return;
     }
 
-    const reservationTime = new Date(`${reservationDate}T${reservationHour}`);
+    const reservationTime = new Date(`${reservationDate}T${reservationHour}:00.000Z`);
     const newReservation: IReservation = {
       customer: user,
       restaurant: restaurant!,

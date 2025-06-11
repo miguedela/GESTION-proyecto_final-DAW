@@ -11,7 +11,6 @@ export const MyReservations = () => {
   const {
     reservations,
     loading,
-    error,
     handleLoadReservationsByCustomer,
     handleCancelReservation,
   } = useReservation();
@@ -36,11 +35,10 @@ export const MyReservations = () => {
         Mis Reservas
       </h2>
       {loading && <div className="text-amber-600">Cargando reservas...</div>}
-      {error && <div className="text-red-600 font-semibold">{error}</div>}
-      {!loading && reservations.length === 0 && (
+      {!loading && (!reservations || reservations.filter(r => r.status === Status.PENDING || r.status === Status.CONFIRMED).length === 0) && (
         <div className="text-gray-600">No tienes reservas.</div>
       )}
-      {!loading && reservations.length > 0 && (
+      {!loading && reservations && reservations.filter(r => r.status === Status.PENDING || r.status === Status.CONFIRMED).length > 0 && (
         <div className="overflow-x-auto">
           <table className="min-w-full divide-y divide-gray-200">
             <thead>
@@ -54,41 +52,36 @@ export const MyReservations = () => {
               </tr>
             </thead>
             <tbody>
-              {reservations.map((r) => {
-                if (r.status === Status.CONFIRMED || r.status === Status.PENDING) {
-                  const dateObj = new Date(r.reservationTime);
-                  const date = dateObj.toLocaleDateString();
-                  const hour = dateObj.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-                  return (
-                    <tr key={r.id} className="hover:bg-amber-50">
+              {reservations.filter(r => r.status === Status.PENDING || r.status === Status.CONFIRMED).map((r) => {
+                const dateObj = new Date(r.reservationTime);
+                const date = dateObj.toLocaleDateString();
+                const hour = dateObj.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+                return (
+                  <tr key={r.id} className="hover:bg-amber-50">
+                    <td className="px-4 py-2">
+                      <Link
+                        to={localStorage.getItem("restaurantId") ? `/my-reservation/${r.id}/update` : `/reservation/${r.id}/update`}
+                        className="text-amber-600 hover:underline"
+                      >
+                        {r.restaurant?.name || '-'}
+                      </Link>
+                    </td>
+                    <td className="px-4 py-2">{date}</td>
+                    <td className="px-4 py-2">{hour}</td>
+                    <td className="px-4 py-2">{r.reservationNumber}</td>
+                    <td className="px-4 py-2">{r.status}</td>
+                    {new Date(r.reservationTime).getTime() - new Date().getTime() > 12 * 60 * 60 * 1000 && (
                       <td className="px-4 py-2">
-                        <Link
-                          to={localStorage.getItem("restaurantId") ? `/my-reservation/${r.id}/update` : `/reservation/${r.id}/update`}
-                          className="text-amber-600 hover:underline"
+                        <button
+                          onClick={() => handleCancelReservation(r.id!)}
+                          className="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 rounded text-xs"
                         >
-                          {r.restaurant?.name || '-'}
-                        </Link>
+                          Cancelar
+                        </button>
                       </td>
-                      <td className="px-4 py-2">{date}</td>
-                      <td className="px-4 py-2">{hour}</td>
-                      <td className="px-4 py-2">{r.reservationNumber}</td>
-                      <td className="px-4 py-2">{r.status}</td>
-                      {r.status === Status.CONFIRMED && (
-                        <td className="px-4 py-2">
-                          {r.id && new Date(r.reservationTime).getTime() - new Date().getTime() > 12 * 60 * 60 * 1000 && (
-                            <button
-                              onClick={() => handleCancelReservation(r.id!)}
-                              className="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 rounded text-xs"
-                            >
-                              Cancelar
-                            </button>
-                          )}
-                        </td>
-                      )}
-                    </tr>
-                  );
-                }
-                return null;
+                    )}
+                  </tr>
+                );
               })}
             </tbody>
           </table>

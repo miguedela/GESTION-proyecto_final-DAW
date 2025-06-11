@@ -94,7 +94,6 @@ const useReservation = () => {
         try {
             const { data } = await getReservationById(reservationId);
             setReservation(data);
-            showSuccessToast("Reserva obtenida exitosamente.");
             return data;
         } catch (err: unknown) {
             setMessageError(err, setError);
@@ -113,7 +112,6 @@ const useReservation = () => {
             setReservations(data);
         } catch (err: unknown) {
             setMessageError(err, setError);
-            showErrorToast("Error al cargar las reservas. Por favor, inténtalo de nuevo.");
         } finally {
             setLoading(false);
         }
