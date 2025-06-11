@@ -7,7 +7,7 @@ export default defineConfig({
   server: {
     proxy: {
       // '/api': 'http://localhost:8080',
-      '/api': 'http://ruizgijon.ddns.net:8080',
+      '/api': 'https://ruizgijon.ddns.net:8080',
     },
   },
 })
