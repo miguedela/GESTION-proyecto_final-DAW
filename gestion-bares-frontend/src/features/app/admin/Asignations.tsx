@@ -77,7 +77,7 @@ export const Asignations = () => {
                     {assignments.length === 0 ? (
                         <p className="text-lg text-gray-600">No se encontraron asignaciones.</p>
                     ) : (
-                        <div className="overflow-x-auto shadow-lg rounded-lg">
+                        <div className="overflow-x-auto shadow-lg rounded-lg overscroll-x-contain">
                             <table className="min-w-full bg-white">
                                 <thead className="bg-gray-800 text-white">
                                     <tr>
