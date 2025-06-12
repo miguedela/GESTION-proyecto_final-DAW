@@ -1,5 +1,4 @@
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
-import { About } from '../features/About';
 import { Account } from '../features/account/Account';
 import { EditAccount } from '../features/account/EditAccount';
 import { CreateRestaurant } from '../features/app/admin/restaurants/CreateRestaurant';
@@ -58,7 +57,6 @@ export const AppRouter = () => {
         { path: "/account/reset-password", element: <ResetPassword /> },
         { path: "/account/change-password", element: <ChangePassword /> },
         { path: '/restaurants', element: <RestaurantsList /> },
-        { path: '/about', element: <About /> },
         { path: '/restaurant', element: <Restaurant /> },
         { path: '/menu', element: <Menu /> },
         { path: '/contact', element: <Contact /> },

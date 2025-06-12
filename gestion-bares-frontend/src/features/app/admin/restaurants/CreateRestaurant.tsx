@@ -40,7 +40,7 @@ export const CreateRestaurant = () => {
   const registrationSchema = z.object({
     name: z.string().min(5, "El nombre es obligatorio"),
     email: z.string().email("El correo electrónico no es válido"),
-    phone: z.number().min(100000000, "El teléfono no es válido").max(999999999, "El teléfono no es válido"),
+    phone: z.string().min(1, "El teléfono no es válido"),
   });
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -72,7 +72,7 @@ export const CreateRestaurant = () => {
 
     const response = await handleCreateRestaurant(restaurant);
     if (response)
-      navigate('/account');
+      navigate('/restaurants');
   }
 
   return <div className="flex items-center justify-center">
