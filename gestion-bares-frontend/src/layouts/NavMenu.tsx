@@ -1,9 +1,11 @@
 import { IoBookOutline, IoCloseOutline, IoHelpOutline, IoLogOutOutline, IoMenuOutline, IoNotificationsOutline, IoPeopleOutline, IoPersonOutline, IoRestaurantOutline } from "react-icons/io5";
 import { Link, NavLink } from "react-router-dom";
 import useAuth from "../hooks/useAuth";
+import { useEffect, useRef } from "react"; // Importar useRef y useEffect
 
 export const NavMenu = ({ isOpen, setIsSidebarOpen }: { isOpen: boolean; setIsSidebarOpen: (open: boolean) => void }) => {
     const { user, logout } = useAuth();
+    const sidebarRef = useRef<HTMLElement>(null); // Crear una referencia para el sidebar
 
     const links = [
         {
@@ -39,8 +41,36 @@ export const NavMenu = ({ isOpen, setIsSidebarOpen }: { isOpen: boolean; setIsSi
         (link) => link.access === "all" || link.access === user.role
     );
 
+    // Efecto para manejar clics fuera del menú
+    useEffect(() => {
+        const handleClickOutside = (event: MouseEvent) => {
+            // Si el menú está abierto y el clic no es dentro del menú
+            if (isOpen && sidebarRef.current && !sidebarRef.current.contains(event.target as Node)) {
+                // Y si el clic no es en el botón que abre el menú (para evitar que se cierre inmediatamente después de abrirlo en móvil)
+                // Asumimos que el botón que abre el menú tiene un identificador o una clase específica.
+                // Por ahora, esta comprobación es básica. Si tienes un botón específico para abrir,
+                // podrías necesitar una lógica más robusta aquí, por ejemplo, pasando una referencia a ese botón.
+                const targetElement = event.target as HTMLElement;
+                if (!targetElement.closest('button[aria-label="Open sidebar"]')) { // Ajusta este selector si es necesario
+                    setIsSidebarOpen(false);
+                }
+            }
+        };
+
+        // Añadir el event listener cuando el menú está abierto
+        if (isOpen) {
+            document.addEventListener("mousedown", handleClickOutside);
+        }
+
+        // Limpiar el event listener
+        return () => {
+            document.removeEventListener("mousedown", handleClickOutside);
+        };
+    }, [isOpen, setIsSidebarOpen]);
+
     return <aside
         id="default-sidebar"
+        ref={sidebarRef} // Asignar la referencia al elemento aside
         className={`fixed top-0 left-0 z-40 w-64 h-screen transition-transform ${isOpen ? "translate-x-0" : "-translate-x-full"} lg:translate-x-0 bg-white border-r border-slate-200 shadow-sm text-slate-700`}
         aria-label="Sidebar"
     >
