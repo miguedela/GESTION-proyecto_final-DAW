@@ -69,7 +69,13 @@ export const MyReservations = () => {
                     <td className="px-4 py-2">{date}</td>
                     <td className="px-4 py-2">{hour}</td>
                     <td className="px-4 py-2">{r.reservationNumber}</td>
-                    <td className="px-4 py-2">{r.status}</td>
+                    <td className="px-4 py-2">
+                      {
+                        (r.status === Status.PENDING) && "Pendiente" ||
+                        (r.status === Status.CONFIRMED) && "Confirmada" ||
+                        (r.status === Status.CANCELED) && "Cancelada"
+                      }
+                    </td>
                     {new Date(r.reservationTime).getTime() - new Date().getTime() > 12 * 60 * 60 * 1000 && (
                       <td className="px-4 py-2">
                         <button
