@@ -164,7 +164,7 @@ export const EditUser = () => {
                             ]}
                             fieldErrors={fieldErrors.role}
                             placeholderOption="Seleccione un rol..."
-                        />ste staff aún no tiene restaurantes asignados.
+                        />
 
                         <MainButton text='Guardar cambios' type='submit' />
                     </form>
