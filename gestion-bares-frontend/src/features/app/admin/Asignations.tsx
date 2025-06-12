@@ -39,7 +39,6 @@ export const Asignations = () => {
                     }
                 } catch (err: any) {
                     console.error("Error fetching assignments:", err);
-                    showErrorToast(err.message || "Failed to load assignments.");
                     setAssignments([]);
                 } finally {
                     setLoading(false);

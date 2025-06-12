@@ -101,7 +101,7 @@ export const EditUser = () => {
 
         const response = await handleAddStaffToRestaurant(id!, selectedRestaurant);
         if (response) {
-            navigate(`/admin/users`);
+            navigate(`/admin/asignations`);
         }
     };
 
@@ -120,13 +120,13 @@ export const EditUser = () => {
         fetchRestaurants();
     }, [id, navigate, handleLoadUser, handleGetRestaurants]);
 
-    return <div className="w-1/2 bg-white  text-dark rounded-md p-20">
+    return <div className="w-full lg:w-3/4 xl:w-1/2 mx-auto bg-white text-dark rounded-md p-6 md:p-10 lg:p-20">
         <Loader loading={loading}>
-            <h1 className="mb-7">Editar usuario</h1>
+            <h1 className="mb-7 text-2xl font-semibold">Editar usuario</h1>
 
-            <div className="flex flex-row justify-between">
+            <div className="flex flex-col lg:flex-row justify-between gap-10 lg:gap-16">
                 {user &&
-                    <form onSubmit={handleEditUser} className="flex flex-col">
+                    <form onSubmit={handleEditUser} className="flex flex-col flex-1">
                         <Input label="Nombre"
                             id="name"
                             value={user.name}
@@ -171,9 +171,9 @@ export const EditUser = () => {
                 }
 
                 {user?.role === Roles.STAFF &&
-                    <div className="flex flex-col gap">
+                    <div className="flex flex-col flex-1 gap-4">
                         <div className="mb-5">
-                            <h2 className="mt-5 mb-3">Asignaciones</h2>
+                            <h2 className="text-xl font-semibold mt-5 mb-3">Asignaciones</h2>
                             {restaurantsAssigned.length > 0 ? (
                                 <ul>
                                     {restaurantsAssigned.map((restaurant) => (
@@ -186,7 +186,7 @@ export const EditUser = () => {
                                 <p>Este staff aún no tiene restaurantes asignados.</p>
                             )}
                         </div>
-                        <form onSubmit={handleAsignRestaurant} className="flex flex-col">
+                        <form onSubmit={handleAsignRestaurant} className="flex flex-col gap-4">
                             <Select label="Restaurante"
                                 id="restaurant"
                                 value={selectedRestaurant}
