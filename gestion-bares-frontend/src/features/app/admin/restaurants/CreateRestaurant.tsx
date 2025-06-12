@@ -40,7 +40,7 @@ export const CreateRestaurant = () => {
   const registrationSchema = z.object({
     name: z.string().min(5, "El nombre es obligatorio"),
     email: z.string().email("El correo electrónico no es válido"),
-    phone: z.string().min(1, "El teléfono no es válido"),
+    phone: z.string().regex(/^[0-9]{9}$/, "El teléfono debe contener exactamente 9 dígitos"),
   });
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
