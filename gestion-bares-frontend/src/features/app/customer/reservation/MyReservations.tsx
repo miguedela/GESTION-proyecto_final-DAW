@@ -1,10 +1,11 @@
 import { useAtom } from 'jotai';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { breadcrumbsAtom } from '../../../../atoms/breadcrumbs.atom';
 import { userAtom } from '../../../../atoms/user.atom';
 import useReservation from '../../../../hooks/useReservation';
 import { Status } from '../../../../types/Reservation';
+import ConfirmModal from "../../../../components/ConfirmModal";
 
 export const MyReservations = () => {
   const [user] = useAtom(userAtom);
@@ -28,6 +29,15 @@ export const MyReservations = () => {
       handleLoadReservationsByCustomer(user.id);
     }
   }, [user?.id]);
+
+  const [reservationToDelete, setReservationToDelete] = useState<string | null>(null);
+
+  const handleDeleteReservation = async () => {
+    if (reservationToDelete) {
+      await handleCancelReservation(reservationToDelete);
+      setReservationToDelete(null);
+    }
+  };
 
   return (
     <div className="max-w-2xl mx-auto p-6 bg-white rounded shadow">
@@ -79,7 +89,7 @@ export const MyReservations = () => {
                     {new Date(r.reservationTime).getTime() - new Date().getTime() > 12 * 60 * 60 * 1000 && (
                       <td className="px-4 py-2">
                         <button
-                          onClick={() => handleCancelReservation(r.id!)}
+                          onClick={() => setReservationToDelete(r.id!)}
                           className="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 rounded text-xs"
                         >
                           Cancelar
@@ -93,6 +103,12 @@ export const MyReservations = () => {
           </table>
         </div>
       )}
+      <ConfirmModal
+        isOpen={!!reservationToDelete}
+        text={"¿Estás seguro de que quieres cancelar esta reserva?"}
+        onConfirm={handleDeleteReservation}
+        onCancel={() => setReservationToDelete(null)}
+      />
     </div>
   );
 };
