@@ -70,8 +70,8 @@ export const RestaurantDetailStaff = () => {
   }, [id, navigate, handleLoadRestaurant, checkPermissions]);
 
   return (
-    <div className="min-h-screen flex items-center justify-center">
-      <div className="w-full max-w-3xl mx-auto flex flex-col bg-white text-slate-800 rounded-xl p-10 shadow-sm border border-slate-200 my-10">
+    <div className="min-h-screen flex items-center justify-center bg-slate-50">
+      <div className="w-full max-w-5xl mx-auto flex flex-col bg-white text-slate-800 rounded-xl p-10 shadow-lg border border-slate-200 my-10">
         <Loader loading={loading}>
           <h1 className="text-3xl font-extrabold text-center text-amber-700 tracking-tight mb-8 border-b pb-4 border-slate-200">
             Detalles del restaurante
@@ -79,33 +79,33 @@ export const RestaurantDetailStaff = () => {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             <div>
               <span className="text-xs text-slate-400">Nombre</span>
-              <div className="ml-2 mt-1 p-3 rounded-lg bg-slate-50 border border-slate-100">{restaurant?.name}</div>
+              <div className="ml-2 mt-1 p-3 rounded-lg bg-slate-50 border border-slate-100 shadow-sm">{restaurant?.name}</div>
             </div>
             <div>
               <span className="text-xs text-slate-400">Descripción</span>
-              <div className="ml-2 mt-1 p-3 rounded-lg bg-slate-50 border border-slate-100">{restaurant?.description}</div>
+              <div className="ml-2 mt-1 p-3 rounded-lg bg-slate-50 border border-slate-100 shadow-sm">{restaurant?.description}</div>
             </div>
             <div>
               <span className="text-xs text-slate-400">Dirección</span>
-              <div className="ml-2 mt-1 p-3 rounded-lg bg-slate-50 border border-slate-100">{restaurant?.address}</div>
+              <div className="ml-2 mt-1 p-3 rounded-lg bg-slate-50 border border-slate-100 shadow-sm">{restaurant?.address}</div>
             </div>
             <div>
               <span className="text-xs text-slate-400">Email</span>
-              <div className="ml-2 mt-1 p-3 rounded-lg bg-slate-50 border border-slate-100">{restaurant?.email}</div>
+              <div className="ml-2 mt-1 p-3 rounded-lg bg-slate-50 border border-slate-100 shadow-sm">{restaurant?.email}</div>
             </div>
             <div>
               <span className="text-xs text-slate-400">Teléfono</span>
-              <div className="ml-2 mt-1 p-3 rounded-lg bg-slate-50 border border-slate-100">{restaurant?.phone}</div>
+              <div className="ml-2 mt-1 p-3 rounded-lg bg-slate-50 border border-slate-100 shadow-sm">{restaurant?.phone}</div>
             </div>
             <div>
               <span className="text-xs text-slate-400">Fecha de creación</span>
-              <div className="ml-2 mt-1 p-3 rounded-lg bg-slate-50 border border-slate-100">{restaurant?.creationDate && formatDate(restaurant?.creationDate)}</div>
+              <div className="ml-2 mt-1 p-3 rounded-lg bg-slate-50 border border-slate-100 shadow-sm">{restaurant?.creationDate && formatDate(restaurant?.creationDate)}</div>
             </div>
             <div className="md:col-span-2">
               <span className="text-xs text-slate-400">Horario de apertura</span>
               <div className="ml-2 mt-2 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2">
                 {restaurant?.openingHours && restaurant.openingHours.split(';').map((schedule, index) => (
-                  <div key={index} className="p-3 rounded-lg bg-slate-50 border border-slate-100 flex items-center gap-2">
+                  <div key={index} className="p-3 rounded-lg bg-slate-50 border border-slate-100 shadow-sm flex items-center gap-2">
                     <span className="font-semibold text-amber-700">{dias[index]}:</span>
                     <span className="text-slate-700">{schedule.trim()}</span>
                   </div>
@@ -114,11 +114,11 @@ export const RestaurantDetailStaff = () => {
             </div>
             <div>
               <span className="text-xs text-slate-400">Última modificación</span>
-              <div className="ml-2 mt-1 p-3 rounded-lg bg-slate-50 border border-slate-100">{restaurant?.lastModifiedDate && formatDate(restaurant?.lastModifiedDate)}</div>
+              <div className="ml-2 mt-1 p-3 rounded-lg bg-slate-50 border border-slate-100 shadow-sm">{restaurant?.lastModifiedDate && formatDate(restaurant?.lastModifiedDate)}</div>
             </div>
             <div>
               <span className="text-xs text-slate-400">Capacidad del restaurante</span>
-              <div className="ml-2 mt-1 p-3 rounded-lg bg-slate-50 border border-slate-100">{restaurant?.customerAmmount}</div>
+              <div className="ml-2 mt-1 p-3 rounded-lg bg-slate-50 border border-slate-100 shadow-sm">{restaurant?.customerAmmount}</div>
             </div>
             <div className="flex gap-4 justify-end mt-8">
               <Link to={`/staff/restaurant/edit`} title="Editar restaurante">

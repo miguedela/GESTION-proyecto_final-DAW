@@ -11,7 +11,6 @@ import { MyNotifications } from '../features/app/customer/MyNotifications';
 import { MyReservations } from '../features/app/customer/reservation/MyReservations';
 import { NewReservation } from '../features/app/customer/reservation/NewReservation';
 import { Reservations } from '../features/restaurants/reservations/Reservations';
-import { RestaurantContact } from '../features/app/customer/restaurant/RestaurantContact';
 import { RestaurantDetail } from '../features/app/customer/restaurant/RestaurantDetail';
 import { RestaurantMenu } from '../features/app/customer/restaurant/RestaurantMenu';
 import { EditMyAccount } from '../features/app/my-account/EditMyAccount';
@@ -150,7 +149,6 @@ export const AppRouter = () => {
                         { path: "/my-reservations", element: <MyReservations /> },
                         { path: '/restaurant/info', element: <RestaurantDetail /> },
                         { path: "/restaurant/menu", element: <RestaurantMenu /> },
-                        { path: '/restaurant/contact', element: <RestaurantContact /> },
                         // Rutas para customers
                     ]
                 }

@@ -19,8 +19,8 @@ export const EditDish = () => {
   useEffect(() => {
     setBreadcrumbs([
       { label: "Inicio", path: "/main" },
-      { label: "Menú", path: `/staff/restaurant/${restaurantId}/menu` },
-      { label: "Editar Plato", path: `/staff/restaurant/${restaurantId}/menu/${menuId}/dish/${id}/edit` },
+      { label: "Menú", path: `/staff/restaurant/menu` },
+      { label: "Editar Plato", path: `/staff/restaurant/menu/${menuId}/dish/${id}/edit` },
     ]);
   }, [setBreadcrumbs, restaurantId, menuId, id]);
 
@@ -95,7 +95,7 @@ export const EditDish = () => {
 
     const response = await handleUpdateDish({ ...dish, menuId: menuId || "" });
     if (response)
-      navigate(`/staff/restaurant/${restaurantId}/menu`);
+      navigate(`/staff/restaurant/menu`);
   };
 
   return (

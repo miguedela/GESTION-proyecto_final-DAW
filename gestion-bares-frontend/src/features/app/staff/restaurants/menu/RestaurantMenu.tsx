@@ -77,42 +77,54 @@ export const StaffRestaurantMenu = () => {
   }, [id, navigate, handleLoadMenu]);
 
   return (
-    <div className="w-full flex flex-col gap-3 bg-white text-dark rounded-md p-20">
+    <div className="w-full flex flex-col gap-3 bg-white text-dark rounded-md p-4 md:p-8 lg:p-10">
       <Loader loading={loading}>
-        <h1>Menú del restaurante</h1>
-        <table className="w-full text-sm text-left rtl:text-right text-gray-500">
-          <thead className="text-xs text-gray-700 uppercase bg-gray-50">
-            <tr>
-              <th className="px-6 py-3">Nombre</th>
-              <th className="px-6 py-3">Descripción</th>
-              <th className="px-6 py-3">Precio</th>
-              <th className="px-6 py-3">Disponible</th>
-              <th></th>
-            </tr>
-          </thead>
-          <tbody>
-            {menu?.dishes.map((dish) => (
-              <tr key={dish.id} className="bg-white hover:bg-gray-50">
-                <td className="px-6 py-4">{dish.name}</td>
-                <td className="px-6 py-4">{dish.description}</td>
-                <td className="px-6 py-4">{dish.price}</td>
-                <td className="px-6 py-4">{dish.available ? <IoEyeOutline /> : <IoEyeOffOutline />}</td>
-                <td>
-                  <Link to={`/staff/restaurant/menu/dish/${dish.id}/edit`}>
-                    <IoPencilOutline className="text-xl text-amber-500 hover:text-amber-600" />
-                  </Link>
-                  <button onClick={() => setDishToDelete(dish.id)} className="cursor-pointer">
-                    <IoTrashOutline className="text-xl text-red-500 hover:text-red-600" />
-                  </button>
-                </td>
+        <div className="flex justify-between items-center mb-6">
+          <h1 className="text-2xl md:text-3xl font-bold text-gray-800">Menú del Restaurante</h1>
+          <Link 
+            to={`/staff/restaurant/menu/${menu?.id}/create`}
+            className="bg-amber-500 hover:bg-amber-600 text-white font-semibold py-2 px-4 rounded-md shadow-md transition duration-150 ease-in-out flex items-center gap-2 text-sm md:text-base"
+          >
+            <IoAddOutline className="text-xl" />
+            Añadir Plato
+          </Link>
+        </div>
+        <div className="overflow-x-auto shadow-lg rounded-lg overscroll-x-contain">
+          <table className="min-w-full bg-white">
+            <thead className="bg-gray-800 text-white">
+              <tr>
+                <th className="py-3 px-5 text-left text-xs font-medium uppercase tracking-wider">Nombre</th>
+                <th className="py-3 px-5 text-left text-xs font-medium uppercase tracking-wider">Descripción</th>
+                <th className="py-3 px-5 text-left text-xs font-medium uppercase tracking-wider">Precio</th>
+                <th className="py-3 px-5 text-left text-xs font-medium uppercase tracking-wider">Disponible</th>
+                <th className="py-3 px-5 text-left text-xs font-medium uppercase tracking-wider">Acciones</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
-        <Link to={`/staff/restaurant/menu/${menu?.id}/create`}>
-          <IoAddOutline className="text-xl text-amber-500 hover:text-amber-600" />
-        </Link>
-
+            </thead>
+            <tbody className="bg-white divide-y divide-gray-200 text-gray-700">
+              {menu?.dishes.map((dish) => (
+                <tr key={dish.id} className="hover:bg-gray-50 transition-colors duration-150">
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{dish.name}</td>
+                  <td className="px-6 py-4 whitespace-normal text-sm text-gray-500 max-w-xs truncate">{dish.description}</td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{dish.price}€</td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    {dish.available ? <IoEyeOutline className="text-xl text-green-500" title="Sí"/> : <IoEyeOffOutline className="text-xl text-red-500" title="No"/>}
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 flex items-center gap-x-3">
+                    <Link to={`/staff/restaurant/menu/dish/${dish.id}/edit`} title="Editar plato">
+                      <IoPencilOutline className="text-xl text-amber-500 hover:text-amber-600" />
+                    </Link>
+                    <button onClick={() => setDishToDelete(dish.id)} className="cursor-pointer" title="Eliminar plato">
+                      <IoTrashOutline className="text-xl text-red-500 hover:text-red-600" />
+                    </button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+        {(!menu?.dishes || menu.dishes.length === 0) && !loading && (
+          <p className="text-center text-gray-500 mt-6">No hay platos en el menú todavía. ¡Añade algunos!</p>
+        )}
         <ConfirmModal
           isOpen={!!dishToDelete}
           text={"Estás seguro de que quieres eliminar el plato?"}

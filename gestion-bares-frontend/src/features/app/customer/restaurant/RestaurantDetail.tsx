@@ -50,74 +50,70 @@ export const RestaurantDetail = () => {
       handleLoadRestaurant()
   }, [restaurantId, navigate, handleLoadRestaurant]);
 
+  // Improved styles and responsiveness for RestaurantDetail.tsx
   return (
-    <div className="flex items-center justify-center">
-      <div className="w-full max-w-5xl mx-auto flex flex-1 flex-col text-slate-800 rounded-xl p-10 shadow-sm bg-slate-50">
-        <h1 className="text-3xl font-extrabold text-center text-amber-700 tracking-tight mb-8 border-b pb-4 border-slate-200">
-          {restaurant?.name || "Detalles del restaurante"}
-        </h1>
+    <div className="min-h-screen flex items-center justify-center">
+      <div className="w-full max-w-5xl mx-auto flex flex-col bg-white text-slate-800 rounded-xl p-10 shadow-sm border border-slate-200 my-10">
         <Loader loading={loading}>
-          <div className="flex flex-col md:flex-row gap-6">
-            <div className="flex flex-col">
-              <div>
-                <span className="text-xs text-slate-400">Descripción</span>
-                <p className="ml-2 mt-1">{restaurant?.description}</p>
-              </div>
-              <div>
-                <span className="text-xs text-slate-400">Dirección</span>
-                <p className="ml-2 mt-1">{restaurant?.address}</p>
-              </div>
-              <div>
-                <span className="text-xs text-slate-400">Email</span>
-                <p className="ml-2 mt-1">{restaurant?.email}</p>
-              </div>
-              <div>
-                <span className="text-xs text-slate-400">Teléfono</span>
-                <p className="ml-2 mt-1">{restaurant?.phone}</p>
-              </div>
+          <h1 className="text-3xl font-extrabold text-center text-amber-700 tracking-tight mb-8 border-b pb-4 border-slate-200">
+            {restaurant?.name || "Detalles del restaurante"}
+          </h1>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div>
+              <span className="text-xs text-slate-400">Descripción</span>
+              <div className="ml-2 mt-1 p-3 rounded-lg bg-slate-50 border border-slate-100">{restaurant?.description}</div>
             </div>
-            <div className="md:col-span-2 gap gap-col-2">
+            <div>
+              <span className="text-xs text-slate-400">Dirección</span>
+              <div className="ml-2 mt-1 p-3 rounded-lg bg-slate-50 border border-slate-100">{restaurant?.address}</div>
+            </div>
+            <div>
+              <span className="text-xs text-slate-400">Email</span>
+              <div className="ml-2 mt-1 p-3 rounded-lg bg-slate-50 border border-slate-100">{restaurant?.email}</div>
+            </div>
+            <div>
+              <span className="text-xs text-slate-400">Teléfono</span>
+              <div className="ml-2 mt-1 p-3 rounded-lg bg-slate-50 border border-slate-100">{restaurant?.phone}</div>
+            </div>
+            <div className="md:col-span-2">
               <span className="text-xs text-slate-400">Horario de apertura</span>
               <div className="ml-2 mt-2 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2">
                 {restaurant?.openingHours && restaurant.openingHours.split(';').map((schedule, index) => (
-                  <div
-                    key={index}
-                    className="flex items-center gap-2 p-3 rounded-lg bg-slate-100 border border-slate-300 shadow-sm"
-                  >
+                  <div key={index} className="p-3 rounded-lg bg-slate-50 border border-slate-100 flex items-center gap-2">
                     <span className="font-semibold text-amber-700">{dias[index]}:</span>
                     <span className="text-slate-700">{schedule.trim()}</span>
                   </div>
                 ))}
               </div>
             </div>
-          </div>
-          <div className="md:col-span-2">
-            <span className="text-xs text-slate-400">Ubicación</span>
-            <div className="ml-2 mt-2 rounded-lg overflow-hidden border border-slate-200 shadow">
-              {restaurant?.address && (
-                <iframe
-                  title="Mapa del restaurante"
-                  width="100%"
-                  height="250"
-                  style={{ border: 0 }}
-                  loading="lazy"
-                  allowFullScreen
-                  referrerPolicy="no-referrer-when-downgrade"
-                  src={`https://www.google.com/maps?q=${encodeURIComponent(restaurant.address)}&output=embed`}
-                ></iframe>
-              )}
+            <div className="md:col-span-2">
+              <span className="text-xs text-slate-400">Ubicación</span>
+              <div className="ml-2 mt-2 rounded-lg overflow-hidden border border-slate-200 shadow">
+                {restaurant?.address && (
+                  <iframe
+                    title="Mapa del restaurante"
+                    width="100%"
+                    height="250"
+                    style={{ border: 0 }}
+                    loading="lazy"
+                    allowFullScreen
+                    referrerPolicy="no-referrer-when-downgrade"
+                    src={`https://www.google.com/maps?q=${encodeURIComponent(restaurant.address)}&output=embed`}
+                  ></iframe>
+                )}
+              </div>
             </div>
+            {user?.role === Roles.CUSTOMER && (
+              <div className="flex justify-end">
+                <Link
+                  to={`/restaurant/${restaurantId}/reservation/new`}
+                  className="mt-8 inline-block bg-amber-500 text-white px-6 py-3 rounded-lg font-semibold hover:bg-amber-600 transition-colors shadow"
+                >
+                  Realizar reserva
+                </Link>
+              </div>
+            )}
           </div>
-          {user?.role === Roles.CUSTOMER && (
-            <div className="flex justify-end">
-              <Link
-                to={`/restaurant/${restaurantId}/reservation/new`}
-                className="mt-8 inline-block bg-amber-500 text-white px-6 py-3 rounded-lg font-semibold hover:bg-amber-600 transition-colors shadow"
-              >
-                Realizar reserva
-              </Link>
-            </div>
-          )}
         </Loader>
       </div>
     </div>
