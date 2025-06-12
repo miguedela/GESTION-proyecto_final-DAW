@@ -45,7 +45,7 @@ function generateHourOptions(franjas: string[][]) {
 
       // Increment by 1 hour
       currentH += 1;
-      if (currentH === endH && currentM === 30) break; // Stop at the end time
+      if (currentH === endH && currentM === 30) break;
     }
   });
 

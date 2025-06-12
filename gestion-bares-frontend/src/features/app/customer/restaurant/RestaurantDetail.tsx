@@ -104,7 +104,7 @@ export const RestaurantDetail = () => {
               </div>
             </div>
             {user?.role === Roles.CUSTOMER && (
-              <div className="flex justify-end">
+              <div className="flex justify-start">
                 <Link
                   to={`/restaurant/${restaurantId}/reservation/new`}
                   className="mt-8 inline-block bg-amber-500 text-white px-6 py-3 rounded-lg font-semibold hover:bg-amber-600 transition-colors shadow"

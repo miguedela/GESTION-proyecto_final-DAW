@@ -120,7 +120,7 @@ export const RestaurantDetailStaff = () => {
               <span className="text-xs text-slate-400">Capacidad del restaurante</span>
               <div className="ml-2 mt-1 p-3 rounded-lg bg-slate-50 border border-slate-100 shadow-sm">{restaurant?.customerAmmount}</div>
             </div>
-            <div className="flex gap-4 justify-end mt-8">
+            <div className="flex gap-4 justify-start mt-8">
               <Link to={`/staff/restaurant/edit`} title="Editar restaurante">
                 <IoPencilOutline className="text-2xl text-amber-500 hover:text-amber-600 transition" />
               </Link>
