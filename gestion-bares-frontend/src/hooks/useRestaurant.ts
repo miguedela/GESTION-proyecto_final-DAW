@@ -38,7 +38,6 @@ const useRestaurant = () => {
             } catch (error) {
                 console.error(error)
                 setRestaurants((prev) => ({ ...prev, loading: false }));
-                showErrorToast("Error al cargar los restaurantes. Por favor, inténtalo de nuevo.");
             }
         },
         [setRestaurants]
