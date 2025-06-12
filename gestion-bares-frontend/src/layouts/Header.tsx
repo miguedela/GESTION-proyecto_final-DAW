@@ -12,7 +12,7 @@ export const Header = () => {
             <div className="mx-auto flex items-center justify-between gap-2 py-4 px-6 md:px-12">
                 <Link to="/main">
                     <div className="flex items-end gap-2 transition-transform hover:scale-110 active:scale-95">
-                        <img className="min-w-15 w-25" src="/img/logopng.png" alt="logo" />
+                        <img className="min-w-10 w-25" src="/img/logopng.png" alt="logo" />
                     </div>
                 </Link>
                 <nav className="flex gap-6 items-center">
@@ -23,7 +23,7 @@ export const Header = () => {
                         <IoCallOutline size={26} className="transition-transform hover:scale-125 active:scale-95" />
                     </Link>
                     <div className="h-6 w-px bg-slate-900" />
-                    {user?.role !== Roles.ADMIN && (
+                    {user?.role !== Roles.ADMIN || !user && (
                         <Link to={user?.role === Roles.CUSTOMER || user?.role === Roles.STAFF ? "/notifications" : "/my-notifications"} className="flex items-center gap-1 text-slate-700 hover:text-amber-500 transition-colors duration-200">
                             <IoNotificationsOutline size={26} className="transition-transform hover:scale-125 active:scale-95" />
                         </Link>
@@ -42,6 +42,6 @@ export const Header = () => {
                 </nav>
             </div>
         </header>
-        <div style={{ marginBottom: '6.5rem' }}></div>
+        <div style={{ marginBottom: '9rem' }}></div>
     </>
 };
