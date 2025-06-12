@@ -9,6 +9,6 @@ export const NotFound = () => {
             <h1 className='text-orange-300 text-center'>Página no encontrada</h1>
             <h2 className='text-center text-orange-400 mt-5'>404</h2>
         </div>
-        <MainButton onClick={() => navigate(-1)} text='Volver' />
+        <MainButton onClick={() => navigate("/")} text='Inicio' />
     </div>
 }
