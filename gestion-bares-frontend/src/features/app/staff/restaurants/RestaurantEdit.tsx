@@ -47,7 +47,6 @@ export const RestaurantEdit = () => {
 
   const editSchema = z.object({
     name: z.string().min(1, "El nombre es obligatorio"),
-    address: z.string().min(10, "La dirección es obligatoria"),
     email: z.string().email("El correo electrónico no es válido"),
     phone: z.string().regex(/^[0-9]{9}$/, "El teléfono debe contener exactamente 9 dígitos"),
     customerAmmount: z.string().min(1, "La capacidad del restaurante es obligatoria")
