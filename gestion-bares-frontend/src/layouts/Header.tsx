@@ -16,9 +16,9 @@ export const Header = () => {
                     </div>
                 </Link>
                 <nav className="flex flex-wrap gap-6 items-center">
-                    <Link to="/help" className="flex items-center gap-1 text-slate-700 hover:text-amber-500 transition-colors duration-200">
+                    {/* <Link to="/help" className="flex items-center gap-1 text-slate-700 hover:text-amber-500 transition-colors duration-200">
                         <IoInformationCircleOutline size={30} className="transition-transform hover:scale-125 active:scale-95" />
-                    </Link>
+                    </Link> */}
                     {user?.role !== Roles.ADMIN && (
                         <Link to="/contact" className="flex items-center gap-1 text-slate-700 hover:text-amber-500 transition-colors duration-200">
                             <IoCallOutline size={26} className="transition-transform hover:scale-125 active:scale-95" />
