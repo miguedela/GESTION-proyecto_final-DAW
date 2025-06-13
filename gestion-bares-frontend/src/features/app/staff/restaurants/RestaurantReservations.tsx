@@ -22,7 +22,7 @@ export const RestaurantReservations = () => {
                     return;
                 }
                 const response = await loadReservationsByRestaurant(restaurantId);
-                setReservations(response.data || []);
+                setReservations((response.data as IReservation[]).filter(r => new Date(r.reservationTime) > new Date()));
             } catch (err) {
                 setError('Error al cargar las reservas.');
             } finally {
