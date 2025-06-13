@@ -1,6 +1,6 @@
 import { useAtom } from "jotai";
 import { useEffect, useState } from "react";
-import { loadNotificationsByReceiver, updateNotification } from "../../../api/notification.api";
+import { createNotification, loadNotificationsByReceiver, updateNotification } from "../../../api/notification.api";
 import { getReservationById, updateReservation } from "../../../api/reservations.api";
 import { getRestaurantsByStaff } from "../../../api/restaurantstaff.api";
 import { userAtom } from "../../../atoms/user.atom";
@@ -75,20 +75,29 @@ export const MyNotifications = () => {
       };
       await updateReservation(updatedReservation);
 
-      // Actualiza el estado de la notificación
+      // Elimina la notificación original del staff
       notification.status = StatusNotification.READ;
       await updateNotification(notification);
 
-      // Elimina la notificación del estado local
       setNotifications((prev) =>
         prev.filter((n) => n.id !== notification.id)
       );
+
+      const newNotification: INotification = {
+        id: null,
+        senderId: reservation.restaurant.id,
+        receiverId: reservation.customer.id,
+        reservationId: reservation.id?.toString() ?? null,
+        status: StatusNotification.UNREAD,
+      };
+      await createNotification(newNotification);
 
       showSuccessToast(
         action === "ACCEPTED"
           ? "Reserva aceptada correctamente."
           : "Reserva rechazada correctamente."
       );
+      fetchNotifications();
     } catch (err) {
       showErrorToast("Error al actualizar la reserva.");
     }
