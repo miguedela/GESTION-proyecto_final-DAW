@@ -1,6 +1,6 @@
 import { useAtom } from "jotai";
 import { useEffect, useState } from "react";
-import { createNotification, loadNotificationsByReceiver, updateNotification } from "../../../api/notification.api";
+import { loadNotificationsByReceiver, updateNotification } from "../../../api/notification.api";
 import { getReservationById, updateReservation } from "../../../api/reservations.api";
 import { getRestaurantsByStaff } from "../../../api/restaurantstaff.api";
 import { userAtom } from "../../../atoms/user.atom";
