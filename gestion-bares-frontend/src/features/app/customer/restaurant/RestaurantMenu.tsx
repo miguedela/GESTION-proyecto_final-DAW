@@ -2,10 +2,20 @@ import { useEffect, useState } from "react";
 import { loadMenu } from "../../../../api/menu.api";
 import { IDish } from "../../../../types/Dish";
 import { IMenu } from "../../../../types/Menu";
+import { useAtom } from "jotai";
+import { breadcrumbsAtom } from "../../../../atoms/breadcrumbs.atom";
 
 export const RestaurantMenu = () => {
     const [menu, setMenu] = useState<IMenu>();
     const [loading, setLoading] = useState(false);
+
+    const [, setBreadcrumbs] = useAtom(breadcrumbsAtom);
+    useEffect(() => {
+        setBreadcrumbs([
+            { label: "Inicio", path: "/main" },
+            { label: `Menú`, path: `/restaurant/menu` },
+        ]);
+    }, [setBreadcrumbs])
 
     useEffect(() => {
         const fetchMenu = async () => {
@@ -46,7 +56,7 @@ export const RestaurantMenu = () => {
                     .map((dish: IDish) => (
                         <li key={dish.id}>
                             <strong>{dish.name}</strong> - {dish.price}€
-                            <p>{dish.description}</p> {/* Display dish description */}
+                            <p>{dish.description}</p>
                         </li>
                     ))}
             </ul>
