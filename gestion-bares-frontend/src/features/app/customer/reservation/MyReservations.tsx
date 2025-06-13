@@ -45,10 +45,10 @@ export const MyReservations = () => {
         Mis Reservas
       </h2>
       {loading && <div className="text-amber-600">Cargando reservas...</div>}
-      {!loading && (!reservations || reservations.filter(r => r.status === Status.PENDING || r.status === Status.CONFIRMED).length === 0) && (
+      {!loading && (!reservations || reservations.filter(r => r.status === Status.PENDING || r.status === Status.CONFIRMED).filter(r => new Date(r.reservationTime) > new Date()).length === 0) && (
         <div className="text-gray-600">No tienes reservas.</div>
       )}
-      {!loading && reservations && reservations.filter(r => r.status === Status.PENDING || r.status === Status.CONFIRMED).length > 0 && (
+      {!loading && reservations && reservations.filter(r => r.status === Status.PENDING || r.status === Status.CONFIRMED).filter(r => new Date(r.reservationTime) > new Date()).length > 0 && (
         <div className="overflow-x-auto">
           <table className="min-w-full divide-y divide-gray-200">
             <thead>
@@ -62,7 +62,7 @@ export const MyReservations = () => {
               </tr>
             </thead>
             <tbody>
-              {reservations.filter(r => r.status === Status.PENDING || r.status === Status.CONFIRMED).map((r) => {
+              {reservations.filter(r => r.status === Status.PENDING || r.status === Status.CONFIRMED).filter(r => new Date(r.reservationTime) > new Date()).map((r) => {
                 const dateObj = new Date(r.reservationTime);
                 const date = dateObj.toLocaleDateString();
                 const hour = dateObj.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
