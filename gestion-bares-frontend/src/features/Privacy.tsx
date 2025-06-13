@@ -3,7 +3,7 @@ import { Header } from "../layouts/Header"
 
 export const Privacy = () => {
   return <>
-    <div className="min-h-screen flex flex-col">
+    <div className="min-h-screen flex flex-col mt-6.5">
       <Header />
       <main className="container mx-auto flex-1 flex flex-col gap-6 text-slate-50 rounded-lg p-8 bg-gray-800 shadow-lg">
         <h1 className="text-3xl font-bold text-center text-amber-400">Política de Privacidad</h1>
