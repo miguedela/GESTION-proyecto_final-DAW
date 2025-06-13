@@ -25,7 +25,7 @@ export const Header = () => {
                         </Link>
                     )}
                     <div className="h-6 w-px bg-slate-900 hidden sm:block" />
-                    {user?.role !== Roles.ADMIN || !user && (
+                    {user?.role !== Roles.ADMIN && user && (
                         <Link to={user?.role === Roles.CUSTOMER || user?.role === Roles.STAFF ? "/notifications" : "/my-notifications"} className="flex items-center gap-1 text-slate-700 hover:text-amber-500 transition-colors duration-200">
                             <IoNotificationsOutline size={26} className="transition-transform hover:scale-125 active:scale-95" />
                         </Link>
