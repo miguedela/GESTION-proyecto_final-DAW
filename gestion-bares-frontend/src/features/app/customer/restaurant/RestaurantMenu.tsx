@@ -41,9 +41,14 @@ export const RestaurantMenu = () => {
         <div>
             <h1>Menu</h1>
             <ul>
-                {menu.dishes.map((dish: IDish) => (
-                    <li key={dish.id}>{dish.name} - {dish.price}€</li>
-                ))}
+                {menu.dishes
+                    .filter((dish: IDish) => dish.available) // Filter only available dishes
+                    .map((dish: IDish) => (
+                        <li key={dish.id}>
+                            <strong>{dish.name}</strong> - {dish.price}€
+                            <p>{dish.description}</p> {/* Display dish description */}
+                        </li>
+                    ))}
             </ul>
         </div>
     );
