@@ -39,7 +39,6 @@ export const CreateRestaurant = () => {
 
   const registrationSchema = z.object({
     name: z.string().min(5, "El nombre es obligatorio"),
-    description: z.string().optional(),
     address: z.string().min(10, "La dirección es obligatoria"),
     email: z.string().email("El correo electrónico no es válido"),
     phone: z.string().regex(/^[0-9]{9}$/, "El teléfono debe contener exactamente 9 dígitos"),
