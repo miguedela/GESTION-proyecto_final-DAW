@@ -1,5 +1,5 @@
 import { useAtom } from "jotai";
-import { IoBookOutline, IoCallOutline, IoInformationCircleOutline, IoNotificationsOutline, IoPersonOutline, IoRestaurantOutline } from "react-icons/io5";
+import { IoBookOutline, IoCallOutline, IoNotificationsOutline, IoPersonOutline, IoRestaurantOutline } from "react-icons/io5";
 import { Link } from "react-router-dom";
 import { userAtom } from "../atoms/user.atom";
 import { Roles } from "../types/User";

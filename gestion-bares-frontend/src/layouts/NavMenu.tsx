@@ -1,7 +1,7 @@
-import { IoBookOutline, IoCloseOutline, IoHelpOutline, IoLogOutOutline, IoMenuOutline, IoNotificationsOutline, IoPeopleOutline, IoPersonOutline, IoRestaurantOutline } from "react-icons/io5";
+import { useEffect, useRef } from "react"; // Importar useRef y useEffect
+import { IoBookOutline, IoCloseOutline, IoLogOutOutline, IoMenuOutline, IoNotificationsOutline, IoPeopleOutline, IoPersonOutline, IoRestaurantOutline } from "react-icons/io5";
 import { Link, NavLink } from "react-router-dom";
 import useAuth from "../hooks/useAuth";
-import { useEffect, useRef } from "react"; // Importar useRef y useEffect
 
 export const NavMenu = ({ isOpen, setIsSidebarOpen }: { isOpen: boolean; setIsSidebarOpen: (open: boolean) => void }) => {
     const { user, logout } = useAuth();
