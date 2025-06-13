@@ -75,25 +75,20 @@ export const MyNotifications = () => {
       };
       await updateReservation(updatedReservation);
 
-      // Elimina la notificación original del staff
+      // Actualiza el estado de la notificación
       notification.status = StatusNotification.READ;
       await updateNotification(notification);
 
-      const newNotification: INotification = {
-        id: null,
-        senderId: reservation.restaurant.id,
-        receiverId: reservation.customer.id,
-        reservationId: reservation.id?.toString() ?? null,
-        status: StatusNotification.UNREAD,
-      };
-      await createNotification(newNotification);
+      // Elimina la notificación del estado local
+      setNotifications((prev) =>
+        prev.filter((n) => n.id !== notification.id)
+      );
 
       showSuccessToast(
         action === "ACCEPTED"
           ? "Reserva aceptada correctamente."
           : "Reserva rechazada correctamente."
       );
-      fetchNotifications();
     } catch (err) {
       showErrorToast("Error al actualizar la reserva.");
     }
