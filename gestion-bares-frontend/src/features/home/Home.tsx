@@ -14,7 +14,7 @@ export const Home = () => {
         <section className="h-[82vh] bg-gradient-to-br from-amber-500 to-red-600 rounded-lg shadow-lg text-white p-4 md:p-6 grid grid-cols-1 lg:grid-cols-2 items-center text-center">
           <div className="flex flex-col items-center justify-center text-center w-[90%] md:w-[80%] mx-auto">
             <h1 className="text-3xl md:text-4xl font-bold mb-4">Bienvenido a TapaTech, gestión de Restaurantes</h1>
-            <p className="text-base md:text-lg mb-6 mt-8 text-justify">
+            <p className="text-base md:text-lg mb-6 mt-8 text-pretty">
               Bienvenido a TapaTech, tu plataforma para la gestión moderna de bares y restaurantes.
               Nuestro objetivo es facilitar la administración y la experiencia de usuario tanto para los dueños como para los clientes.
               Próximamente añadiremos más información sobre nuestro equipo y nuestra misión.
